@@ -1,38 +1,52 @@
-
 import ArticleCard from './ArticleCard';
 
-const articles = [
-    {
-        id: '1',
-        title: 'Los Mejores Goles en los Mundiales',
-        description: 'Desde el inicio de la Copa Mundial de la FIFA en 1930...',
-        imageUrl: '/images/slider_concierto.webp',
-    },
-    {
-        id: '2',
-        title: 'Top 10 Álbumes de la Década',
-        description: 'Un repaso por los discos que marcaron historia musicalmente...',
-        imageUrl: '/images/slider_concierto.webp',
-    },
-    {
-        id: '3',
-        title: 'Viajes Impresionantes en 2025',
-        description: 'Te mostramos los lugares más asombrosos que debes visitar este año...',
-        imageUrl: '/images/slider_concierto.webp',
-    },
-];
+export default function ArticleList({
+    articles = [],
+    limit,
+    category,
+    layout = 'grid',     // 'grid' o 'list'
+    variantCard = 'vertical' // 'vertical' o 'horizontal'
+}) {
+    let filtered = [...articles];
 
-export default function ArticleList() {
+    if (category) {
+        filtered = filtered.filter((art) => art.category === category);
+    }
+
+    if (limit) {
+        filtered = filtered.slice(0, limit);
+    }
+
+    // Agrupar de 2 en 2 si el layout es "list"
+    const groupedArticles =
+        layout === 'list'
+            ? filtered.reduce((acc, curr, index) => {
+                const groupIndex = Math.floor(index / 2);
+                acc[groupIndex] = acc[groupIndex] || [];
+                acc[groupIndex].push(curr);
+                return acc;
+            }, [])
+            : [];
+
     return (
-        <section className="py-12 max-w-7xl mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center text-gray-800 mb-10">
-                Últimos artículos
-            </h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {articles.map((article) => (
-                    <ArticleCard key={article.id} article={article} />
-                ))}
-            </div>
-        </section>
+        <div className="px-4 py-8">
+            {layout === 'list' ? (
+                groupedArticles.map((group, idx) => (
+                    <div key={idx} className="flex flex-col md:flex-row gap-4 mb-6">
+                        {group.map((article) => (
+                            <div key={article.id} className="flex-1">
+                                <ArticleCard article={article} variant={variantCard} />
+                            </div>
+                        ))}
+                    </div>
+                ))
+            ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filtered.map((article) => (
+                        <ArticleCard key={article.id} article={article} variant={variantCard} />
+                    ))}
+                </div>
+            )}
+        </div>
     );
 }
