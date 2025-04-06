@@ -1,11 +1,12 @@
-import ArticleCard from './ArticleCard';
+import ArticleCard from './ArticleCard/ArticleCard';
 
 export default function ArticleList({
     articles = [],
     limit,
     category,
     layout = 'grid',     // 'grid' o 'list'
-    variantCard = 'vertical' // 'vertical' o 'horizontal'
+    variantCard = 'vertical', // 'vertical' o 'horizontal'
+    textTitle = ''
 }) {
     let filtered = [...articles];
 
@@ -29,7 +30,10 @@ export default function ArticleList({
             : [];
 
     return (
-        <div className="px-4 py-8">
+        <div className="px-30 py-8">
+            <h2 className="text-3xl font-bold text-center text-blue-600 mb-10">
+                {textTitle}
+            </h2>
             {layout === 'list' ? (
                 groupedArticles.map((group, idx) => (
                     <div key={idx} className="flex flex-col md:flex-row gap-4 mb-6">

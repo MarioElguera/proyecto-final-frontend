@@ -2,25 +2,25 @@ import Link from 'next/link';
 
 export default function Navbar() {
     return (
-        <header className="bg-black text-white shadow-md">
-            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <Link href="/" className="text-2xl font-bold text-blue-500 hover:text-blue-400 transition">
+        <header className="navbar">
+            <div className="navbar__container">
+                <Link href="/" className="navbar__logo">
                     Greentallica
                 </Link>
 
-                <nav className="flex space-x-6">
-                    <Link href="/" className="hover:text-blue-400 transition">Home</Link>
-                    <Link href="/articles" className="hover:text-blue-400 transition">Artículos</Link>
-                    <Link href="/notices" className="hover:text-blue-400 transition">Noticias</Link>
-                    <Link href="/about" className="hover:text-blue-400 transition">Acerca de</Link>
-                    <Link href="/contact" className="hover:text-blue-400 transition">Contacto</Link>
+                <nav className="navbar__links">
+                    <Link href="/" className="navbar__link">Home</Link>
+                    <Link href="/articles" className="navbar__link">Artículos</Link>
+                    <Link href="/notices" className="navbar__link">Noticias</Link>
+                    <Link href="/about" className="navbar__link">Acerca de</Link>
+                    <Link href="/contact" className="navbar__link">Contacto</Link>
                 </nav>
 
-                <div className="space-x-4">
-                    <Link href="/login" className="px-3 py-1 border border-blue-500 rounded hover:bg-blue-500 hover:text-white transition">
+                <div className="navbar__auth">
+                    <Link href="/login" className="navbar__btn navbar__btn--login">
                         Iniciar sesión
                     </Link>
-                    <Link href="/register" className="px-3 py-1 border border-red-500 rounded hover:bg-red-500 hover:text-white transition">
+                    <Link href="/register" className="navbar__btn navbar__btn--register">
                         Registrarse
                     </Link>
                 </div>

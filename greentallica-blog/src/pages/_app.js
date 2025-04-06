@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
@@ -14,7 +15,7 @@ export default function App({ Component, pageProps }) {
 
     return (
         <AuthContext.Provider value={{ token, setToken }}>
-            <main className="min-h-screen bg-white text-black">
+            <main className="">
                 <Navbar />
                 <Component {...pageProps} />
                 <Footer />

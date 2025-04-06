@@ -1,56 +1,125 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 export default function SliderImages({ images }) {
-    const [current, setCurrent] = useState(0);
-    const [loaded, setLoaded] = useState(false);
+    const [current, setCurrent] = useState(1);
+    const [transition, setTransition] = useState(true);
+    const autoplayRef = useRef(null);
+    const touchStartX = useRef(0);
+    const touchEndX = useRef(0);
 
-    const nextSlide = useCallback(() => {
-        setLoaded(false);
-        setCurrent((prev) => (prev + 1) % images.length);
-    }, [images.length]);
+    const slides = [images[images.length - 1], ...images, images[0]];
 
-    const prevSlide = useCallback(() => {
-        setLoaded(false);
-        setCurrent((prev) => (prev - 1 + images.length) % images.length);
-    }, [images.length]);
+    const stopAutoplay = () => {
+        if (autoplayRef.current) {
+            clearInterval(autoplayRef.current);
+            autoplayRef.current = null;
+        }
+    };
+
+    const goToSlide = (index) => {
+        setCurrent(index);
+        setTransition(true);
+    };
+
+    const nextSlide = () => {
+        stopAutoplay();
+        goToSlide(current + 1);
+    };
+
+    const prevSlide = () => {
+        stopAutoplay();
+        goToSlide(current - 1);
+    };
 
     useEffect(() => {
-        const timer = setInterval(nextSlide, 5000);
-        return () => clearInterval(timer);
-    }, [nextSlide]);
+        autoplayRef.current = setInterval(() => {
+            setCurrent((prev) => prev + 1);
+            setTransition(true);
+        }, 2000);
+        return () => clearInterval(autoplayRef.current);
+    }, []);
+
+    useEffect(() => {
+        if (current === slides.length - 1) {
+            setTimeout(() => {
+                setTransition(false);
+                setCurrent(1);
+            }, 500);
+        }
+        if (current === 0) {
+            setTimeout(() => {
+                setTransition(false);
+                setCurrent(slides.length - 2);
+            }, 500);
+        }
+    }, [current, slides.length]);
+
+    const handleTouchStart = (e) => {
+        touchStartX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+        touchEndX.current = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+        const distance = touchStartX.current - touchEndX.current;
+        if (distance > 50) {
+            stopAutoplay();
+            nextSlide();
+        } else if (distance < -50) {
+            stopAutoplay();
+            prevSlide();
+        }
+    };
 
     return (
-        <div className="relative w-full h-[400px] overflow-hidden">
-            <img
-                src={images[current]}
-                alt={`slide-${current}`}
-                onLoad={() => setLoaded(true)}
-                className={`w-full h-full object-cover transition-opacity duration-700 ease-in-out ${loaded ? 'opacity-100' : 'opacity-0'
-                    }`}
-                loading="lazy"
-            />
-
-            {loaded && (
-                <div className="absolute inset-0 bg-opacity-60 flex flex-col justify-center items-center text-white px-4 text-center">
-                    <h1 className="text-4xl font-bold mb-4">Bienvenido a Mi Blog</h1>
-                    <p className="text-lg max-w-xl">
-                        Explora lo mejor del fútbol, películas, música y conciertos.
-                    </p>
-                </div>
-            )}
-
-            <button
-                onClick={prevSlide}
-                className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white text-3xl font-bold bg-black bg-opacity-50 px-4 py-2 rounded hover:bg-opacity-70 transition"
+        <div
+            className="slider"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+        >
+            <div
+                className="slider__track"
+                style={{
+                    transform: `translateX(-${current * 100}%)`,
+                    transition: transition ? 'transform 0.5s ease-in-out' : 'none',
+                }}
             >
-                ‹
-            </button>
-            <button
-                onClick={nextSlide}
-                className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white text-3xl font-bold bg-black bg-opacity-50 px-4 py-2 rounded hover:bg-opacity-70 transition"
-            >
-                ›
-            </button>
+                {slides.map((img, index) => (
+                    <img
+                        key={index}
+                        src={img}
+                        alt={`slide-${index}`}
+                        className="slider__image"
+                        loading="lazy"
+                    />
+                ))}
+            </div>
+
+            <div className="slider__overlay">
+                <h1 className="slider__titulo">Bienvenido a Mi Blog</h1>
+                <p className="slider__descripcion">
+                    Explora lo mejor del fútbol, películas, música y conciertos.
+                </p>
+            </div>
+
+            <button onClick={prevSlide} className="slider__btn slider__btn--prev">‹</button>
+            <button onClick={nextSlide} className="slider__btn slider__btn--next">›</button>
+
+            <div className="slider__dots">
+                {images.map((_, index) => (
+                    <button
+                        key={index}
+                        onClick={() => {
+                            stopAutoplay();
+                            goToSlide(index + 1);
+                        }}
+                        className={`slider__dot ${current === index + 1 ? 'slider__dot--active' : ''}`}
+                    />
+                ))}
+            </div>
         </div>
     );
 }
