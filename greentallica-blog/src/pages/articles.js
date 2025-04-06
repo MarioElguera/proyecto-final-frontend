@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import CategoryMenu from '@/components/CategoryMenu';
-import ArticleCard from '@/components/ArticleCard/ArticleCard';
+import ArticleList from '@/components/ArticleList/ArticleList';
 
 const categorias = [
     { name: 'Fútbol', image: '/images/futbol.jpg', slug: 'futbol' },
@@ -93,30 +93,13 @@ export default function ArticlesPage() {
 
             <hr className="my-8 border-gray-300" />
 
-            {selectedCategory ? (
-                <section className="articulos-destacados">
-                    <h2 className="articulos-destacados__titulo mb-6">
-                        Artículos de {selectedCategory.toUpperCase()}
-                    </h2>
-                    <div className="flex flex-col gap-6">
-                        {articulosFiltrados.map((art, idx) => (
-                            <ArticleCard
-                                key={idx}
-                                title={art.title}
-                                description={art.description}
-                                imageSrc={art.imageSrc}
-                                altText={art.altText}
-                                link={art.link}
-                                variant="horizontal"
-                            />
-                        ))}
-                    </div>
-                </section>
-            ) : (
-                <p className="text-center text-lg font-semibold mt-12">
-                    👉 Selecciona una de las categorías que se muestran arriba para ver los artículos. 👈
-                </p>
-            )}
+            {selectedCategory
+                ? <ArticleList articles={articulosFiltrados} layout="horizontal" />
+                : (
+                    <p className="text-center text-lg font-semibold mt-12">
+                        👉 Selecciona una de las categorías que se muestran arriba para ver los artículos. 👈
+                    </p>
+                )}
         </div>
     );
 }

@@ -1,0 +1,28 @@
+.articleList {
+    padding: 2rem;
+    text-align: center;
+}
+
+.articleList--featured {
+    /* Estilo para layout vertical */
+    background-color: #fff;
+}
+
+.articleList--horizontal {
+    /* Estilo para layout horizontal */
+    background-color: #f8f8f8;
+}
+
+.articleList__title {
+    color: #1877f2;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.articleList__gallery {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}

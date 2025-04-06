@@ -1,7 +1,8 @@
 import { useState, useContext } from 'react';
-import axios from 'axios';
 import { useRouter } from 'next/router';
+import axios from 'axios';
 import { AuthContext } from '@/context/AuthContext';
+import styles from './Register.module.css';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
 
@@ -31,11 +32,9 @@ export default function Register() {
             const token = response.data.token;
             localStorage.setItem('token', token);
             setToken(token);
-
             setSuccessMessage('Usuario registrado con éxito');
             setErrorMessage('');
 
-            // Redirigir a login o home después de 1 segundo
             setTimeout(() => {
                 router.push('/login');
             }, 1000);
@@ -46,70 +45,61 @@ export default function Register() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-                <h2 className="text-2xl font-bold text-center mb-4">Registro de Usuario</h2>
+        <div className={styles['register']}>
+            <div className={styles['register__card']}>
+                <h2 className={styles['register__title']}>Registro de Usuario</h2>
 
-                {errorMessage && <div className="text-red-500 text-center mb-4">{errorMessage}</div>}
-                {successMessage && <div className="text-green-500 text-center mb-4">{successMessage}</div>}
+                {errorMessage && <div className={styles['register__error']}>{errorMessage}</div>}
+                {successMessage && <div className={styles['register__success']}>{successMessage}</div>}
 
-                <form onSubmit={handleRegister}>
-                    <div className="mb-4">
-                        <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-                            Nombre de usuario
-                        </label>
+                <form onSubmit={handleRegister} className={styles['register__form']}>
+                    <div className={styles['register__field']}>
+                        <label htmlFor="username" className={styles['register__label']}>Nombre de usuario</label>
                         <input
                             type="text"
                             id="username"
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                            placeholder="Ingrese su nombre de usuario"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            className={styles['register__input']}
                             required
                         />
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                            Contraseña
-                        </label>
+                    <div className={styles['register__field']}>
+                        <label htmlFor="password" className={styles['register__label']}>Contraseña</label>
                         <input
                             type="password"
                             id="password"
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                            placeholder="Ingrese su contraseña"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
+                            className={styles['register__input']}
                             required
                         />
                     </div>
 
-                    <div className="mb-4">
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
-                            Confirmar contraseña
-                        </label>
+                    <div className={styles['register__field']}>
+                        <label htmlFor="confirmPassword" className={styles['register__label']}>Confirmar contraseña</label>
                         <input
                             type="password"
                             id="confirmPassword"
-                            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                            placeholder="Repita su contraseña"
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
+                            className={styles['register__input']}
                             required
                         />
                     </div>
 
-                    <button
-                        type="submit"
-                        className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-                    >
+                    <button type="submit" className={styles['register__button']}>
                         Registrarse
                     </button>
                 </form>
 
-                <div className="mt-4 text-center">
-                    <p className="text-sm text-gray-600">
-                        ¿Ya tienes cuenta?{' '}
-                        <a href="/login" className="text-blue-500 hover:text-blue-700 font-semibold">
-                            Inicia sesión aquí
-                        </a>
+                <div className={styles['register__footer']}>
+                    <p className={styles['register__link']}>
+                        ¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a>
                     </p>
                 </div>
             </div>

@@ -1,6 +1,6 @@
-import ArticleCard from '@/components/ArticleCard/ArticleCard';
 import SliderImages from '@/components/SliderImages';
-import CommentCard from '@/components/CommentCard';
+import CommentList from '@/components/CommentList/CommentList';
+import ArticleList from '@/components/ArticleList/ArticleList';
 
 const images = [
     '/images/slider_concierto.webp',
@@ -29,7 +29,7 @@ const articulos = [
         altText: "Imagen del artículo 2",
         title: "Los Mejores Álbumes de la Década",
         description: "Los últimos diez años han sido testigos de una explosión de creatividad en la música...",
-       link: "/articles"
+        link: "/articles"
     },
     {
         imageSrc: "assets/img/articulos/img/musica_decada.jpg",
@@ -69,39 +69,10 @@ export default function Home() {
             <SliderImages images={images} />
 
             {/* Articulos Destacados */}
-            <section className="articulos-destacados">
-                <h2 className="articulos-destacados__titulo">Artículos Destacados</h2>
-                <div className="articulos-destacados__galeria">
-                    {articulos.map((articulo, index) => (
-                        <ArticleCard
-                            key={index}
-                            imageSrc={articulo.imageSrc}
-                            altText={articulo.altText}
-                            title={articulo.title}
-                            description={articulo.description}
-                            link={articulo.link}
-                        />
-                    ))}
-                </div>
-            </section>
-            {/* Fin Articulos Destacados */}
+            <ArticleList articles={articulos} layout="featured" />
 
             {/* Comentarios */}
-            <section className="testimonios">
-                <h2 className="testimonios__titulo">Lo que dicen nuestros lectores</h2>
-                <div className="testimonios__galeria">
-                    {testimoniosData.map((testimonio, index) => (
-                        <CommentCard
-                            key={index}
-                            avatarSrc={testimonio.avatarSrc}
-                            altText={testimonio.altText}
-                            comment={testimonio.comment}
-                            author={testimonio.author}
-                        />
-                    ))}
-                </div>
-            </section>
-            {/* Fin Comentarios */}
+            <CommentList comments={testimoniosData} />
 
         </div>
     );

@@ -1,0 +1,19 @@
+.comment-list {
+    background-color: #f4f4f4;
+    padding: 3rem 1rem;
+    text-align: center;
+}
+
+.comment-list__title {
+    color: #1877f2;
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.comment-list__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
