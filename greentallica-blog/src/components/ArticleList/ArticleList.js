@@ -1,12 +1,14 @@
 import React from 'react';
 import styles from './ArticleList.module.css';
 import ArticleCard from '../ArticleCard/ArticleCard';
+import { useRouter } from 'next/router';
 
 export default function ArticleList({ articles = [], layout = 'featured' }) {
     // layout = 'featured' → modo vertical (Artículos Destacados)
     // layout = 'horizontal' → modo horizontal
     console.log("ArticleList => ", articles);
     const isFeatured = layout === 'featured';
+    const router = useRouter();
 
     return (
         <section
@@ -26,6 +28,8 @@ export default function ArticleList({ articles = [], layout = 'featured' }) {
                         description={article.content}
                         link={article.link}
                         variant={isFeatured ? 'vertical' : 'horizontal'}
+                        showLink={true}
+                        onLinkClick={() => router.push(`/articles/${article._id}`)}
                     />
                 )) : <a>No hay articulos</a>}
             </div>

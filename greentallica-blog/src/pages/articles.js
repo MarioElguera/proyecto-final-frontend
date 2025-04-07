@@ -5,12 +5,7 @@ import { getAllArticles } from '@/services/api';
 import Link from 'next/link';
 import { AuthContext } from '@/context/AuthContext';
 
-const categorias = [
-    { name: 'Fútbol', image: '/images/futbol.jpg', slug: 'futbol' },
-    { name: 'Viajes', image: '/images/viajes.jpg', slug: 'viajes' },
-    { name: 'Música', image: '/images/musica.jpg', slug: 'musica' },
-    { name: 'Películas', image: '/images/peliculas.jpg', slug: 'peliculas' },
-];
+import categories from '@/utils/categories';
 
 export default function ArticlesPage() {
     const { token } = useContext(AuthContext);
@@ -51,7 +46,7 @@ export default function ArticlesPage() {
             )}
 
             <CategoryMenu
-                categories={categorias}
+                categories={categories}
                 onSelectCategory={handleCategorySelect}
             />
 
