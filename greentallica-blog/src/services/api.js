@@ -5,12 +5,22 @@ const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/articles
 /**
  * Fetch all articles.
  */
-export async function getAllArticles() {
-    const response = await fetch(`${API_BASE_URL}/`);
-    if (!response.ok) {
-        throw new Error('Failed to fetch articles');
+export async function getAllArticles(category) {
+    let url = `${API_BASE_URL}/`;
+    if (category) {
+        url += `?category=${encodeURIComponent(category)}`;
     }
-    return response.json();
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error('Error fetching articles');
+        }
+        return response.json();
+    } catch (error) {
+        console.error('API error:', error.message);
+        throw error;
+    }
 }
 
 /**
@@ -58,7 +68,7 @@ export async function createArticle(article, token) {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `${token}`,
         },
         body: JSON.stringify(article),
     });

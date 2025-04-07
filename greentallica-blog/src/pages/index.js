@@ -1,44 +1,14 @@
+import { useEffect, useState } from 'react';
 import SliderImages from '@/components/SliderImages';
 import CommentList from '@/components/CommentList/CommentList';
 import ArticleList from '@/components/ArticleList/ArticleList';
+import { getAllArticles } from '@/services/api';
 
 const images = [
     '/images/slider_concierto.webp',
     '/images/slider_futbol.webp',
     '/images/slider_peliculas_sp.webp',
     '/images/slider_vinilos.webp',
-];
-
-const articulos = [
-    {
-        imageSrc: "assets/img/inicio/articulo_1.jpg",
-        altText: "Imagen del artículo 1",
-        title: "Los Mejores Goles en los Mundiales",
-        description: "Desde el inicio de la Copa Mundial de la FIFA en 1930... la 'Mano de Dios'...",
-        link: "/articles"
-    },
-    {
-        imageSrc: "assets/img/articulos/img/musica_decada.jpg",
-        altText: "Imagen del artículo 2",
-        title: "Los Mejores Álbumes de la Década",
-        description: "Los últimos diez años han sido testigos de una explosión de creatividad en la música...",
-        link: "/articles"
-    },
-    {
-        imageSrc: "assets/img/articulos/img/musica_decada.jpg",
-        altText: "Imagen del artículo 2",
-        title: "Los Mejores Álbumes de la Década",
-        description: "Los últimos diez años han sido testigos de una explosión de creatividad en la música...",
-        link: "/articles"
-    },
-    {
-        imageSrc: "assets/img/articulos/img/musica_decada.jpg",
-        altText: "Imagen del artículo 2",
-        title: "Los Mejores Álbumes de la Década",
-        description: "Los últimos diez años han sido testigos de una explosión de creatividad en la música...",
-        link: "/articles"
-    },
-    // Añades más artículos aquí...
 ];
 
 const testimoniosData = [
@@ -63,16 +33,38 @@ const testimoniosData = [
 ];
 
 export default function Home() {
+    const [articles, setArticles] = useState([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchArticles() {
+            try {
+                const data = await getAllArticles();
+                setArticles(data);
+
+            } catch (error) {
+                console.error('Error fetching articles:', error.message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchArticles();
+    }, []);
+
     return (
         <div className="min-h-screen bg-gray-100">
             <SliderImages images={images} />
 
-            {/* Articulos Destacados */}
-            <ArticleList articles={articulos} layout="featured" />
+            {/* Artículos Destacados */}
+            {loading ? (
+                <p style={{ textAlign: 'center', marginTop: '2rem' }}>Cargando artículos...</p>
+            ) : (
+                <ArticleList articles={articles} layout="featured" />
+            )}
 
             {/* Comentarios */}
             <CommentList comments={testimoniosData} />
-
         </div>
     );
 }

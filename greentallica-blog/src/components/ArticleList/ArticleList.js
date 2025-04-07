@@ -5,7 +5,7 @@ import ArticleCard from '../ArticleCard/ArticleCard';
 export default function ArticleList({ articles = [], layout = 'featured' }) {
     // layout = 'featured' → modo vertical (Artículos Destacados)
     // layout = 'horizontal' → modo horizontal
-
+    console.log("ArticleList => ", articles);
     const isFeatured = layout === 'featured';
 
     return (
@@ -17,17 +17,17 @@ export default function ArticleList({ articles = [], layout = 'featured' }) {
             </h2>
 
             <div className={styles.articleList__gallery}>
-                {articles.map((article, index) => (
+                {articles.length != 0 ? articles.map((article, index) => (
                     <ArticleCard
                         key={index}
-                        imageSrc={article.imageSrc}
+                        imageSrc={article.image}
                         altText={article.altText}
                         title={article.title}
-                        description={article.description}
+                        description={article.content}
                         link={article.link}
                         variant={isFeatured ? 'vertical' : 'horizontal'}
                     />
-                ))}
+                )) : <a>No hay articulos</a>}
             </div>
         </section>
     );
