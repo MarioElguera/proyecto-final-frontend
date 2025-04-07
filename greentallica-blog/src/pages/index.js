@@ -40,7 +40,7 @@ export default function Home() {
         async function fetchArticles() {
             try {
                 const data = await getAllArticles();
-                setArticles(data);
+                setArticles(data.slice(0, 3));
 
             } catch (error) {
                 console.error('Error fetching articles:', error.message);
