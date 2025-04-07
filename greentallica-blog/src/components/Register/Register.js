@@ -1,10 +1,8 @@
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import { AuthContext } from '@/context/AuthContext';
 import styles from './Register.module.css';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { registerUser } from '@/services/auth';
 
 export default function Register() {
     const [username, setUsername] = useState('');
@@ -24,23 +22,19 @@ export default function Register() {
         }
 
         try {
-            const response = await axios.post(`${API_URL}/auth/register`, {
-                username,
-                password,
-            });
+            const data = await registerUser({ username, password });
 
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            setToken(token);
+            // En tu backend actual, registerUser no devuelve token, así que este paso es opcional.
+            // Puedes adaptarlo si luego decides devolver token también en el registro.
             setSuccessMessage('Usuario registrado con éxito');
             setErrorMessage('');
 
             setTimeout(() => {
                 router.push('/login');
             }, 1000);
-
         } catch (error) {
-            setErrorMessage('Error al registrar el usuario');
+            setSuccessMessage('');
+            setErrorMessage(error.message || 'Error al registrar el usuario');
         }
     };
 

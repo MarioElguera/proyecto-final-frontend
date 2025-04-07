@@ -3,7 +3,7 @@ import '@/styles/globals.css';
 import React, { useState, useEffect } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+import Footer from '@/components/Footer/Footer';
 
 export default function App({ Component, pageProps }) {
     const [token, setToken] = useState(null);

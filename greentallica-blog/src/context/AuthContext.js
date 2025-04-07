@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
 
     // Funciones para actualizar token y user
     const login = (newToken, newUser) => {
+        console.log("login authcontext");
         setToken(newToken);
         setUser(newUser);
     };

@@ -1,28 +1,28 @@
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
-import axios from 'axios';
 import styles from './Login.module.css';
 import { AuthContext } from '../../context/AuthContext';
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+import { loginUser } from '../../services/auth';
 
 export default function LoginForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const router = useRouter();
-    const { setToken } = useContext(AuthContext);
+
+    const { login } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            const response = await axios.post(`${API_URL}/auth/login`, { username, password });
-            const token = response.data.token;
-            localStorage.setItem('token', token);
-            setToken(token);
+            const res = await loginUser({ username, password });
+            console.log("login => token", res);
+
+            login(res.token, res.username);
             router.push('/');
-        } catch {
+
+        } catch (error) {
             setErrorMessage('Credenciales incorrectas');
         }
     };
@@ -44,6 +44,7 @@ export default function LoginForm() {
                             onChange={(e) => setUsername(e.target.value)}
                             className={styles['login-box__input']}
                             placeholder="Ingrese su nombre de usuario"
+                            required
                         />
                     </div>
 
@@ -58,6 +59,7 @@ export default function LoginForm() {
                             onChange={(e) => setPassword(e.target.value)}
                             className={styles['login-box__input']}
                             placeholder="Ingrese su contraseña"
+                            required
                         />
                     </div>
 

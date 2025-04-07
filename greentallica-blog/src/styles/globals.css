@@ -195,132 +195,6 @@
     background-color: white;
 }
 
-
-/* Artículos Destacados */
-.articulos-destacados {
-    padding: 2rem;
-    background-color: #fff;
-    text-align: center;
-}
-
-.articulos-destacados__titulo {
-    color: #1877f2;
-    margin-bottom: 1.5rem;
-}
-
-.articulos-destacados__galeria {
-    display: flex;
-    gap: 2rem;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.articulos-destacados__item {
-    position: relative;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 300px;
-    animation: latido 1.5s infinite ease-in-out;
-}
-
-.articulos-destacados__item:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-.articulos-destacados__imagen {
-    width: 100%;
-    border-bottom: 1px solid #ddd;
-    transition: transform 0.3s ease;
-}
-
-.articulos-destacados__item:hover .articulos-destacados__imagen {
-    transform: scale(1.1);
-}
-
-.articulos-destacados__subtitulo {
-    color: black;
-    margin: 1rem 0;
-    text-align: center;
-    transition: color 0.3s ease;
-}
-
-.articulos-destacados__item:hover .articulos-destacados__subtitulo {
-    color: #1877f2;
-}
-
-.articulos-destacados__texto {
-    padding: 0 1rem;
-    font-size: 0.9rem;
-    color: #555;
-}
-
-.articulos-destacados__enlace {
-    display: inline-block;
-    margin: 1rem auto;
-    color: #1877f2;
-    text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    font-size: 120%;
-}
-
-.articulos-destacados__item:hover .articulos-destacados__enlace {
-    color: #ff0000;
-}
-
-/* Pie de página */
-.pie-de-pagina {
-    background-color: #000;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-}
-
-.pie-de-pagina__texto {
-    margin-bottom: 1rem;
-}
-
-.pie-de-pagina__lista {
-    list-style: none;
-    display: block;
-    gap: 1rem;
-    justify-content: center;
-}
-
-.pie-de-pagina__enlace {
-    color: #1877f2;
-    text-decoration: none;
-    transition: color 0.3s;
-}
-
-.pie-de-pagina__enlace:hover {
-    color: #ff0000;
-}
-
-@keyframes latido {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.03);
-    }
-}
-
-@media (max-width: 768px) {
-    .articulos-destacados__item {
-        width: 100%;
-        max-width: 90%;
-    }
-}
-
 /* Menu de categorias */
 .category-menu-container {
     display: flex;
@@ -369,3 +243,107 @@
 }
 
 /* Fin Menu de categorias */
+
+/* styles/NewsPage.module.css */
+.newsPage {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: sans-serif;
+    background-color: #fff;
+    color: #000;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.title {
+    font-size: 2.5rem;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.filters button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #000;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.filters button:hover {
+    background-color: #1877f2;
+}
+
+.active {
+    background-color: #1877f2;
+}
+
+.loading {
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Bloque principal para la página de "About" */
+.about-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: sans-serif;
+    color: #333;
+}
+
+/* Título principal de la página */
+.about-page__title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Sección genérica (cada tarjeta) */
+.about-page__section {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Título de cada sección (tarjeta) */
+.about-page__section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #000;
+}
+
+/* Texto dentro de la sección */
+.about-page__section-text {
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Lista de elementos (ej. beneficios, razones, etc.) */
+.about-page__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Ítems de la lista */
+.about-page__list-item {
+    margin-bottom: 1rem;
+}
+
+/* Ejemplo de resaltado en negrita */
+.about-page__list-item strong {
+    color: #1877f2;
+}
