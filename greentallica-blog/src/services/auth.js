@@ -20,8 +20,8 @@ export async function registerUser(credentials) {
         if (!response.ok) {
             throw new Error(data.message || 'Registration failed');
         }
-
         return data;
+
     } catch (error) {
         console.error('Error registering user:', error.message);
         throw error;

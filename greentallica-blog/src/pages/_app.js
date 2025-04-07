@@ -1,25 +1,18 @@
+// pages/_app.js
 import '@/styles/globals.css';
 
-import React, { useState, useEffect } from 'react';
-import { AuthContext } from '@/context/AuthContext';
+import { AuthProvider } from '@/context/AuthContext';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer/Footer';
 
 export default function App({ Component, pageProps }) {
-    const [token, setToken] = useState(null);
-
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
-        if (storedToken) setToken(storedToken);
-    }, []);
-
     return (
-        <AuthContext.Provider value={{ token, setToken }}>
-            <main className="">
+        <AuthProvider>
+            <main>
                 <Navbar />
                 <Component {...pageProps} />
                 <Footer />
             </main>
-        </AuthContext.Provider>
+        </AuthProvider>
     );
 }

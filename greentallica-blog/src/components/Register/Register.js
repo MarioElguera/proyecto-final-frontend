@@ -8,6 +8,7 @@ export default function Register() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
@@ -22,10 +23,9 @@ export default function Register() {
         }
 
         try {
-            const data = await registerUser({ username, password });
+            const role = isAdmin ? 'admin' : 'user';
+            await registerUser({ username, password, role });
 
-            // En tu backend actual, registerUser no devuelve token, así que este paso es opcional.
-            // Puedes adaptarlo si luego decides devolver token también en el registro.
             setSuccessMessage('Usuario registrado con éxito');
             setErrorMessage('');
 
@@ -84,6 +84,17 @@ export default function Register() {
                             className={styles['register__input']}
                             required
                         />
+                    </div>
+
+                    <div className={styles['register__field']}>
+                        <label className={styles['register__label']} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <input
+                                type="checkbox"
+                                checked={isAdmin}
+                                onChange={() => setIsAdmin(!isAdmin)}
+                            />
+                            Registrar como administrador
+                        </label>
                     </div>
 
                     <button type="submit" className={styles['register__button']}>

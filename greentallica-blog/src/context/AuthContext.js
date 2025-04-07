@@ -1,43 +1,36 @@
-import React, { createContext, useState, useEffect } from 'react';
+// context/AuthContext.js
+import { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
-const AuthProvider = ({ children }) => {
-    const [token, setToken] = useState(localStorage.getItem('token') || null);
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')) || null);
+export const AuthContext = createContext();
 
-    useEffect(() => {
-        if (token) {
-            localStorage.setItem('token', token);
-        } else {
-            localStorage.removeItem('token');
-        }
-    }, [token]);
+export function AuthProvider({ children }) {
+    const [token, setToken] = useState(null);
+    const [username, setUsername] = useState(null);
 
     useEffect(() => {
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        } else {
-            localStorage.removeItem('user');
-        }
-    }, [user]);
+        const storedToken = localStorage.getItem('token');
+        const storedUsername = localStorage.getItem('username');
+        if (storedToken) setToken(storedToken);
+        if (storedUsername) setUsername(storedUsername);
+    }, []);
 
-    // Funciones para actualizar token y user
-    const login = (newToken, newUser) => {
-        console.log("login authcontext");
-        setToken(newToken);
-        setUser(newUser);
+    const login = (token, username) => {
+        localStorage.setItem('token', token);
+        localStorage.setItem('username', username);
+        setToken(token);
+        setUsername(username);
     };
 
     const logout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
         setToken(null);
-        setUser(null);
+        setUsername(null);
     };
 
     return (
-        <AuthContext.Provider value={{ token, user, login, logout }}>
+        <AuthContext.Provider value={{ token, username, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
-};
-
-export { AuthContext, AuthProvider };
+}

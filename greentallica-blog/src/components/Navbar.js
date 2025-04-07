@@ -1,25 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import Link from 'next/link';
 import { AuthContext } from '@/context/AuthContext';
 
 export default function Navbar() {
-    const { token, setToken } = useContext(AuthContext);
-    const [username, setUsername] = useState('');
-
-    useEffect(() => {
-        // Opcional: podrías guardar el username al hacer login y recuperarlo aquí
-        const storedUsername = localStorage.getItem('username');
-        if (storedUsername) {
-            setUsername(storedUsername);
-        }
-    }, [token]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('username');
-        setToken(null);
-        setUsername('');
-    };
+    const { token, username, logout } = useContext(AuthContext);
 
     return (
         <header className="navbar">
@@ -48,8 +32,8 @@ export default function Navbar() {
                         </>
                     ) : (
                         <div className="navbar__user">
-                            <span className="navbar__username">Hola, {username || 'usuario'}</span>
-                            <button onClick={handleLogout} className="navbar__btn navbar__btn--logout">
+                            <span className="navbar__username">Hola, {username || 'usuario'} </span>
+                            <button onClick={logout} className="navbar__btn navbar__btn--logout">
                                 Cerrar sesión
                             </button>
                         </div>

@@ -18,7 +18,6 @@ export default function LoginForm() {
         try {
             const res = await loginUser({ username, password });
             console.log("login => token", res);
-
             login(res.token, res.username);
             router.push('/');
 
