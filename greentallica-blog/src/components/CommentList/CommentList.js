@@ -9,11 +9,10 @@ export default function CommentList({ comments = [] }) {
             <div className={styles['comment-list__grid']}>
                 {comments.map((comment, index) => (
                     <CommentCard
-                        key={index}
-                        avatarSrc={comment.avatarSrc}
+                        key={comment._id}
                         altText={comment.altText}
-                        comment={comment.comment}
-                        author={comment.author}
+                        comment={comment.content}
+                        author={comment.author.username}
                     />
                 ))}
             </div>

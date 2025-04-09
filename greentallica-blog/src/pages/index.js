@@ -3,6 +3,7 @@ import SliderImages from "@/components/SliderImages";
 import CommentList from "@/components/CommentList/CommentList";
 import ArticleList from "@/components/ArticleList/ArticleList";
 import { getAllArticles } from "@/services/api";
+import { getAllComments } from "@/services/api-comments";
 
 const images = [
     "/images/slider_concierto.webp",
@@ -11,47 +12,40 @@ const images = [
     "/images/slider_vinilos.webp",
 ];
 
-const testimoniosData = [
-    {
-        avatarSrc: "/images/perfil_sin_foto.png",
-        altText: "Usuario 1",
-        comment:
-            "¡Increíble cómo este blog combina mi amor por el fútbol y la música! Me encantó el artículo sobre el regreso de los vinilos.",
-        author: "Juan P.",
-    },
-    {
-        avatarSrc: "/images/perfil_sin_foto.png",
-        altText: "Usuario 2",
-        comment:
-            "Gracias por compartir tus conocimientos sobre los mejores conciertos del año. ¡Espero no perderme el próximo!",
-        author: "Carla G.",
-    },
-    {
-        avatarSrc: "/images/perfil_sin_foto.png",
-        altText: "Usuario 3",
-        comment:
-            "Me encanta el enfoque personal que le das a los artículos de fútbol. ¡Sigue así!",
-        author: "Daniel T.",
-    },
-];
-
 export default function Home() {
     const [articles, setArticles] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingArticles, setLoadingArticles] = useState(true);
+    const [testimonials, setTestimonials] = useState([]);
+    const [loadingComments, setLoadingComments] = useState(true);
 
     useEffect(() => {
         async function fetchArticles() {
             try {
                 const data = await getAllArticles();
+                // Toma los primeros 4 artículos
                 setArticles(data.slice(0, 4));
             } catch (error) {
                 console.error("Error fetching articles:", error.message);
             } finally {
-                setLoading(false);
+                setLoadingArticles(false);
             }
         }
-
         fetchArticles();
+    }, []);
+
+    useEffect(() => {
+        async function fetchComments() {
+            try {
+                const data = await getAllComments();
+                console.log(data)
+                setTestimonials(data.slice(0, 4));
+            } catch (error) {
+                console.error("Error fetching comments:", error.message);
+            } finally {
+                setLoadingComments(false);
+            }
+        }
+        fetchComments();
     }, []);
 
     return (
@@ -59,7 +53,7 @@ export default function Home() {
             <SliderImages images={images} />
 
             {/* Artículos Destacados */}
-            {loading ? (
+            {loadingArticles ? (
                 <p style={{ textAlign: "center", marginTop: "2rem" }}>
                     Cargando artículos...
                 </p>
@@ -71,8 +65,14 @@ export default function Home() {
                 />
             )}
 
-            {/* Comentarios */}
-            <CommentList comments={testimoniosData} />
+            {/* Comentarios (Testimonios) */}
+            {loadingComments ? (
+                <p style={{ textAlign: "center", marginTop: "2rem" }}>
+                    Cargando comentarios...
+                </p>
+            ) : (
+                <CommentList comments={testimonials} />
+            )}
         </div>
     );
 }

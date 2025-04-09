@@ -39,7 +39,7 @@ export default function ArticlesPage() {
     return (
         <div className="min-h-screen bg-gray-100 pt-6 px-4">
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 gap-4">
+            <div className="flex flex-col sm:flex-row justify-center sm:items-center mb-6 gap-4">
                 <h2 className="text-2xl font-bold text-blue-600">{PAGE_TITLE}</h2>
 
                 {token ? (
