@@ -4,18 +4,20 @@ import styles from './ArticleCard.module.css';
 
 export default function ArticleCard({
     imageSrc,
-    altText,
+    altText = '',
     title,
     description,
     variant = 'vertical',
     showLink = false,
-    onLinkClick = () => { }, // callback opcional
+    onLinkClick = () => { },
 }) {
+    // Verifica si la imagen está en formato Base64 o utiliza un placeholder.
     const isBase64 = imageSrc?.startsWith('data:image');
     const imageSource = isBase64 ? imageSrc : imageSrc || '/images/placeholder.jpg';
 
     const handleClick = (e) => {
-        onLinkClick(e); // ejecutar callback si existe
+        e.preventDefault();
+        onLinkClick(e);
     };
 
     if (variant === 'horizontal') {
@@ -25,12 +27,13 @@ export default function ArticleCard({
                     <h3 className={styles['articles__title']}>{title}</h3>
                     <p className={styles['articles__description']}>{description}</p>
                     {showLink && (
-                        <a
-                            className={styles['articles__link']}
+                        <Link
+                            href="#"
                             onClick={handleClick}
+                            className={styles['articles__link']}
                         >
                             Ver detalle
-                        </a>
+                        </Link>
                     )}
                 </div>
                 <div className={styles['articles__image-container']}>
@@ -44,23 +47,26 @@ export default function ArticleCard({
         );
     }
 
+    // Versión vertical
     return (
         <article className={styles['featured-articles__item']}>
-            <img
-                src={imageSource}
-                alt={altText}
-                className={styles['featured-articles__image']}
-            />
+            <div className={styles['featured-articles__image-container']}>
+                <img
+                    src={imageSource}
+                    alt={altText}
+                    className={styles['featured-articles__image']}
+                />
+            </div>
             <div className={styles['featured-articles__content']}>
                 <h3 className={styles['featured-articles__subtitle']}>{title}</h3>
                 <p className={styles['featured-articles__text']}>{description}</p>
-                {showLink && link && (
+                {showLink && (
                     <Link
-                        href={link}
-                        className={styles['featured-articles__link']}
+                        href="#"
                         onClick={handleClick}
+                        className={styles['articles__link']}
                     >
-                        Ver detalle
+                        CONOCER MÁS
                     </Link>
                 )}
             </div>

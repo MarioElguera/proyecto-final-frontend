@@ -89,7 +89,7 @@ export async function updateArticle(id, article, token) {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `${token}`,
         },
         body: JSON.stringify(article),
     });
@@ -108,7 +108,7 @@ export async function deleteArticle(id, token) {
     const response = await fetch(`${API_BASE_URL}/${id}`, {
         method: 'DELETE',
         headers: {
-            Authorization: `Bearer ${token}`,
+            'Authorization': `${token}`,
         },
     });
     if (!response.ok) {

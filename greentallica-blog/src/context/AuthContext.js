@@ -1,25 +1,42 @@
-// context/AuthContext.js
 import { createContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+
 export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
     const [token, setToken] = useState(null);
     const [username, setUsername] = useState(null);
+    const [userId, setUserId] = useState(null);
+    const [userRole, setUserRole] = useState(null);
     const router = useRouter();
 
     useEffect(() => {
         const storedToken = localStorage.getItem('token');
         const storedUsername = localStorage.getItem('username');
-        if (storedToken) setToken(storedToken);
+
+        if (storedToken) {
+            setToken(storedToken);
+            decodeToken(storedToken);
+        }
         if (storedUsername) setUsername(storedUsername);
     }, []);
 
-    const login = (token, username) => {
-        localStorage.setItem('token', token);
+    const decodeToken = (jwt) => {
+        try {
+            const decoded = JSON.parse(atob(jwt.split('.')[1]));
+            setUserId(decoded.id);
+            setUserRole(decoded.role);
+        } catch (err) {
+            console.error('Error decodificando el token:', err);
+        }
+    };
+
+    const login = (jwt, username) => {
+        localStorage.setItem('token', jwt);
         localStorage.setItem('username', username);
-        setToken(token);
+        setToken(jwt);
         setUsername(username);
+        decodeToken(jwt);
     };
 
     const logout = () => {
@@ -27,12 +44,13 @@ export function AuthProvider({ children }) {
         localStorage.removeItem('username');
         setToken(null);
         setUsername(null);
+        setUserId(null);
+        setUserRole(null);
         router.push('/login');
-
     };
 
     return (
-        <AuthContext.Provider value={{ token, username, login, logout }}>
+        <AuthContext.Provider value={{ token, username, userId, userRole, login, logout }}>
             {children}
         </AuthContext.Provider>
     );
