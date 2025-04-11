@@ -14,7 +14,7 @@ export default function ArticleList({ articles = [], layout = 'featured', showLi
             className={`${styles.articleList} ${isFeatured ? styles['articleList--featured'] : styles['articleList--horizontal']}`}
         >
             <h2 className={styles.articleList__title}>
-                {isFeatured ? 'Artículos Destacados' : 'Artículos'}
+                {isFeatured ? 'ARTICULOS DESTACADOS' : 'ARTICULOS'}
             </h2>
 
             <div className={styles.articleList__gallery}>

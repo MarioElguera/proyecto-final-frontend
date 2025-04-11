@@ -1,14 +1,11 @@
 import React from 'react';
 import styles from './CommentCard.module.css';
 
-export default function CommentCard({ avatarSrc, altText, comment, author }) {
+export default function CommentCard({ comment, author }) {
     return (
-        <article className={styles['comment-card']}>
-            <div className={styles['comment-card__avatar']}>
-            </div>
-            <p className={styles['comment-card__text']}>
-                <em>“{comment}” <br></br>- {author}</em>
-            </p>
+        <article className={styles.commentCard}>
+            <p className={styles.commentCard__text}>{comment}</p>
+            <p className={styles.commentCard__author}>{author}</p>
         </article>
     );
 }

@@ -4,15 +4,14 @@ import styles from './CommentList.module.css';
 
 export default function CommentList({ comments = [] }) {
     return (
-        <section className={styles['comment-list']}>
-            <h2 className={styles['comment-list__title']}>Lo que dicen nuestros lectores</h2>
-            <div className={styles['comment-list__grid']}>
-                {comments.map((comment, index) => (
+        <section className={styles.commentList}>
+            <h2 className={styles.commentList__title}>Lo que dicen nuestros lectores</h2>
+            <div className={styles.commentList__grid}>
+                {comments.map((comment) => (
                     <CommentCard
                         key={comment._id}
-                        altText={comment.altText}
-                        comment={comment.content}
-                        author={comment.author.username}
+                        comment={comment.content}          // texto principal
+                        author={comment.author.username}   // autor
                     />
                 ))}
             </div>

@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import SliderImages from "@/components/SliderImages";
 import CommentList from "@/components/CommentList/CommentList";
 import ArticleList from "@/components/ArticleList/ArticleList";
+import Loading from "@/components/Loading/Loading";
 import { getAllArticles } from "@/services/api";
 import { getAllComments } from "@/services/api-comments";
+
 
 const images = [
     "/images/slider_concierto.webp",
@@ -50,13 +52,28 @@ export default function Home() {
 
     return (
         <div className="min-h-screen bg-gray-100">
-            <SliderImages images={images} />
+            {/* <SliderImages images={images} /> */}
+            <section className="hero">
+                <div className="hero__content">
+                    <h1 className="hero__title">
+                        <a>Bienvenido </a>
+                        <a>Greentallica !</a>
+                    </h1>
+                    <p className="hero__description">
+                        Bienvenido a un blog hecho para compartir pasiones: fútbol, música, cine y viajes. Aquí encontrarás artículos auténticos, comentarios reales y una experiencia hecha con dedicación.
+                    </p>
+                    <button className="hero__button">Conocer más</button>
+                </div>
+                <div className="hero__image">
+                    <SliderImages images={images} />
+                </div>
+            </section>
+
+
 
             {/* Artículos Destacados */}
             {loadingArticles ? (
-                <p style={{ textAlign: "center", marginTop: "2rem" }}>
-                    Cargando artículos...
-                </p>
+                <Loading />
             ) : (
                 <ArticleList
                     articles={articles}
@@ -67,9 +84,7 @@ export default function Home() {
 
             {/* Comentarios (Testimonios) */}
             {loadingComments ? (
-                <p style={{ textAlign: "center", marginTop: "2rem" }}>
-                    Cargando comentarios...
-                </p>
+                <Loading />
             ) : (
                 <CommentList comments={testimonials} />
             )}

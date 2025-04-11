@@ -1,17 +1,20 @@
-.comment-list {
-    background-color: #f4f4f4;
+.commentList {
+    background-color: #111;
+    /* Fondo oscuro para toda la sección */
     padding: 3rem 1rem;
     text-align: center;
+    height: 100%;
 }
 
-.comment-list__title {
-    color: #1877f2;
+.commentList__title {
+    color: #99f243;
+    /* Verde neón */
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 2rem;
 }
 
-.comment-list__grid {
+.commentList__grid {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;

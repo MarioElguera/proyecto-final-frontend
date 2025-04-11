@@ -1,0 +1,138 @@
+.navbar {
+    background-color: #111;
+    color: #fff;
+    border-bottom: 1px solid #444;
+}
+
+.navbar__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.2rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Logo centrado arriba */
+.navbar__logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    margin-bottom: 0.8rem;
+}
+
+/* Enlaces centrados */
+.navbar__links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.navbar__link {
+    font-size: 1rem;
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.navbar__link--active {
+    text-decoration: underline;
+    text-decoration-color: #fff;
+    color: #99f243;
+}
+
+.navbar__link:hover {
+    color: #99f243;
+}
+
+/* Botones de autenticación */
+.navbar__auth {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    position: absolute;
+    top: 1.2rem;
+    right: 1rem;
+    flex-wrap: wrap;
+}
+
+.navbar__btn {
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: 0.3s;
+    border: 1px solid white;
+    color: white;
+}
+
+.navbar__btn--login:hover,
+.navbar__btn--logout:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+.navbar__btn--register {
+    border-color: #99f243;
+    color: #99f243;
+}
+
+.navbar__btn--register:hover {
+    background-color: #99f243;
+    color: black;
+}
+
+.navbar__username {
+    font-size: 0.95rem;
+}
+
+/* Hamburguesa */
+.navbar__hamburger {
+    display: none;
+    background: none;
+    border: none;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    cursor: pointer;
+}
+
+.navbar__hamburgerLine {
+    width: 25px;
+    height: 3px;
+    background-color: #fff;
+    margin: 5px 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .navbar__links {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        background: #111;
+        padding: 1rem 0;
+        border-top: 1px solid #333;
+        margin-top: 0.5rem;
+    }
+
+    .navbar__links--open {
+        display: flex;
+    }
+
+    .navbar__auth {
+        flex-direction: column;
+        position: static;
+        margin-top: 1rem;
+    }
+
+    .navbar__hamburger {
+        display: block;
+    }
+}

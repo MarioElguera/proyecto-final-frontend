@@ -98,12 +98,7 @@ export default function SliderImages({ images }) {
                 ))}
             </div>
 
-            <div className="slider__overlay">
-                <h1 className="slider__titulo">Bienvenido a Mi Blog</h1>
-                <p className="slider__descripcion">
-                    Explora lo mejor del fútbol, películas, música y conciertos.
-                </p>
-            </div>
+
 
             <button onClick={prevSlide} className="slider__btn slider__btn--prev">‹</button>
             <button onClick={nextSlide} className="slider__btn slider__btn--next">›</button>
