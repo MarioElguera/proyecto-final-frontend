@@ -21,9 +21,9 @@ export default function Navbar() {
                     onClick={toggleMenu}
                     aria-label="Menú"
                 >
-                    <span className={styles.navbar__hamburgerLine}></span>
-                    <span className={styles.navbar__hamburgerLine}></span>
-                    <span className={styles.navbar__hamburgerLine}></span>
+                    <span className={styles.navbar__hamburgerLine}>
+                        ☰
+                    </span>
                 </button>
 
                 <nav className={`${styles.navbar__links} ${isMenuOpen ? styles['navbar__links--open'] : ''}`}>

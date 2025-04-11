@@ -89,6 +89,8 @@
 
 .navbar__username {
     font-size: 0.95rem;
+    color: white;
+    padding: 0px 15px;
 }
 
 /* Hamburguesa */
@@ -105,7 +107,7 @@
 .navbar__hamburgerLine {
     width: 25px;
     height: 3px;
-    background-color: #fff;
+    /* background-color: #fff; */
     margin: 5px 0;
 }
 

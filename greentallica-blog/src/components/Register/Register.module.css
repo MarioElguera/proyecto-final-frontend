@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 90vh;
     background-color: #f1f2f5;
 }
 
@@ -66,8 +66,8 @@
 .register__button {
     margin-top: 1rem;
     padding: 0.75rem;
-    background-color: #1877f2;
-    color: #fff;
+    background-color: #99f243;
+    color: black;
     font-weight: bold;
     border: none;
     border-radius: 6px;
