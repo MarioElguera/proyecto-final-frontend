@@ -1,7 +1,7 @@
-// src/components/CategoryMenu.js
+// src/components/ImageMenu.js
 import React from 'react';
 
-export default function CategoryMenu({ categories = [], onSelectCategory }) {
+export default function ImageMenu({ categories = [], onSelectCategory }) {
     return (
         <div className="category-menu-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
             {categories.map((cat) => (

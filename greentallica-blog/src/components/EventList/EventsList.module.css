@@ -1,0 +1,70 @@
+/*
+  Bloque: events-list
+  Contiene un título "PRÓXIMOS EVENTOS" y un grid 
+  que simula un "masonry / random tiles" layout con CSS Grid.
+*/
+
+.events-list {
+    width: 100%;
+    height: 100%;
+    /* margin: 2rem auto; */
+    padding: 1rem;
+    background-color: #222;
+    /* Fondo oscuro */
+    /* border-radius: 8px; */
+    color: #fff;
+    font-family: sans-serif;
+}
+
+/* Título en verde */
+.events-list__title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #99f243;
+    margin: 1rem;
+    text-align: center;
+}
+
+/* Contenedor de tarjetas en formato grid */
+.events-list__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 200px;
+    /* altura base de 200px */
+    gap: 1rem;
+}
+
+/*
+    Cada .events-list__item es un contenedor 
+    donde definimos cuántas filas y columnas ocupa.
+    Por defecto, rowSpan y colSpan = 1.
+  */
+.events-list__item {
+    position: relative;
+    display: flex;
+    /* Para que EventCard se expanda */
+    flex-direction: column;
+}
+
+/* Ejemplo de randomSpan: 
+     - .events-list__item--row2 => ocupa 2 filas => grid-row: span 2 
+     - .events-list__item--col2 => ocupa 2 columnas => grid-column: span 2
+  */
+
+/* Filas */
+.events-list__item--row1 {
+    grid-row: span 1;
+}
+
+.events-list__item--row2 {
+    grid-row: span 2;
+}
+
+/* Columnas */
+.events-list__item--col1 {
+    grid-column: span 1;
+}
+
+.events-list__item--col2 {
+    grid-column: span 2;
+}

@@ -1,0 +1,58 @@
+/*
+  Bloque: event-card
+  Tarjeta con imagen de fondo y texto superpuesto. 
+  No define un tamaño fijo; se adaptará según su contenedor (EventsList).
+*/
+
+/* Contenedor principal con imagen de fondo */
+.event-card {
+    position: relative;
+    background-color: #1c1c1c;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+/* Efecto hover */
+.event-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Capa superpuesta semitransparente para el texto */
+.event-card__overlay {
+    margin: auto 0 1rem 1rem;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: #fff;
+    border-radius: 4px;
+    padding: 1rem;
+    max-width: 80%;
+}
+
+/* Título y descripción */
+.event-card__title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    color: #99f243;
+    /* Verde neón */
+}
+
+.event-card__description {
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Fecha del evento (nuevo campo) */
+.event-card__date {
+    font-size: 0.9rem;
+    color: #ddd;
+    margin: 0;
+}

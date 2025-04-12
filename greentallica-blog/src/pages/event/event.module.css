@@ -1,0 +1,93 @@
+/* 
+  event-section: Contenedor principal para la sección de eventos.
+  Se utiliza flex-wrap para que las tarjetas se distribuyan de forma flexible.
+*/
+.event-section {
+    background-color: #fff;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Título principal de la sección en mayúsculas y color verde (#99f243) */
+.event-section__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #99f243;
+    margin-bottom: 2rem;
+}
+
+/*
+    Grid de eventos:
+    Se utiliza un contenedor flex con wrap para disponer las tarjetas.
+    Cada tarjeta tendrá un ancho fijo para que, si hay espacio, se puedan ver 4 por fila en pantallas grandes.
+    Las tarjetas se irán ajustando automáticamente al ancho disponible sin necesidad de media queries específicas para definir columnas.
+  */
+.event-section__grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+    align-items: stretch;
+    /* Todas las tarjetas de la misma fila tendrán la misma altura */
+}
+
+/* Tarjeta de evento con dimensiones fijas */
+.event-section__card {
+    background-color: #1c1c1c;
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+    width: 250px;
+    /* Ancho fijo para mantener uniformidad */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.event-section__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Título de la tarjeta */
+.event-section__card-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #99f243;
+    /* Verde neón */
+}
+
+/* Meta información: fecha y ubicación */
+.event-section__card-meta {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+}
+
+.event-section__card-date,
+.event-section__card-location {
+    font-weight: 600;
+}
+
+/* Descripción de la tarjeta */
+.event-section__card-description {
+    font-size: 1rem;
+    color: #ddd;
+    line-height: 1.5;
+    margin-top: auto;
+}
+
+/* 
+    Responsividad:
+    Al reducir el ancho de pantalla, las tarjetas se adaptan automáticamente.
+    Puesto que usamos flex-wrap, no es necesario definir media queries específicas.
+    Si deseas ajustar el ancho mínimo en dispositivos muy pequeños, podrías considerar:
+  */
+@media (max-width: 480px) {
+    .event-section__card {
+        width: 90%;
+    }
+}

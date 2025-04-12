@@ -10,7 +10,9 @@ export default function App({ Component, pageProps }) {
         <AuthProvider>
             <main>
                 <Navbar />
-                <Component {...pageProps} />
+                <div className="min-h-screen bg-red" >
+                    <Component {...pageProps} />
+                </div>
                 <Footer />
             </main>
         </AuthProvider>

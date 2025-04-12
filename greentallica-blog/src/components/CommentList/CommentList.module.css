@@ -20,3 +20,11 @@
     gap: 2rem;
     justify-content: center;
 }
+
+.comment-list__no-comments {
+    text-align: center;
+    font-size: 1.125rem;
+    margin-top: 48px;
+    font-weight: 600;
+    color: white
+}

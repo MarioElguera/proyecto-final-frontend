@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
 import { getAllArticles } from "@/services/api";
 import categories from "@/utils/categories";
-import CategoryMenu from "@/components/CategoryMenu";
+import ImageMenu from "@/components/ImageMenu";
 import ArticleList from "@/components/ArticleList/ArticleList";
 import { getAllComments } from "@/services/api-comments";
 import styles from "./articles.module.css";
@@ -87,7 +87,7 @@ export default function ArticlesPage() {
             </div>
 
             {/* Menú de categorías */}
-            <CategoryMenu
+            <ImageMenu
                 categories={categories}
                 onSelectCategory={handleCategorySelect}
             />
