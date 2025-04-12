@@ -1,31 +1,53 @@
-.articleList {
+/* 
+  Contenedor principal del listado de artículos.
+  Utiliza flex-wrap para distribuir tarjetas en filas sin scroll horizontal.
+*/
+.article-list {
     padding: 2rem;
     text-align: center;
-    border-style: solid none;
-    border-width: 4px 0px;
-    border-color: #99f243;
-    background-color: #464546;
+    background-color: #494747;
 }
 
-.articleList--featured {
-    /* Estilo para layout vertical */
-    /* background-color:; */
-}
-
-.articleList--horizontal {
-    /* Estilo para layout horizontal */
-    background-color: #f8f8f8;
-}
-
-.articleList__title {
+/* Título del listado */
+.article-list__title {
     color: #99f243;
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
     font-weight: 700;
 }
 
-.articleList__gallery {
+/* Mensaje cuando no hay artículos */
+.article-list__no-articles {
+    text-align: center;
+    font-size: 1.125rem;
+    margin-top: 48px;
+    font-weight: 600;
+}
+
+/* Contenedor de tarjetas: se usa flex y flex-wrap para adaptarse al ancho disponible */
+.article-list__gallery {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    align-items: stretch;
+    /* Hace que los items se estiren para tener la misma altura por fila */
+}
+
+/* Variante vertical:
+     Cada tarjeta tiene un ancho fijo (300px) para permitir hasta 4 por fila en pantallas grandes.
+     Debido a flex-wrap, si el contenedor no tiene suficiente espacio, se organizarán a la siguiente fila.
+  */
+.article-list--vertical .article-list__gallery>.article-list__item {
+    flex: 0 1 300px;
+    display: flex;
+}
+
+/* Variante horizontal:
+     Se usa calc(50% - 1rem) para que cada tarjeta ocupe la mitad del ancho disponible (menos el gap),
+     garantizando siempre 2 tarjetas por fila.
+  */
+.article-list--horizontal .article-list__gallery>.article-list__item {
+    flex: 0 1 calc(50% - 1rem);
+    display: flex;
 }

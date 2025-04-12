@@ -1,0 +1,390 @@
+/* Contenedor principal */
+.articlesPage {
+    min-height: 100vh;
+    background-color: black;
+    /* Aproximado a bg-gray-500 */
+    padding-top: 24px;
+    /* pt-6 */
+    padding-left: 16px;
+    /* px-4 */
+    padding-right: 16px;
+    font-family: sans-serif;
+}
+
+/* Header: título y botón */
+.articlesPage__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    /* mb-6 */
+    gap: 16px;
+    /* gap-4 */
+}
+
+@media (min-width: 640px) {
+    .articlesPage__header {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.articlesPage__title {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    color: #99f243;
+    /* Aproximado a text-blue-600 */
+    margin: 0;
+}
+
+/* Botón de crear artículo */
+.articlesPage__createBtn {
+    background-color: #99f243;
+    /* Aproximado a bg-blue-600 */
+    color: black;
+    padding: 8px 16px;
+    /* py-2 px-4 */
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    /* gap-2 */
+    transition: background-color 0.3s ease;
+}
+
+.articlesPage__createBtn:hover {
+    background-color: #1d4ed8;
+    /* Aproximado a bg-blue-700 */
+}
+
+/* Icono y texto dentro del botón */
+.articlesPage__createBtnIcon {
+    font-size: 1.25rem;
+    /* text-xl */
+    display: block;
+}
+
+.articlesPage__createBtnText {
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .articlesPage__createBtnIcon {
+        display: none;
+    }
+
+    .articlesPage__createBtnText {
+        display: inline;
+    }
+}
+
+/* Mensaje de login requerido */
+.articlesPage__loginRequired {
+    color: #dc2626;
+    /* Aproximado a text-red-600 */
+    font-weight: 600;
+    text-align: center;
+}
+
+/* Línea divisoria */
+.articlesPage__hr {
+    margin: 32px 0;
+    /* my-8 (32px vertical) */
+    border: none;
+    border-top: 1px solid #d1d5db;
+    /* Aproximado a border-gray-300 */
+}
+
+/* Contenedor del spinner */
+.articlesPage__spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 48px;
+    /* mt-12 (48px) */
+}
+
+/* Spinner */
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #2563eb;
+    /* Aproximado a border-blue-600 */
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+/* Texto de carga */
+.articlesPage__loadingText {
+    margin-top: 16px;
+    font-size: 1rem;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+/* Mensaje (sin artículos o prompt) */
+.articlesPage__message {
+    text-align: center;
+    font-size: 1.125rem;
+    /* Aproximado a text-lg */
+    margin-top: 48px;
+    font-weight: 600;
+    color: white;
+}
+
+/* Animación del spinner */
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =============== Contenedor principal del detalle del artículo =============== */
+.article-detail {
+    max-width: 100vw;
+    padding: 1.5rem;
+    background-color: #0f172a;
+    color: white;
+    /* border-radius: 8px; */
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    font-family: sans-serif;
+}
+
+/* =============== Encabezado del artículo =============== */
+.article-detail__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.article-detail__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #99f243;
+    /* Título en verde */
+    margin: 0;
+}
+
+/* Acciones del artículo (Editar / Eliminar) */
+.article-detail__actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Botones de acciones con fondo verde y texto negro */
+.article-detail__button--edit,
+.article-detail__button--delete,
+.article-detail__button--add-comment,
+.article-detail__button--edit-comment,
+.article-detail__button--delete-comment,
+.article-detail__modal-button--cancel,
+.article-detail__modal-button--submit {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    background-color: #99f243;
+    /* Fondo verde */
+    color: #000;
+    /* Texto negro */
+}
+
+/* Hover para los botones: se puede aplicar un ligero ajuste si deseas */
+.article-detail__button--edit:hover,
+.article-detail__button--delete:hover,
+.article-detail__button--add-comment:hover,
+.article-detail__button--edit-comment:hover,
+.article-detail__button--delete-comment:hover,
+.article-detail__modal-button--cancel:hover,
+.article-detail__modal-button--submit:hover {
+    background-color: #87e035;
+    /* O algún tono ligeramente distinto */
+}
+
+/* =============== Cuerpo del artículo =============== */
+.article-detail__body {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Contenedor de imagen: Fijar altura y ancho máximo para que la imagen llene el cuadro */
+.article-detail__image-container {
+    flex: 1;
+    max-width: 600px;
+    max-height: 600px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.article-detail__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* La imagen se adapta y llena el contenedor */
+    border-radius: inherit;
+}
+
+/* Contenedor de contenido */
+.article-detail__content {
+    flex: 1;
+}
+
+.article-detail__meta {
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.article-detail__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: white;
+}
+
+/* =============== Sección de comentarios =============== */
+.article-detail__divider {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.article-detail__comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.article-detail__comments-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #99f243;
+    /* Título en verde */
+    margin: 0;
+}
+
+/* =============== Lista de comentarios =============== */
+.article-detail__comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.article-detail__comment-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: #f4f4f4;
+    position: relative;
+}
+
+.article-detail__comment-author {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 0 0 0.5rem;
+}
+
+.article-detail__comment-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Acciones en comentario */
+.article-detail__comment-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* =============== Modal para comentarios =============== */
+.article-detail__modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+.article-detail__modal-content {
+    background-color: #0f172a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.article-detail__modal-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #99f243;
+    /* Título modal en verde */
+    margin-bottom: 1rem;
+}
+
+.article-detail__modal-textarea {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    margin-bottom: 1rem;
+}
+
+.article-detail__modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+/* Versión móvil: Encabezado en columna */
+@media (max-width: 768px) {
+    .article-detail__header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    /* Separa los botones y colócalos debajo del título */
+    .article-detail__actions {
+        margin-top: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+
+    /* Encabezado del artículo: título centrado y botones debajo */
+    .article-detail__header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .article-detail__actions {
+        margin-top: 1rem;
+    }
+
+    /* Encabezado de los comentarios: título centrado */
+    .article-detail__comments-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+}

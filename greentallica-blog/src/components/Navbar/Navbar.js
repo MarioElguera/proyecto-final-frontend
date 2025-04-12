@@ -28,7 +28,7 @@ export default function Navbar() {
 
                 <nav className={`${styles.navbar__links} ${isMenuOpen ? styles['navbar__links--open'] : ''}`}>
                     <Link href="/" className={`${styles.navbar__link} ${isActive('/') ? styles['navbar__link--active'] : ''}`}>Inicio</Link>
-                    <Link href="/articles" className={`${styles.navbar__link} ${isActive('/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
+                    <Link href="/articles/articles" className={`${styles.navbar__link} ${isActive('/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
                     <Link href="/news" className={`${styles.navbar__link} ${isActive('/news') ? styles['navbar__link--active'] : ''}`}>Noticias</Link>
                     <Link href="/about" className={`${styles.navbar__link} ${isActive('/about') ? styles['navbar__link--active'] : ''}`}>Acerca De</Link>
                     <Link href="/contact" className={`${styles.navbar__link} ${isActive('/contact') ? styles['navbar__link--active'] : ''}`}>Contacto</Link>

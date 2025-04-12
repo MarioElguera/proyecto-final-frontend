@@ -1,44 +1,47 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
 import { getFullArticleById, deleteArticle } from '@/services/api';
-import {
-    createComment,
-    updateComment,
-    deleteComment,
-} from '@/services/api-comments';
+import { createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
+import styles from './articles.module.css';
 
-// ✅ TEXTOS ESTÁTICOS (EN MAYÚSCULA SNAKE_CASE)
-const PAGE_TITLE = 'Comentarios';
-const ADD_COMMENT_BUTTON = 'Agregar comentario';
-const DELETE_COMMENT_CONFIRM = '¿Estás seguro de que deseas eliminar este comentario?';
-const DELETE_ARTICLE_CONFIRM = '¿Estás seguro de que deseas eliminar este artículo?';
+/* 
+  CONSTANTES ESTÁTICAS (UPPER_SNAKE_CASE)
+*/
+const PAGE_TITLE = 'COMENTARIOS';
+const ADD_COMMENT_BUTTON = 'AGREGAR COMENTARIO';
+const DELETE_COMMENT_CONFIRM = '¿ESTÁS SEGURO DE QUE DESEAS ELIMINAR ESTE COMENTARIO?';
+const DELETE_ARTICLE_CONFIRM = '¿ESTÁS SEGURO DE QUE DESEAS ELIMINAR ESTE ARTÍCULO?';
 const COMMENT_AUTHOR_LABEL = 'dice:';
-const NO_COMMENTS_MESSAGE = 'Aún no hay comentarios.';
-const EDIT_COMMENT_TEXT = 'Editar';
-const DELETE_COMMENT_TEXT = 'Eliminar';
-const COMMENT_MODAL_TITLE_NEW = 'Nuevo comentario';
-const COMMENT_MODAL_TITLE_EDIT = 'Editar comentario';
-const COMMENT_MODAL_PLACEHOLDER = 'Escribe tu comentario aquí...';
-const COMMENT_MODAL_CANCEL = 'Cancelar';
-const COMMENT_MODAL_SUBMIT = 'Enviar';
-const COMMENT_MODAL_SUBMIT_LOADING = 'Enviando...';
-const EDIT_ARTICLE_BUTTON = 'Editar';
-const DELETE_ARTICLE_BUTTON = 'Eliminar';
+const NO_COMMENTS_MESSAGE = 'AÚN NO HAY COMENTARIOS.';
+const EDIT_COMMENT_TEXT = 'EDITAR';
+const DELETE_COMMENT_TEXT = 'ELIMINAR';
+const COMMENT_MODAL_TITLE_NEW = 'NUEVO COMENTARIO';
+const COMMENT_MODAL_TITLE_EDIT = 'EDITAR COMENTARIO';
+const COMMENT_MODAL_PLACEHOLDER = 'ESCRIBE TU COMENTARIO AQUÍ...';
+const COMMENT_MODAL_CANCEL = 'CANCELAR';
+const COMMENT_MODAL_SUBMIT = 'ENVIAR';
+const COMMENT_MODAL_SUBMIT_LOADING = 'ENVIANDO...';
+const EDIT_ARTICLE_BUTTON = 'EDITAR';
+const DELETE_ARTICLE_BUTTON = 'ELIMINAR';
 
 export default function ArticleDetailPage() {
     const router = useRouter();
     const { id } = router.query;
     const { token, userId, userRole } = useContext(AuthContext);
 
+    // Estados para artículo, carga, error y comentarios
     const [articleData, setArticleData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+
+    // Estados para manejo de comentarios y modal
     const [showModal, setShowModal] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [editingComment, setEditingComment] = useState(null);
 
+    // Obtención de datos del artículo (incluye comentarios)
     const fetchArticle = async () => {
         try {
             const data = await getFullArticleById(id);
@@ -51,9 +54,12 @@ export default function ArticleDetailPage() {
     };
 
     useEffect(() => {
-        if (id) fetchArticle();
+        if (id) {
+            fetchArticle();
+        }
     }, [id]);
 
+    // Manejo de envío de comentario (crear o editar)
     const handleSubmitComment = async () => {
         if (!newComment.trim()) return;
         try {
@@ -74,6 +80,7 @@ export default function ArticleDetailPage() {
         }
     };
 
+    // Manejo de eliminación de comentario
     const handleDeleteComment = async (commentId) => {
         if (!window.confirm(DELETE_COMMENT_CONFIRM)) return;
         try {
@@ -84,6 +91,7 @@ export default function ArticleDetailPage() {
         }
     };
 
+    // Manejo de eliminación de artículo
     const handleDeleteArticle = async () => {
         if (!window.confirm(DELETE_ARTICLE_CONFIRM)) return;
         try {
@@ -94,29 +102,28 @@ export default function ArticleDetailPage() {
         }
     };
 
-    if (loading) return <p className="text-center mt-8">Cargando artículo...</p>;
-    if (error) return <p className="text-center mt-8 text-red-500">{error}</p>;
+    if (loading) return <p className={styles['article-detail__loading']}>Cargando artículo...</p>;
+    if (error) return <p className={styles['article-detail__error']}>{error}</p>;
 
     const { article, comments } = articleData;
     const canEditOrDeleteArticle = userId === article.author?._id || userRole === 'admin';
 
     return (
-        <div className="max-w-6xl mx-auto p-6 bg-white shadow mt-8 rounded">
-            {/* Encabezado con acciones */}
-            <div className="flex justify-between items-start mb-6">
-                <h1 className="text-3xl font-bold text-blue-600">{article.title}</h1>
-
+        <div className={styles['article-detail']}>
+            {/* Encabezado: título del artículo y botones de acciones */}
+            <div className={styles['article-detail__header']}>
+                <h1 className={styles['article-detail__title']}>{article.title}</h1>
                 {canEditOrDeleteArticle && (
-                    <div className="flex gap-3">
+                    <div className={styles['article-detail__actions']}>
                         <button
                             onClick={() => router.push(`/articles/create?id=${article._id}`)}
-                            className="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition"
+                            className={styles['article-detail__button--edit']}
                         >
                             {EDIT_ARTICLE_BUTTON}
                         </button>
                         <button
                             onClick={handleDeleteArticle}
-                            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition"
+                            className={styles['article-detail__button--delete']}
                         >
                             {DELETE_ARTICLE_BUTTON}
                         </button>
@@ -124,32 +131,32 @@ export default function ArticleDetailPage() {
                 )}
             </div>
 
-            {/* Layout del artículo */}
-            <div className="flex flex-col lg:flex-row gap-8 mb-12">
-                <div className="w-full lg:w-1/2">
+            {/* Cuerpo del artículo: imagen y contenido */}
+            <div className={styles['article-detail__body']}>
+                <div className={styles['article-detail__image-container']}>
                     {article.image && (
                         <img
                             src={article.image}
                             alt={article.title}
-                            className="w-full rounded object-cover max-h-[600px]"
+                            className={styles['article-detail__image']}
                         />
                     )}
                 </div>
-
-                <div className="w-full lg:w-1/2">
-                    <p className="text-sm text-gray-600 mb-1">Categoría: {article.category}</p>
-                    <p className="text-sm text-gray-600 mb-4">Autor: {article.author?.username}</p>
-                    <p className="text-gray-800 whitespace-pre-line break-words">{article.content}</p>
+                <div className={styles['article-detail__content']}>
+                    <p className={styles['article-detail__meta']}>
+                        Categoría: {article.category} | Autor: {article.author?.username}
+                    </p>
+                    <p className={styles['article-detail__text']}>{article.content}</p>
                 </div>
             </div>
 
-            {/* Comentarios */}
-            <hr className="my-6" />
-            <div className="flex justify-between items-center mb-4">
-                <h2 className="text-xl font-semibold">{PAGE_TITLE}</h2>
+            {/* Sección de comentarios */}
+            <hr className={styles['article-detail__divider']} />
+            <div className={styles['article-detail__comments-header']}>
+                <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE}</h2>
                 {token && (
                     <button
-                        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                        className={styles['article-detail__button--add-comment']}
                         onClick={() => {
                             setShowModal(true);
                             setEditingComment(null);
@@ -162,20 +169,19 @@ export default function ArticleDetailPage() {
             </div>
 
             {comments.length > 0 ? (
-                <ul className="space-y-2">
+                <ul className={styles['article-detail__comment-list']}>
                     {comments.map((c) => {
                         const canManageComment = userId === c.author?._id || userRole === 'admin';
                         return (
-                            <li key={c._id} className="border p-3 rounded relative">
-                                <p className="text-sm text-gray-500">
+                            <li key={c._id} className={styles['article-detail__comment-item']}>
+                                <p className={styles['article-detail__comment-author']}>
                                     {c.author?.username} {COMMENT_AUTHOR_LABEL}
                                 </p>
-                                <p className="text-gray-800 break-words whitespace-pre-wrap">{c.content}</p>
-
+                                <p className={styles['article-detail__comment-text']}>{c.content}</p>
                                 {canManageComment && (
-                                    <div className="flex gap-3 mt-2">
+                                    <div className={styles['article-detail__comment-actions']}>
                                         <button
-                                            className="text-sm text-blue-600 hover:underline"
+                                            className={styles['article-detail__button--edit-comment']}
                                             onClick={() => {
                                                 setEditingComment(c);
                                                 setNewComment(c.content);
@@ -185,7 +191,7 @@ export default function ArticleDetailPage() {
                                             {EDIT_COMMENT_TEXT}
                                         </button>
                                         <button
-                                            className="text-sm text-red-600 hover:underline"
+                                            className={styles['article-detail__button--delete-comment']}
                                             onClick={() => handleDeleteComment(c._id)}
                                         >
                                             {DELETE_COMMENT_TEXT}
@@ -197,38 +203,38 @@ export default function ArticleDetailPage() {
                     })}
                 </ul>
             ) : (
-                <p className="text-gray-600">{NO_COMMENTS_MESSAGE}</p>
+                <p className={styles['article-detail__no-comments']}>{NO_COMMENTS_MESSAGE}</p>
             )}
 
-            {/* Modal comentario */}
+            {/* Modal para agregar/editar comentario */}
             {showModal && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded w-full max-w-md shadow-lg">
-                        <h3 className="text-lg font-bold mb-4">
+                <div className={styles['article-detail__modal']}>
+                    <div className={styles['article-detail__modal-content']}>
+                        <h3 className={styles['article-detail__modal-title']}>
                             {editingComment ? COMMENT_MODAL_TITLE_EDIT : COMMENT_MODAL_TITLE_NEW}
                         </h3>
                         <textarea
-                            className="w-full border rounded p-2 mb-4"
-                            rows={4}
+                            className={styles['article-detail__modal-textarea']}
+                            rows="4"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             placeholder={COMMENT_MODAL_PLACEHOLDER}
                         />
-                        <div className="flex justify-end gap-2">
+                        <div className={styles['article-detail__modal-actions']}>
                             <button
                                 onClick={() => {
                                     setShowModal(false);
                                     setNewComment('');
                                     setEditingComment(null);
                                 }}
-                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400 transition"
+                                className={styles['article-detail__modal-button--cancel']}
                             >
                                 {COMMENT_MODAL_CANCEL}
                             </button>
                             <button
                                 onClick={handleSubmitComment}
                                 disabled={submitting}
-                                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+                                className={styles['article-detail__modal-button--submit']}
                             >
                                 {submitting ? COMMENT_MODAL_SUBMIT_LOADING : COMMENT_MODAL_SUBMIT}
                             </button>

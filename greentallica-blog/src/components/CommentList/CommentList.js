@@ -2,10 +2,10 @@ import React from 'react';
 import CommentCard from '../CommentCard/CommentCard';
 import styles from './CommentList.module.css';
 
-export default function CommentList({ comments = [] }) {
+export default function CommentList({ comments = [], title = '' }) {
     return (
         <section className={styles.commentList}>
-            <h2 className={styles.commentList__title}>Lo que dicen nuestros lectores</h2>
+            <h2 className={styles.commentList__title}>{title.toLocaleUpperCase()}</h2>
             <div className={styles.commentList__grid}>
                 {comments.map((comment) => (
                     <CommentCard

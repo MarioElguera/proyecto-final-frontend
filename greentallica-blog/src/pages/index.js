@@ -69,15 +69,14 @@ export default function Home() {
                 </div>
             </section>
 
-
-
             {/* Artículos Destacados */}
             {loadingArticles ? (
                 <Loading />
             ) : (
                 <ArticleList
+                    title="Articulos Destacados"
                     articles={articles}
-                    layout="featured"
+                    layout="vertical"
                     showLinkArticleCard={true}
                 />
             )}
@@ -86,7 +85,7 @@ export default function Home() {
             {loadingComments ? (
                 <Loading />
             ) : (
-                <CommentList comments={testimonials} />
+                <CommentList title="Lo que dicen nuestros lectores" comments={testimonials} />
             )}
         </div>
     );
