@@ -123,7 +123,7 @@ export default function CreateArticlePage() {
 
             setError('');
             setTimeout(() => {
-                router.push('/articles');
+                router.push('/articles/articles');
             }, 1000);
         } catch (err) {
             console.error(err);

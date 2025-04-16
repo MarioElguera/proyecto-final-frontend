@@ -11,8 +11,9 @@
    ============================ */
 .article-card--horizontal {
     display: flex;
+    flex-direction: row;
     width: 100%;
-    max-width: 800px;
+    max-width: 100%;
     /* Ancho máximo */
     height: 250px;
     /* Altura fija para uniformidad */
@@ -64,7 +65,7 @@
 
 /* Título principal en horizontal */
 .article-card--horizontal__title {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #99f243;

@@ -7,6 +7,7 @@ import ImageMenu from "@/components/ImageMenu";
 import ArticleList from "@/components/ArticleList/ArticleList";
 import { getAllComments } from "@/services/api-comments";
 import styles from "./articles.module.css";
+import { useRouter } from 'next/router';
 
 // TEXTOS como constantes en UPPER_SNAKE_CASE
 const PAGE_TITLE = "Categorías";
@@ -19,6 +20,7 @@ const SELECT_CATEGORY_TEXT =
 
 export default function ArticlesPage() {
     const { token } = useContext(AuthContext);
+    const router = useRouter();
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -71,51 +73,59 @@ export default function ArticlesPage() {
     }, []);
 
     return (
-        <div className={styles.articlesPage}>
-            {/* Header: Título y botón de creación */}
-            <div className={styles.articlesPage__header}>
-                <h2 className={styles.articlesPage__title}>{PAGE_TITLE}</h2>
-
-                {token ? (
-                    <Link href="/articles/create" className={styles.articlesPage__createBtn}>
-                        <span className={styles.articlesPage__createBtnIcon}>＋</span>
-                        <span className={styles.articlesPage__createBtnText}>{CREATE_ARTICLE_TEXT}</span>
-                    </Link>
-                ) : (
-                    <p className={styles.articlesPage__loginRequired}>{LOGIN_REQUIRED_TEXT}</p>
-                )}
-            </div>
-
-            {/* Menú de categorías */}
-            <ImageMenu
-                categories={categories}
-                onSelectCategory={handleCategorySelect}
-            />
-
-            <hr className={styles.articlesPage__hr} />
-
-            {/* Artículos */}
-            {loading ? (
-                <div className={styles.articlesPage__spinnerContainer}>
-                    <div className={styles.spinner}></div>
-                    <p className={styles.articlesPage__loadingText}>{LOADING_TEXT}</p>
-                </div>
-            ) : selectedCategory ? (
-                articles.length > 0 ? (
-                    <ArticleList
-                        articles={articles}
-                        layout="horizontal"
-                        showLinkArticleCard={true}
-                    />
-                ) : (
-                    <p className={styles.articlesPage__message}>{NO_ARTICLES_TEXT}</p>
-                )
+        <>
+            {token ? (
+                // <Link href="/articles/create" className={styles.articlesPage__createBtn}>
+                //     <span className={styles.articlesPage__createBtnIcon}>＋</span>
+                //     <span className={styles.articlesPage__createBtnText}>{CREATE_ARTICLE_TEXT}</span>
+                // </Link>
+                <button className={styles['create-event__button']} onClick={() => router.push('/articles/create')}>
+                    Agregar Artículo
+                </button>
             ) : (
-                <p className={styles.articlesPage__message}>{SELECT_CATEGORY_TEXT}</p>
+                <p className={styles.articlesPage__loginRequired}>{LOGIN_REQUIRED_TEXT}</p>
             )}
 
-            {/* Comentarios (Testimonios) */}
-            {/* Puedes añadir aquí el CommentList de manera similar */}
-        </div>
+            <div className={styles.articlesPage}>
+
+                {/* Header: Título y botón de creación */}
+                <div className={styles.articlesPage__header}>
+                    <h2 className={styles.articlesPage__title}>{PAGE_TITLE}</h2>
+
+
+                </div>
+
+                {/* Menú de categorías */}
+                <ImageMenu
+                    categories={categories}
+                    onSelectCategory={handleCategorySelect}
+                />
+
+                <hr className={styles.articlesPage__hr} />
+
+                {/* Artículos */}
+                {loading ? (
+                    <div className={styles.articlesPage__spinnerContainer}>
+                        <div className={styles.spinner}></div>
+                        <p className={styles.articlesPage__loadingText}>{LOADING_TEXT}</p>
+                    </div>
+                ) : selectedCategory ? (
+                    articles.length > 0 ? (
+                        <ArticleList
+                            articles={articles}
+                            layout="horizontal"
+                            showLinkArticleCard={true}
+                        />
+                    ) : (
+                        <p className={styles.articlesPage__message}>{NO_ARTICLES_TEXT}</p>
+                    )
+                ) : (
+                    <p className={styles.articlesPage__message}>{SELECT_CATEGORY_TEXT}</p>
+                )}
+
+                {/* Comentarios (Testimonios) */}
+                {/* Puedes añadir aquí el CommentList de manera similar */}
+            </div>
+        </>
     );
 }

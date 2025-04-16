@@ -30,14 +30,14 @@ export default function Navbar() {
                     <Link href="/" className={`${styles.navbar__link} ${isActive('/') ? styles['navbar__link--active'] : ''}`}>Inicio</Link>
                     <Link href="/articles/articles" className={`${styles.navbar__link} ${isActive('/articles/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
                     <Link href="/event/event" className={`${styles.navbar__link} ${isActive('/event/event') ? styles['navbar__link--active'] : ''}`}>Eventos</Link>
-                    <Link href="/about" className={`${styles.navbar__link} ${isActive('/about') ? styles['navbar__link--active'] : ''}`}>Acerca De</Link>
+                    <Link href="/about/about" className={`${styles.navbar__link} ${isActive('/about/about') ? styles['navbar__link--active'] : ''}`}>Acerca De</Link>
                     <Link href="/contact" className={`${styles.navbar__link} ${isActive('/contact') ? styles['navbar__link--active'] : ''}`}>Contacto</Link>
 
                     <div className={styles.navbar__auth}>
                         {!token ? (
                             <>
-                                <Link href="/login" className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}>Iniciar sesión</Link>
-                                <Link href="/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link>
+                                <Link href="/auth/login" className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}>Iniciar sesión</Link>
+                                <Link href="/auth/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link>
                             </>
                         ) : (
                             <div className={styles.navbar__user}>
