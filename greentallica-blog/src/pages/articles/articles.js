@@ -34,8 +34,8 @@ export default function ArticlesPage() {
             const data = await getAllArticles(slug);
             setArticles(data);
         } catch (error) {
-     const mensajeError = handleApiError(error);
-    console.error(mensajeError);
+            const mensajeError = handleApiError(error);
+            console.error(mensajeError);
             console.error("Error fetching articles:", error.message);
             setArticles([]);
         } finally {
@@ -49,8 +49,8 @@ export default function ArticlesPage() {
                 const data = await getAllArticles();
                 setArticles(data);
             } catch (error) {
-     const mensajeError = handleApiError(error);
-    console.error(mensajeError);
+                const mensajeError = handleApiError(error);
+                console.error(mensajeError);
                 console.error("Error fetching articles:", error.message);
             } finally {
                 setLoading(false);
@@ -99,7 +99,7 @@ export default function ArticlesPage() {
                 ) : selectedCategory ? (
                     articles.length > 0 ? (
                         <CardsContainer
-                            columnsDesktop={2}
+                            columnsDesktop={articles.length === 1 ? 1 : 2}
                             columnsTablet={1}
                             columnsMobile={1}
                         >

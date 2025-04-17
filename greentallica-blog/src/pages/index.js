@@ -80,9 +80,10 @@ export default function Home() {
                 <Loading />
             ) : (
                 <CardsContainer
-                    columnsDesktop={4}
+                    columnsDesktop={articles.length}
                     columnsTablet={2}
                     columnsMobile={1}
+                    padding={2}
                 >
                     {articles.map(article => (
                         <ArticleCard

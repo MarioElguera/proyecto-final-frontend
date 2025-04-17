@@ -96,7 +96,7 @@ export default function ArticleDetailPage() {
         if (!window.confirm(DELETE_ARTICLE_CONFIRM)) return;
         try {
             await deleteArticle(id, token);
-            router.push('/articles');
+            router.push('/articles/articles');
         } catch (err) {
             alert('Error al eliminar el artículo');
         }
