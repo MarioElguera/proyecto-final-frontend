@@ -1,5 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/comments';
-
+import { handleApiError } from '@/utils/handleErrors';
 /**
  * Obtener todos los comentarios (opcional)
  */
@@ -11,6 +11,8 @@ export async function getAllComments() {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('getAllComments error:', error.message);
         throw error;
     }
@@ -28,6 +30,8 @@ export async function getCommentsByArticle(articleId) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('getCommentsByArticle error:', error.message);
         throw error;
     }
@@ -55,6 +59,8 @@ export async function createComment(articleId, content, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('createComment error:', error.message);
         throw error;
     }
@@ -82,6 +88,8 @@ export async function updateComment(commentId, content, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('updateComment error:', error.message);
         throw error;
     }
@@ -106,6 +114,8 @@ export async function deleteComment(commentId, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('deleteComment error:', error.message);
         throw error;
     }

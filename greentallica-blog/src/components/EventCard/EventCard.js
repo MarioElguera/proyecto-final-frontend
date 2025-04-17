@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './EventCard.module.css';
 import { formatDate } from '@/utils/helpers';
+import { handleApiError } from '@/utils/handleErrors';
 
 
 export default function EventCard({ event }) {
@@ -15,6 +16,8 @@ export default function EventCard({ event }) {
                 console.warn("No se proporcionó un link para el evento.");
             }
         } catch (error) {
+            const mensajeError = handleApiError(error);
+            console.error(mensajeError);
             console.error("Error al abrir el link:", error);
         }
     };

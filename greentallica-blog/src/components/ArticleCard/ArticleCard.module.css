@@ -111,8 +111,7 @@
 @media (max-width: 768px) {
     .article-card--horizontal {
         flex-direction: column;
-        height: auto;
-        /* En móvil, se ajusta la altura */
+        max-height: 100%;
         max-width: 100%;
     }
 
@@ -139,10 +138,10 @@
     background-color: #f9f9f9;
     /* border: 1px solid #ddd;
     border-radius: 8px; */
-    overflow: hidden;
-    margin: 1rem auto;
+    /* overflow: hidden; */
+    /* margin: 1rem auto; */
     text-align: left;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -209,7 +208,7 @@
 /* Responsividad variante vertical */
 @media (max-width: 768px) {
     .article-card--vertical {
-        width: 90%;
+        width: 100%;
     }
 
     .article-card--vertical__image-container {

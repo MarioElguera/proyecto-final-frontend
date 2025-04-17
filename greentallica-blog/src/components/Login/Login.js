@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import styles from './Login.module.css';
 import { AuthContext } from '../../context/AuthContext';
 import { loginUser } from '../../services/auth';
+import { handleApiError } from '@/utils/handleErrors';
 
 export default function LoginForm() {
     const [username, setUsername] = useState('');
@@ -22,6 +23,8 @@ export default function LoginForm() {
             router.push('/');
 
         } catch (error) {
+     const mensajeError = handleApiError(error);
+    console.error(mensajeError);
             setErrorMessage('Credenciales incorrectas');
         }
     };

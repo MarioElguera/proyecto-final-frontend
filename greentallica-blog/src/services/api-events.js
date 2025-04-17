@@ -1,5 +1,5 @@
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/events';
-
+import { handleApiError } from '@/utils/handleErrors';
 /**
  * Obtener todos los eventos.
  */
@@ -11,6 +11,8 @@ export async function getAllEvents() {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('getAllEvents error:', error.message);
         throw error;
     }
@@ -28,6 +30,8 @@ export async function getEventById(eventId) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('getEventById error:', error.message);
         throw error;
     }
@@ -54,6 +58,8 @@ export async function createEvent(eventData, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('createEvent error:', error.message);
         throw error;
     }
@@ -80,6 +86,8 @@ export async function updateEvent(eventId, eventData, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('updateEvent error:', error.message);
         throw error;
     }
@@ -103,6 +111,8 @@ export async function deleteEvent(eventId, token) {
         }
         return await response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('deleteEvent error:', error.message);
         throw error;
     }

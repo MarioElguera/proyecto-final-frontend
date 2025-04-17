@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import SliderImages from "@/components/SliderImages";
 import CommentList from "@/components/CommentList/CommentList";
-import ArticleList from "@/components/ArticleList/ArticleList";
 import Loading from "@/components/Loading/Loading";
 import { getAllArticles } from "@/services/api";
 import { getAllComments } from "@/services/api-comments";
-
+import CardsContainer from '@/components/CardsContainer/CardsContainer';
+import ArticleCard from "@/components/ArticleCard/ArticleCard";
+import { useRouter } from 'next/router';
+import { handleApiError } from '@/utils/handleErrors';
 
 const images = [
     "/images/slider_concierto.webp",
@@ -19,14 +21,16 @@ export default function Home() {
     const [loadingArticles, setLoadingArticles] = useState(true);
     const [testimonials, setTestimonials] = useState([]);
     const [loadingComments, setLoadingComments] = useState(true);
+    const router = useRouter();
 
     useEffect(() => {
         async function fetchArticles() {
             try {
                 const data = await getAllArticles();
-                // Toma los primeros 4 artículos
                 setArticles(data.slice(0, 4));
             } catch (error) {
+                const mensajeError = handleApiError(error);
+                console.error(mensajeError);
                 console.error("Error fetching articles:", error.message);
             } finally {
                 setLoadingArticles(false);
@@ -42,6 +46,8 @@ export default function Home() {
                 console.log(data)
                 setTestimonials(data.slice(0, 4));
             } catch (error) {
+                const mensajeError = handleApiError(error);
+                console.error(mensajeError);
                 console.error("Error fetching comments:", error.message);
             } finally {
                 setLoadingComments(false);
@@ -73,12 +79,24 @@ export default function Home() {
             {loadingArticles ? (
                 <Loading />
             ) : (
-                <ArticleList
-                    title="Articulos Destacados"
-                    articles={articles}
-                    layout="vertical"
-                    showLinkArticleCard={true}
-                />
+                <CardsContainer
+                    columnsDesktop={4}
+                    columnsTablet={2}
+                    columnsMobile={1}
+                >
+                    {articles.map(article => (
+                        <ArticleCard
+                            imageSrc={article.image}
+                            altText={article.altText}
+                            title={article.title}
+                            description={article.content}
+                            link={article.link}
+                            variant={'vertical'}
+                            showLink={true}
+                            onLinkClick={() => router.push(`/articles/${article._id}`)}
+                        />
+                    ))}
+                </CardsContainer>
             )}
 
             {/* Comentarios (Testimonios) */}

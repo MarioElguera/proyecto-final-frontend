@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
 import styles from './Register.module.css';
 import { registerUser } from '@/services/auth';
+import { handleApiError } from '@/utils/handleErrors';
 
 export default function Register() {
     const [username, setUsername] = useState('');
@@ -33,6 +34,8 @@ export default function Register() {
                 router.push('/login');
             }, 1000);
         } catch (error) {
+            const mensajeError = handleApiError(error);
+            console.error(mensajeError);
             setSuccessMessage('');
             setErrorMessage(error.message || 'Error al registrar el usuario');
         }

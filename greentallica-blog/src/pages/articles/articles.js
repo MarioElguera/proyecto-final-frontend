@@ -4,10 +4,11 @@ import { AuthContext } from "@/context/AuthContext";
 import { getAllArticles } from "@/services/api";
 import categories from "@/utils/categories";
 import ImageMenu from "@/components/ImageMenu";
-import ArticleList from "@/components/ArticleList/ArticleList";
-import { getAllComments } from "@/services/api-comments";
 import styles from "./articles.module.css";
 import { useRouter } from 'next/router';
+import ArticleCard from "@/components/ArticleCard/ArticleCard";
+import CardsContainer from '@/components/CardsContainer/CardsContainer';
+import { handleApiError } from '@/utils/handleErrors';
 
 // TEXTOS como constantes en UPPER_SNAKE_CASE
 const PAGE_TITLE = "Categorías";
@@ -24,8 +25,6 @@ export default function ArticlesPage() {
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [testimonials, setTestimonials] = useState([]);
-    const [loadingComments, setLoadingComments] = useState(true);
 
     const handleCategorySelect = async (slug) => {
         setSelectedCategory(slug);
@@ -35,6 +34,8 @@ export default function ArticlesPage() {
             const data = await getAllArticles(slug);
             setArticles(data);
         } catch (error) {
+     const mensajeError = handleApiError(error);
+    console.error(mensajeError);
             console.error("Error fetching articles:", error.message);
             setArticles([]);
         } finally {
@@ -46,30 +47,16 @@ export default function ArticlesPage() {
         async function fetchArticles() {
             try {
                 const data = await getAllArticles();
-                // Toma los primeros 4 artículos
-                setArticles(data.slice(0, 4));
+                setArticles(data);
             } catch (error) {
+     const mensajeError = handleApiError(error);
+    console.error(mensajeError);
                 console.error("Error fetching articles:", error.message);
             } finally {
                 setLoading(false);
             }
         }
         fetchArticles();
-    }, []);
-
-    useEffect(() => {
-        async function fetchComments() {
-            try {
-                const data = await getAllComments();
-                // Toma los primeros 4 comentarios
-                setTestimonials(data.slice(0, 4));
-            } catch (error) {
-                console.error("Error fetching comments:", error.message);
-            } finally {
-                setLoadingComments(false);
-            }
-        }
-        fetchComments();
     }, []);
 
     return (
@@ -111,21 +98,31 @@ export default function ArticlesPage() {
                     </div>
                 ) : selectedCategory ? (
                     articles.length > 0 ? (
-                        <ArticleList
-                            articles={articles}
-                            layout="horizontal"
-                            showLinkArticleCard={true}
-                        />
+                        <CardsContainer
+                            columnsDesktop={2}
+                            columnsTablet={1}
+                            columnsMobile={1}
+                        >
+                            {articles.map(article => (
+                                <ArticleCard
+                                    imageSrc={article.image}
+                                    altText={article.altText}
+                                    title={article.title}
+                                    description={article.content}
+                                    link={article.link}
+                                    variant={'horizontal'}
+                                    showLink={true}
+                                    onLinkClick={() => router.push(`/articles/${article._id}`)}
+                                />
+                            ))}
+                        </CardsContainer>
                     ) : (
                         <p className={styles.articlesPage__message}>{NO_ARTICLES_TEXT}</p>
                     )
                 ) : (
                     <p className={styles.articlesPage__message}>{SELECT_CATEGORY_TEXT}</p>
                 )}
-
-                {/* Comentarios (Testimonios) */}
-                {/* Puedes añadir aquí el CommentList de manera similar */}
-            </div>
+            </div >
         </>
     );
 }

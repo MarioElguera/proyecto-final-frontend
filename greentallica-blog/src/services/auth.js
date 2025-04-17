@@ -1,7 +1,7 @@
 // services/auth.js
 
 const API_BASE_URL = 'http://localhost:5000/auth';
-
+import { handleApiError } from '@/utils/handleErrors';
 /**
  * Registra un nuevo usuario.
  * @param {Object} credentials - Objeto con `username` y `password`.
@@ -23,6 +23,8 @@ export async function registerUser(credentials) {
         return data;
 
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('Error registering user:', error.message);
         throw error;
     }
@@ -50,6 +52,8 @@ export async function loginUser(credentials) {
         return data;
 
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('Error logging in:', error.message);
         throw error;
     }

@@ -1,0 +1,23 @@
+.about-section {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+}
+
+.parallax-img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.about-section__content {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 500px;
+    z-index: 2;
+}

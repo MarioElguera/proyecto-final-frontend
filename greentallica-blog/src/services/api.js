@@ -1,5 +1,5 @@
 // services/api.js
-
+import { handleApiError } from '@/utils/handleErrors';
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/articles';
 
 /**
@@ -18,6 +18,8 @@ export async function getAllArticles(category) {
         }
         return response.json();
     } catch (error) {
+        const mensajeError = handleApiError(error);
+        console.error(mensajeError);
         console.error('API error:', error.message);
         throw error;
     }

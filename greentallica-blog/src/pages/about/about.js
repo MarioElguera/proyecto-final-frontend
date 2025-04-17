@@ -1,43 +1,25 @@
 import React from 'react';
-// import '../styles/AboutPage.css';
+import Image from 'next/image';
+import SimpleParallax from "simple-parallax-js";
+import styles from './about.module.css';
 
-export default function AboutPage() {
+export default function AboutSection() {
     return (
-        <div className="min-h-screen bg-gray-100">
-            <main className="about-page">
-                <h1 className="about-page__title">Acerca de M.E.</h1>
+        <div className={styles['about-section']}>
+            <SimpleParallax scale={1.2} delay={0.2} transition="cubic-bezier(0,0,0,1)">
+                <Image
+                    src="/images/barcelona.jpg"
+                    alt="Fondo parallax"
+                    width={1024}
+                    height={768}
+                    className={styles['parallax-img']}
+                />
+            </SimpleParallax>
 
-                {/* Primera tarjeta */}
-                <section className="about-page__section">
-                    <h2 className="about-page__section-title">Sobre mí</h2>
-                    <p className="about-page__section-text">
-                        Bienvenido a mi blog, un espacio dedicado a explorar mis pasiones y
-                        compartir conocimientos con el mundo. Mi nombre es Mario Eugenio, y
-                        este es un proyecto personal para conectar con personas que comparten
-                        mis intereses. Aquí encontrarás contenido sobre fútbol, música, viajes
-                        y mucho más.
-                    </p>
-                </section>
-
-                {/* Segunda tarjeta */}
-                <section className="about-page__section">
-                    <h2 className="about-page__section-title">¿Por qué este blog?</h2>
-                    <ul className="about-page__list">
-                        <li className="about-page__list-item">
-                            <strong>Pasión por el aprendizaje:</strong>
-                            &nbsp;Compartir información que inspire y enriquezca.
-                        </li>
-                        <li className="about-page__list-item">
-                            <strong>Conexión:</strong>
-                            &nbsp;Crear una comunidad donde todos puedan aportar sus experiencias.
-                        </li>
-                        <li className="about-page__list-item">
-                            <strong>Crecimiento personal:</strong>
-                            &nbsp;Explorar nuevas ideas y perspectivas.
-                        </li>
-                    </ul>
-                </section>
-            </main>
+            <div className={styles['about-section__content']}>
+                <h2 className={styles['about-section__title']}>Sobre mí</h2>
+                <p>Hola, soy Mario Eugenio... 👋</p>
+            </div>
         </div>
     );
 }
