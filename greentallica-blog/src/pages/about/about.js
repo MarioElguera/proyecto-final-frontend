@@ -1,25 +1,71 @@
-import React from 'react';
-import Image from 'next/image';
-import SimpleParallax from "simple-parallax-js";
+import { useEffect, useState, useRef } from 'react';
 import styles from './about.module.css';
 
-export default function AboutSection() {
-    return (
-        <div className={styles['about-section']}>
-            <SimpleParallax scale={1.2} delay={0.2} transition="cubic-bezier(0,0,0,1)">
-                <Image
-                    src="/images/barcelona.jpg"
-                    alt="Fondo parallax"
-                    width={1024}
-                    height={768}
-                    className={styles['parallax-img']}
-                />
-            </SimpleParallax>
+export default function AboutParallaxStory() {
+    const [currentSection, setCurrentSection] = useState(0);
+    const containerRef = useRef(null);
+    const videoRefs = useRef([]);
 
-            <div className={styles['about-section__content']}>
-                <h2 className={styles['about-section__title']}>Sobre mí</h2>
-                <p>Hola, soy Mario Eugenio... 👋</p>
-            </div>
+    const sections = [
+        { video: '/videos/parallax/messi_run.mp4', title: 'Fútbol', description: 'Me encanta el fútbol' },
+        { video: '/videos/parallax/metallica_concert.mp4', title: 'Música', description: 'La música me inspira' },
+        { video: '/videos/parallax/spiderman_suit.mp4', title: 'Cine', description: 'Fanático del cine' },
+        { video: '/videos/parallax/newyork_time_square.mp4', title: 'Viajes', description: 'Viajar es vivir' },
+        { video: '/videos/parallax/programacion.mp4', title: 'Programación', description: 'Amo programar' },
+    ];
+
+    // Manejar scroll y cambiar la sección activa
+    useEffect(() => {
+        function handleScroll() {
+            const container = containerRef.current;
+            const scrollTop = window.pageYOffset;
+            const containerTop = container.offsetTop;
+            const containerHeight = container.offsetHeight;
+
+            const relativeScroll = scrollTop - containerTop;
+            const sectionHeight = containerHeight / sections.length;
+
+            const newSection = Math.floor(relativeScroll / sectionHeight);
+            if (newSection >= 0 && newSection < sections.length) {
+                setCurrentSection(newSection);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [sections.length]);
+
+    // Cambiar mute de videos cuando cambia la sección activa
+    useEffect(() => {
+        videoRefs.current.forEach((video, index) => {
+            if (video) {
+                video.muted = index !== currentSection;
+            }
+        });
+    }, [currentSection]);
+
+    return (
+        <div ref={containerRef} className={styles['about-parallax']}>
+            {sections.map((section, index) => (
+                <div
+                    key={index}
+                    className={`${styles['about-parallax__section']} ${currentSection === index ? styles['about-parallax__section--active'] : ''}`}
+                >
+                    <video
+                        ref={(el) => (videoRefs.current[index] = el)}
+                        src={section.video}
+                        className={styles['about-parallax__video']}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                    />
+                    <div className={styles['about-parallax__overlay']}>
+                        <h2 className={styles['about-parallax__title']}>{section.title}</h2>
+                        <p className={styles['about-parallax__description']}>{section.description}</p>
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }

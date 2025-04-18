@@ -11,10 +11,10 @@ import { handleApiError } from '@/utils/handleErrors';
 // import Carrousel from "@/components/Carrousel/Carrousel";
 
 const images = [
-    "/images/slider_concierto.webp",
-    "/images/slider_futbol.webp",
-    "/images/slider_peliculas_sp.webp",
-    "/images/slider_vinilos.webp",
+    "/images/slider/slider_concierto.webp",
+    "/images/slider/slider_futbol.webp",
+    "/images/slider/slider_peliculas_sp.webp",
+    "/images/slider/slider_vinilos.webp",
 ];
 
 export default function Home() {
