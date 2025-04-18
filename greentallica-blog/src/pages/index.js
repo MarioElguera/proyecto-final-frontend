@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import SliderImages from "@/components/SliderImages";
-import CommentList from "@/components/CommentList/CommentList";
+import SliderImages from "@/components/SliderImages/SliderImages";
+import CommentCard from "@/components/CommentCard/CommentCard";
 import Loading from "@/components/Loading/Loading";
-import { getAllArticles } from "@/services/api";
+import { getAllArticles } from "@/services/api-articles";
 import { getAllComments } from "@/services/api-comments";
 import CardsContainer from '@/components/CardsContainer/CardsContainer';
 import ArticleCard from "@/components/ArticleCard/ArticleCard";
@@ -23,42 +23,47 @@ export default function Home() {
     const [loadingComments, setLoadingComments] = useState(true);
     const router = useRouter();
 
-    useEffect(() => {
-        async function fetchArticles() {
-            try {
-                const data = await getAllArticles();
-                setArticles(data.slice(0, 4));
-            } catch (error) {
-                const mensajeError = handleApiError(error);
-                console.error(mensajeError);
-                console.error("Error fetching articles:", error.message);
-            } finally {
-                setLoadingArticles(false);
-            }
+    async function fetchArticles() {
+        try {
+            const data = await getAllArticles();
+            setArticles(data.slice(0, 4));
+        } catch (error) {
+            const mensajeError = handleApiError(error);
+            console.error(mensajeError);
+            console.error("Error fetching articles:", error.message);
+        } finally {
+            setLoadingArticles(false);
         }
-        fetchArticles();
-    }, []);
+    }
+
+    async function fetchComments() {
+        try {
+            const data = await getAllComments();
+            console.log(data)
+            setTestimonials(data.slice(0, 4));
+        } catch (error) {
+            const mensajeError = handleApiError(error);
+            console.error(mensajeError);
+            console.error("Error fetching comments:", error.message);
+        } finally {
+            setLoadingComments(false);
+        }
+    }
 
     useEffect(() => {
-        async function fetchComments() {
+        async function fetchData() {
             try {
-                const data = await getAllComments();
-                console.log(data)
-                setTestimonials(data.slice(0, 4));
+                await fetchArticles();
+                await fetchComments();
             } catch (error) {
-                const mensajeError = handleApiError(error);
-                console.error(mensajeError);
-                console.error("Error fetching comments:", error.message);
-            } finally {
-                setLoadingComments(false);
+                console.error("Error cargando datos en HomePage:", error.message);
             }
         }
-        fetchComments();
+        fetchData();
     }, []);
 
     return (
         <div className="min-h-screen bg-gray-100">
-            {/* <SliderImages images={images} /> */}
             <section className="hero">
                 <div className="hero__content">
                     <h1 className="hero__title">
@@ -68,7 +73,7 @@ export default function Home() {
                     <p className="hero__description">
                         Bienvenido a un blog hecho para compartir pasiones: fútbol, música, cine y viajes. Aquí encontrarás artículos auténticos, comentarios reales y una experiencia hecha con dedicación.
                     </p>
-                    <button className="hero__button">Conocer más</button>
+                    {/* <button className="hero__button">Conocer más</button> */}
                 </div>
                 <div className="hero__image">
                     <SliderImages images={images} />
@@ -76,36 +81,59 @@ export default function Home() {
             </section>
 
             {/* Artículos Destacados */}
-            {loadingArticles ? (
-                <Loading />
-            ) : (
-                <CardsContainer
-                    columnsDesktop={articles.length}
-                    columnsTablet={2}
-                    columnsMobile={1}
-                    padding={2}
-                >
-                    {articles.map(article => (
-                        <ArticleCard
-                            imageSrc={article.image}
-                            altText={article.altText}
-                            title={article.title}
-                            description={article.content}
-                            link={article.link}
-                            variant={'vertical'}
-                            showLink={true}
-                            onLinkClick={() => router.push(`/articles/${article._id}`)}
-                        />
-                    ))}
-                </CardsContainer>
-            )}
+            {loadingArticles
+                ? (<Loading />)
+                : (
+                    <CardsContainer
+                        columnsDesktop={articles.length}
+                        columnsTablet={2}
+                        columnsMobile={1}
+                        padding={2}
+                        backgroundColor="grey"
+                    >
+                        {articles.length !== 0
+                            ? (
+                                articles.map(article => (
+                                    <ArticleCard
+                                        imageSrc={article.image}
+                                        altText={article.altText}
+                                        title={article.title}
+                                        description={article.content}
+                                        link={article.link}
+                                        variant={'vertical'}
+                                        showLink={true}
+                                        onLinkClick={() => router.push(`/articles/${article._id}`)}
+                                    />
+                                ))
+                            )
+                            : (<p className={styles['comment-list__no-comments']}>No hay artículos.</p>)}
+                    </CardsContainer>
+                )}
 
             {/* Comentarios (Testimonios) */}
-            {loadingComments ? (
-                <Loading />
-            ) : (
-                <CommentList title="Lo que dicen nuestros lectores" comments={testimonials} />
-            )}
+            {loadingComments
+                ? (<Loading />)
+                : (
+                    <CardsContainer
+                        columnsDesktop={articles.length}
+                        columnsTablet={2}
+                        columnsMobile={1}
+                        padding={2}
+                        backgroundColor="black"
+                    >
+                        {testimonials.length !== 0
+                            ? (
+                                testimonials.map((comment) => (
+                                    <CommentCard
+                                        key={comment._id}
+                                        comment={comment.content}
+                                        author={comment.author.username}
+                                    />
+                                ))
+                            )
+                            : (<p className={styles['comment-list__no-comments']}>No hay comentarios.</p>)}
+                    </CardsContainer>
+                )}
         </div>
     );
 }

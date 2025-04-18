@@ -1,60 +1,64 @@
 // services/auth.js
 
-const API_BASE_URL = 'http://localhost:5000/auth';
 import { handleApiError } from '@/utils/handleErrors';
+
+// URL base de autenticación
+const API_BASE_URL = 'http://localhost:5000/auth';
+
 /**
  * Registra un nuevo usuario.
  * @param {Object} credentials - Objeto con `username` y `password`.
- * @returns {Promise<Object>} - Mensaje de éxito si el registro es exitoso.
+ * @returns {Promise<Object>} - Respuesta del servidor.
  */
 export async function registerUser(credentials) {
     try {
+        // Realiza la petición al endpoint de registro
         const response = await fetch(`${API_BASE_URL}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials)
+            body: JSON.stringify(credentials),
         });
 
         const data = await response.json();
 
+        // Si la respuesta no es exitosa, lanza error
         if (!response.ok) {
-            throw new Error(data.message || 'Registration failed');
+            throw new Error(data.message || 'Error al registrar usuario');
         }
-        return data;
 
+        return data;
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('Error registering user:', error.message);
+        // Manejo del error con función utilitaria
+        console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Inicia sesión con un usuario existente.
+ * Inicia sesión de usuario.
  * @param {Object} credentials - Objeto con `username` y `password`.
- * @returns {Promise<string>} - Token JWT si el login es exitoso.
+ * @returns {Promise<Object>} - Token y datos del usuario si es válido.
  */
 export async function loginUser(credentials) {
     try {
+        // Realiza la petición al endpoint de login
         const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(credentials)
+            body: JSON.stringify(credentials),
         });
 
         const data = await response.json();
 
+        // Si la respuesta no es exitosa, lanza error
         if (!response.ok) {
-            throw new Error(data.message || 'Login failed');
+            throw new Error(data.message || 'Error al iniciar sesión');
         }
 
         return data;
-
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('Error logging in:', error.message);
+        // Manejo del error con función utilitaria
+        console.error(handleApiError(error));
         throw error;
     }
 }

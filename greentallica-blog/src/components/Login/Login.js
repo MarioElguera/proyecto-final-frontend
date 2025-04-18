@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import styles from './Login.module.css';
 import { AuthContext } from '../../context/AuthContext';
-import { loginUser } from '../../services/auth';
+import { loginUser } from '../../services/api-auth';
 import { handleApiError } from '@/utils/handleErrors';
 
 export default function LoginForm() {

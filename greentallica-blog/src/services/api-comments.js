@@ -1,47 +1,50 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/comments';
 import { handleApiError } from '@/utils/handleErrors';
+
+// URL base de comentarios
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/comments';
+
 /**
- * Obtener todos los comentarios (opcional)
+ * Obtiene todos los comentarios.
  */
 export async function getAllComments() {
     try {
         const response = await fetch(`${API_BASE_URL}/`);
+
         if (!response.ok) {
             throw new Error('Error al obtener los comentarios');
         }
+
         return await response.json();
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('getAllComments error:', error.message);
+        console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Obtener comentarios de un artículo específico
- * @param {string} articleId
+ * Obtiene los comentarios de un artículo específico.
+ * @param {string} articleId - ID del artículo.
  */
 export async function getCommentsByArticle(articleId) {
     try {
         const response = await fetch(`${API_BASE_URL}/${articleId}`);
+
         if (!response.ok) {
             throw new Error('Error al obtener los comentarios del artículo');
         }
+
         return await response.json();
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('getCommentsByArticle error:', error.message);
+        console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Crear un nuevo comentario
- * @param {string} articleId
- * @param {string} content
- * @param {string} token - JWT del usuario autenticado
+ * Crea un nuevo comentario en un artículo.
+ * @param {string} articleId - ID del artículo.
+ * @param {string} content - Contenido del comentario.
+ * @param {string} token - Token de autenticación.
  */
 export async function createComment(articleId, content, token) {
     try {
@@ -57,20 +60,19 @@ export async function createComment(articleId, content, token) {
         if (!response.ok) {
             throw new Error('Error al crear el comentario');
         }
+
         return await response.json();
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('createComment error:', error.message);
+        console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Actualizar un comentario
- * @param {string} commentId
- * @param {string} content
- * @param {string} token
+ * Actualiza un comentario existente.
+ * @param {string} commentId - ID del comentario.
+ * @param {string} content - Nuevo contenido del comentario.
+ * @param {string} token - Token de autenticación.
  */
 export async function updateComment(commentId, content, token) {
     try {
@@ -78,7 +80,7 @@ export async function updateComment(commentId, content, token) {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `${token}`,
+                'Authorization': `${token}`,
             },
             body: JSON.stringify({ content }),
         });
@@ -86,37 +88,35 @@ export async function updateComment(commentId, content, token) {
         if (!response.ok) {
             throw new Error('Error al actualizar el comentario');
         }
+
         return await response.json();
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('updateComment error:', error.message);
+        console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Eliminar un comentario
- * @param {string} commentId
- * @param {string} token
+ * Elimina un comentario.
+ * @param {string} commentId - ID del comentario.
+ * @param {string} token - Token de autenticación.
  */
 export async function deleteComment(commentId, token) {
     try {
         const response = await fetch(`${API_BASE_URL}/${commentId}`, {
             method: 'DELETE',
             headers: {
-                Authorization: `${token}`,
+                'Authorization': `${token}`,
             },
         });
 
         if (!response.ok) {
             throw new Error('Error al eliminar el comentario');
         }
+
         return await response.json();
     } catch (error) {
-        const mensajeError = handleApiError(error);
-        console.error(mensajeError);
-        console.error('deleteComment error:', error.message);
+        console.error(handleApiError(error));
         throw error;
     }
 }

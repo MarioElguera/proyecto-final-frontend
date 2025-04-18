@@ -4,7 +4,7 @@ import {
     createArticle,
     getArticleById,
     updateArticle,
-} from '@/services/api';
+} from '@/services/api-articles';
 import { AuthContext } from '@/context/AuthContext';
 
 export default function CreateArticlePage() {

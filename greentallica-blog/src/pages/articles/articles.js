@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from "react";
 import Link from "next/link";
 import { AuthContext } from "@/context/AuthContext";
-import { getAllArticles } from "@/services/api";
+import { getAllArticles } from "@/services/api-articles";
 import categories from "@/utils/categories";
 import ImageMenu from "@/components/ImageMenu";
 import styles from "./articles.module.css";

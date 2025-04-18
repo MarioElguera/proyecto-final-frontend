@@ -1,5 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
+import styles from './SliderImages.module.css';
 
+/**
+ * SliderImages Component
+ * Muestra un slider automático de imágenes con navegación táctil y botones.
+ *
+ * Props:
+ * - images: array de URLs de imágenes a mostrar.
+ */
 export default function SliderImages({ images }) {
     const [current, setCurrent] = useState(1);
     const [transition, setTransition] = useState(true);
@@ -9,6 +17,7 @@ export default function SliderImages({ images }) {
 
     const slides = [images[images.length - 1], ...images, images[0]];
 
+    // Detiene el autoplay manualmente
     const stopAutoplay = () => {
         if (autoplayRef.current) {
             clearInterval(autoplayRef.current);
@@ -16,21 +25,25 @@ export default function SliderImages({ images }) {
         }
     };
 
+    // Ir a slide específico
     const goToSlide = (index) => {
         setCurrent(index);
         setTransition(true);
     };
 
+    // Slide siguiente
     const nextSlide = () => {
         stopAutoplay();
         goToSlide(current + 1);
     };
 
+    // Slide anterior
     const prevSlide = () => {
         stopAutoplay();
         goToSlide(current - 1);
     };
 
+    // Autoplay al montar
     useEffect(() => {
         autoplayRef.current = setInterval(() => {
             setCurrent((prev) => prev + 1);
@@ -39,6 +52,7 @@ export default function SliderImages({ images }) {
         return () => clearInterval(autoplayRef.current);
     }, []);
 
+    // Ciclo infinito para el primer y último slide
     useEffect(() => {
         if (current === slides.length - 1) {
             setTimeout(() => {
@@ -54,6 +68,7 @@ export default function SliderImages({ images }) {
         }
     }, [current, slides.length]);
 
+    // Eventos touch para móviles
     const handleTouchStart = (e) => {
         touchStartX.current = e.touches[0].clientX;
     };
@@ -75,13 +90,13 @@ export default function SliderImages({ images }) {
 
     return (
         <div
-            className="slider"
+            className={styles['slider']}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
             <div
-                className="slider__track"
+                className={styles['slider__track']}
                 style={{
                     transform: `translateX(-${current * 100}%)`,
                     transition: transition ? 'transform 0.5s ease-in-out' : 'none',
@@ -92,18 +107,16 @@ export default function SliderImages({ images }) {
                         key={index}
                         src={img}
                         alt={`slide-${index}`}
-                        className="slider__image"
+                        className={styles['slider__image']}
                         loading="lazy"
                     />
                 ))}
             </div>
 
+            <button onClick={prevSlide} className={`${styles['slider__btn']} ${styles['slider__btn--prev']}`}>‹</button>
+            <button onClick={nextSlide} className={`${styles['slider__btn']} ${styles['slider__btn--next']}`}>›</button>
 
-
-            <button onClick={prevSlide} className="slider__btn slider__btn--prev">‹</button>
-            <button onClick={nextSlide} className="slider__btn slider__btn--next">›</button>
-
-            <div className="slider__dots">
+            <div className={styles['slider__dots']}>
                 {images.map((_, index) => (
                     <button
                         key={index}
@@ -111,7 +124,7 @@ export default function SliderImages({ images }) {
                             stopAutoplay();
                             goToSlide(index + 1);
                         }}
-                        className={`slider__dot ${current === index + 1 ? 'slider__dot--active' : ''}`}
+                        className={`${styles['slider__dot']} ${current === index + 1 ? styles['slider__dot--active'] : ''}`}
                     />
                 ))}
             </div>

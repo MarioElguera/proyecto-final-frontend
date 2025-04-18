@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
 import styles from './Register.module.css';
-import { registerUser } from '@/services/auth';
+import { registerUser } from '@/services/api-auth';
 import { handleApiError } from '@/utils/handleErrors';
 
 export default function Register() {
@@ -31,7 +31,7 @@ export default function Register() {
             setErrorMessage('');
 
             setTimeout(() => {
-                router.push('/login');
+                router.push('/auth/login');
             }, 1000);
         } catch (error) {
             const mensajeError = handleApiError(error);

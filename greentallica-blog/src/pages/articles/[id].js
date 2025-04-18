@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
-import { getFullArticleById, deleteArticle } from '@/services/api';
+import { getFullArticleById, deleteArticle } from '@/services/api-articles';
 import { createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
 import styles from './articles.module.css';

@@ -37,7 +37,7 @@ export default function Navbar() {
                         {!token ? (
                             <>
                                 <Link href="/auth/login" className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}>Iniciar sesión</Link>
-                                {/* <Link href="/auth/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link> */}
+                                <Link href="/auth/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link>
                             </>
                         ) : (
                             <div className={styles.navbar__user}>
