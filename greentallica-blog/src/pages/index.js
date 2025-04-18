@@ -8,6 +8,7 @@ import CardsContainer from '@/components/CardsContainer/CardsContainer';
 import ArticleCard from "@/components/ArticleCard/ArticleCard";
 import { useRouter } from 'next/router';
 import { handleApiError } from '@/utils/handleErrors';
+// import Carrousel from "@/components/Carrousel/Carrousel";
 
 const images = [
     "/images/slider_concierto.webp",
@@ -63,7 +64,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div >
             <section className="hero">
                 <div className="hero__content">
                     <h1 className="hero__title">
@@ -133,6 +134,25 @@ export default function Home() {
                             )
                             : (<p className={styles['comment-list__no-comments']}>No hay comentarios.</p>)}
                     </CardsContainer>
+
+                    // <Carrousel
+                    //     visibleItemsDesktop={2}
+                    //     visibleItemsTablet={2}
+                    //     visibleItemsMobile={1}
+                    //     autoplayInterval={3000}
+                    // >
+                    //     {testimonials.length !== 0
+                    //         ? (
+                    //             testimonials.map((comment) => (
+                    //                 <CommentCard
+                    //                     key={comment._id}
+                    //                     comment={comment.content}
+                    //                     author={comment.author.username}
+                    //                 />
+                    //             ))
+                    //         )
+                    //         : (<p className={styles['comment-list__no-comments']}>No hay comentarios.</p>)}
+                    // </Carrousel>
                 )}
         </div>
     );

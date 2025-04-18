@@ -19,7 +19,7 @@ export default function CardsContainer({
     columnsTablet = 2,
     columnsMobile = 1,
     padding = 0,
-    backgroundColor = 'red',
+    backgroundColor = 'transparent',
 }) {
     const childrenArray = React.Children.toArray(children);
     const totalCards = childrenArray.length;

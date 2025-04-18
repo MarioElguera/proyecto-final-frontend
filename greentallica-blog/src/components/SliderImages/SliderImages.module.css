@@ -6,6 +6,8 @@
     height: 100%;
     margin: 0 auto;
     overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 6px 10px 10px rgb(205, 201, 201);
 }
 
 @media (min-width: 768px) {
