@@ -18,25 +18,41 @@
     opacity: 1;
 }
 
+/* Estilo de video general */
 .about-parallax__video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     filter: brightness(0.7);
-    z-index: 1;
+    transform: scale(1);
+    transition: transform 1s ease-in-out;
 }
 
+/* Zoom suave para el video activo */
+.about-parallax__video--active {
+    transform: scale(1.05);
+}
+
+/* Estilo del overlay de texto */
 .about-parallax__overlay {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) scale(0.95);
     color: white;
     text-align: center;
     z-index: 2;
     background: rgba(0, 0, 0, 0.4);
     padding: 2rem;
     border-radius: 1rem;
+    opacity: 0;
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+}
+
+/* El overlay activo también escala */
+.about-parallax__overlay--active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
 
 .about-parallax__title {
@@ -48,6 +64,7 @@
     font-size: 1.2rem;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
     .about-parallax__title {
         font-size: 2rem;

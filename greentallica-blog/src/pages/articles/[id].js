@@ -3,8 +3,9 @@ import { useEffect, useState, useContext } from 'react';
 import { getFullArticleById, deleteArticle } from '@/services/api-articles';
 import { createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
-import styles from './articles.module.css';
-
+import styles from './articleDetail.module.css';
+import Loading from "@/components/Loading/Loading";
+import CommentCard from "@/components/CommentCard/CommentCard";
 /* 
   CONSTANTES ESTÁTICAS (UPPER_SNAKE_CASE)
 */
@@ -102,7 +103,7 @@ export default function ArticleDetailPage() {
         }
     };
 
-    if (loading) return <p className={styles['article-detail__loading']}>Cargando artículo...</p>;
+    if (loading) return <Loading />;
     if (error) return <p className={styles['article-detail__error']}>{error}</p>;
 
     const { article, comments } = articleData;
@@ -116,7 +117,7 @@ export default function ArticleDetailPage() {
                 {canEditOrDeleteArticle && (
                     <div className={styles['article-detail__actions']}>
                         <button
-                            onClick={() => router.push(`/articles/create?id=${article._id}`)}
+                            onClick={() => router.push(`/articles/createArticle?id=${article._id}`)}
                             className={styles['article-detail__button--edit']}
                         >
                             {EDIT_ARTICLE_BUTTON}
@@ -174,10 +175,14 @@ export default function ArticleDetailPage() {
                         const canManageComment = userId === c.author?._id || userRole === 'admin';
                         return (
                             <li key={c._id} className={styles['article-detail__comment-item']}>
-                                <p className={styles['article-detail__comment-author']}>
+                                {/* <p className={styles['article-detail__comment-author']}>
                                     {c.author?.username} {COMMENT_AUTHOR_LABEL}
-                                </p>
-                                <p className={styles['article-detail__comment-text']}>{c.content}</p>
+                                </p> */}
+                                <CommentCard
+                                    key={c._id}
+                                    comment={c.content}
+                                    author={c.author.username}
+                                />
                                 {canManageComment && (
                                     <div className={styles['article-detail__comment-actions']}>
                                         <button

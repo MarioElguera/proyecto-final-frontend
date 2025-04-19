@@ -1,0 +1,12 @@
+.home__error {
+    color: red;
+    text-align: center;
+    margin: 2rem 0;
+    font-weight: bold;
+}
+
+.home__no-data {
+    text-align: center;
+    color: #99f243;
+    margin: 1rem 0;
+}

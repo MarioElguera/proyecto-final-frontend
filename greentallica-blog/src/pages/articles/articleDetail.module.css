@@ -1,0 +1,272 @@
+/* =============== Contenedor principal =============== */
+.article-detail {
+    max-width: 100vw;
+    padding: 1.5rem;
+    background-color: #0f172a;
+    color: white;
+    font-family: sans-serif;
+    min-height: 100vh;
+}
+
+/* Header principal */
+.article-detail__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+}
+
+.article-detail__title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #99f243;
+    margin: 0;
+}
+
+.article-detail__actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* =============== Botones generales =============== */
+.article-detail__button--edit,
+.article-detail__button--delete,
+.article-detail__button--add-comment,
+.article-detail__button--edit-comment,
+.article-detail__button--delete-comment,
+.article-detail__modal-button--cancel,
+.article-detail__modal-button--submit {
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Botones principales (Editar / Eliminar artículo) */
+.article-detail__button--edit,
+.article-detail__button--delete {
+    background-color: #99f243;
+    color: #0f172a;
+    border: none;
+}
+
+.article-detail__button--edit:hover,
+.article-detail__button--delete:hover {
+    background-color: #87e035;
+}
+
+/* Botón Agregar Comentario */
+.article-detail__button--add-comment {
+    background-color: #99f243;
+    color: #0f172a;
+    border: none;
+}
+
+.article-detail__button--add-comment:hover {
+    background-color: #7ccf2b;
+}
+
+/* Botones Editar/Eliminar comentario individuales */
+.article-detail__button--edit-comment,
+.article-detail__button--delete-comment {
+    background-color: transparent;
+    border: 2px solid #99f243;
+    color: #99f243;
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+}
+
+.article-detail__button--edit-comment:hover,
+.article-detail__button--delete-comment:hover {
+    background-color: #99f243;
+    color: #0f172a;
+}
+
+/* Botones Modal */
+.article-detail__modal-button--cancel,
+.article-detail__modal-button--submit {
+    background-color: #99f243;
+    color: #0f172a;
+    border: none;
+}
+
+.article-detail__modal-button--cancel:hover,
+.article-detail__modal-button--submit:hover {
+    background-color: #7ccf2b;
+}
+
+/* =============== Cuerpo Artículo =============== */
+.article-detail__body {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* Imagen */
+.article-detail__image-container {
+    flex: 1;
+    max-width: 600px;
+    max-height: 600px;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.article-detail__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+/* Contenido */
+.article-detail__content {
+    flex: 1;
+}
+
+.article-detail__meta {
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.article-detail__text {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: white;
+}
+
+/* =============== Sección de comentarios =============== */
+.article-detail__divider {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid #ddd;
+}
+
+.article-detail__comments-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.article-detail__comments-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #99f243;
+    margin: 0;
+}
+
+/* Lista de comentarios */
+.article-detail__comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* Tarjeta de comentario */
+.article-detail__comment-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    background-color: black;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto hover sobre comentario */
+.article-detail__comment-item:hover {
+    background-color: rgb(98, 91, 91);
+}
+
+.article-detail__comment-author {
+    font-size: 0.85rem;
+    color: #555;
+    margin: 0 0 0.5rem;
+}
+
+.article-detail__comment-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+}
+
+/* Acciones de comentario */
+.article-detail__comment-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+/* =============== Modal =============== */
+.article-detail__modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+}
+
+.article-detail__modal-content {
+    background-color: #0f172a;
+    padding: 1.5rem;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.article-detail__modal-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #99f243;
+    margin-bottom: 1rem;
+}
+
+.article-detail__modal-textarea {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Acciones del modal */
+.article-detail__modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* =============== Responsive =============== */
+@media (max-width: 768px) {
+    .article-detail__header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .article-detail__actions {
+        margin-top: 1rem;
+    }
+
+    .article-detail__comments-header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .article-detail__body {
+        flex-direction: column;
+    }
+}

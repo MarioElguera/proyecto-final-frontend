@@ -1,11 +1,31 @@
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import {
-    createArticle,
-    getArticleById,
-    updateArticle,
-} from '@/services/api-articles';
+import { createArticle, getArticleById, updateArticle } from '@/services/api-articles';
 import { AuthContext } from '@/context/AuthContext';
+import Loading from '@/components/Loading/Loading';
+import styles from './createArticle.module.css';
+
+// Importar constantes de textos
+import {
+    PAGE_TITLE_CREATE,
+    PAGE_TITLE_EDIT,
+    SUBMIT_CREATE_TEXT,
+    SUBMIT_UPDATE_TEXT,
+    FIELD_REQUIRED_ERROR,
+    NOT_AUTHENTICATED_ERROR,
+    TOKEN_INVALID_ERROR,
+    LOAD_ARTICLE_ERROR,
+    SAVE_ARTICLE_ERROR,
+    IMAGE_MAX_SIZE_ERROR
+} from '@/constants/articles';
+
+// Opciones del select de categorías
+const CATEGORIES_OPTIONS = [
+    { value: "futbol", label: "Fútbol" },
+    { value: "viajes", label: "Viajes" },
+    { value: "musica", label: "Música" },
+    { value: "peliculas", label: "Películas" },
+];
 
 export default function CreateArticlePage() {
     const { token } = useContext(AuthContext);
@@ -13,7 +33,6 @@ export default function CreateArticlePage() {
     const { id } = router.query;
 
     const isEditing = !!id;
-
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [category, setCategory] = useState('');
@@ -24,40 +43,34 @@ export default function CreateArticlePage() {
     const [userRole, setUserRole] = useState(null);
     const [loading, setLoading] = useState(true);
 
-    // Obtener ID y rol del token
+    // 🔵 Decodifica el token para obtener ID y rol
     useEffect(() => {
         if (token) {
             try {
                 const payload = JSON.parse(atob(token.split('.')[1]));
                 setUserId(payload.id);
                 setUserRole(payload.role);
-            } catch (err) {
-                console.error('Token inválido:', err);
-                setError('Token inválido. Por favor, vuelve a iniciar sesión.');
+            } catch {
+                setError(TOKEN_INVALID_ERROR);
             }
         }
     }, [token]);
 
-    // Cargar artículo y validar permisos
+    // 🔵 Carga el artículo para editar si aplica
     useEffect(() => {
         const fetchAndValidate = async () => {
             try {
                 const article = await getArticleById(id);
-
-                // Validación de permisos
                 if (userRole !== 'admin' && article.author._id !== userId) {
                     router.push('/articles');
                     return;
                 }
-
-                // Rellenar datos si tiene permiso
                 setTitle(article.title);
                 setContent(article.content);
                 setCategory(article.category);
                 setImageBase64(article.image || '');
-            } catch (err) {
-                console.error('Error al cargar el artículo:', err);
-                setError('No se pudo cargar el artículo para editar.');
+            } catch {
+                setError(LOAD_ARTICLE_ERROR);
             } finally {
                 setLoading(false);
             }
@@ -70,15 +83,14 @@ export default function CreateArticlePage() {
         }
     }, [isEditing, id, userId, userRole]);
 
+    // 🔵 Maneja la carga de la imagen
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
 
-        const maxSizeMB = 2;
-        const maxSizeBytes = maxSizeMB * 1024 * 1024;
-
+        const maxSizeBytes = 2 * 1024 * 1024; // 2MB
         if (file.size > maxSizeBytes) {
-            alert(`El archivo supera los ${maxSizeMB} MB permitidos`);
+            setError(IMAGE_MAX_SIZE_ERROR);
             e.target.value = '';
             return;
         }
@@ -91,16 +103,17 @@ export default function CreateArticlePage() {
         reader.readAsDataURL(file);
     };
 
+    // 🔵 Maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!title || !content || !category) {
-            setError('Todos los campos obligatorios deben completarse.');
+            setError(FIELD_REQUIRED_ERROR);
             return;
         }
 
         if (!userId) {
-            setError('Usuario no autenticado.');
+            setError(NOT_AUTHENTICATED_ERROR);
             return;
         }
 
@@ -115,87 +128,87 @@ export default function CreateArticlePage() {
         try {
             if (isEditing) {
                 await updateArticle(id, articleData, token);
-                setSuccess('Artículo actualizado correctamente.');
+                setSuccess("Artículo actualizado correctamente.");
             } else {
                 await createArticle(articleData, token);
-                setSuccess('Artículo creado exitosamente.');
+                setSuccess("Artículo creado exitosamente.");
             }
-
             setError('');
             setTimeout(() => {
                 router.push('/articles/articles');
             }, 1000);
-        } catch (err) {
-            console.error(err);
-            setError('Error al guardar el artículo.');
+        } catch {
+            setError(SAVE_ARTICLE_ERROR);
         }
     };
 
-    if (loading) return <p className="text-center mt-8">Cargando...</p>;
+    if (loading) return <Loading />;
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow-md mt-10 rounded">
-            <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
-                {isEditing ? 'Editar Artículo' : 'Crear Artículo'}
+        <div className={styles['create-article']}>
+            {/* 🔵 Título de la página */}
+            <h1 className={styles['create-article__title']}>
+                {isEditing ? PAGE_TITLE_EDIT : PAGE_TITLE_CREATE}
             </h1>
 
-            {error && <p className="text-red-500 mb-4">{error}</p>}
-            {success && <p className="text-green-600 mb-4">{success}</p>}
+            {/* 🔵 Mensajes de error y éxito */}
+            {error && <p className={styles['create-article__error']}>{error}</p>}
+            {success && <p className={styles['create-article__success']}>{success}</p>}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block mb-1 font-semibold">Título *</label>
+            {/* 🔵 Formulario */}
+            <form onSubmit={handleSubmit} className={styles['create-article__form']}>
+                <div className={styles['create-article__left']}>
+                    <label htmlFor="title">Título</label>
                     <input
+                        id="title"
                         type="text"
-                        className="w-full border rounded p-2"
+                        placeholder="Ingresa el título"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         required
                     />
-                </div>
 
-                <div>
-                    <label className="block mb-1 font-semibold">Contenido *</label>
-                    <textarea
-                        className="w-full border rounded p-2 h-40"
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        required
-                    ></textarea>
-                </div>
-
-                <div>
-                    <label className="block mb-1 font-semibold">Categoría *</label>
+                    <label htmlFor="category">Categoría</label>
                     <select
-                        className="w-full border rounded p-2"
+                        id="category"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         required
                     >
                         <option value="">Selecciona una categoría</option>
-                        <option value="futbol">Fútbol</option>
-                        <option value="viajes">Viajes</option>
-                        <option value="musica">Música</option>
-                        <option value="peliculas">Películas</option>
+                        {CATEGORIES_OPTIONS.map(option => (
+                            <option key={option.value} value={option.value}>
+                                {option.label}
+                            </option>
+                        ))}
                     </select>
-                </div>
 
-                <div>
-                    <label className="block mb-1 font-semibold">Imagen (máx. 2MB)</label>
+                    <label htmlFor="image">Imagen (máx. 2MB)</label>
                     <input
+                        id="image"
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className="w-full border rounded p-2"
                     />
                 </div>
 
-                <button
-                    type="submit"
-                    className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
-                >
-                    {isEditing ? 'Actualizar Artículo' : 'Publicar Artículo'}
-                </button>
+                <div className={styles['create-article__right']}>
+                    <label htmlFor="content">Contenido</label>
+                    <textarea
+                        id="content"
+                        placeholder="Escribe el contenido..."
+                        value={content}
+                        onChange={(e) => setContent(e.target.value)}
+                        required
+                    />
+                </div>
+
+                {/* 🔵 Botón de enviar */}
+                <div className={styles['create-article__actions']}>
+                    <button type="submit" aria-label={isEditing ? SUBMIT_UPDATE_TEXT : SUBMIT_CREATE_TEXT}>
+                        {isEditing ? SUBMIT_UPDATE_TEXT : SUBMIT_CREATE_TEXT}
+                    </button>
+                </div>
             </form>
         </div>
     );

@@ -20,6 +20,9 @@ export default function CardsContainer({
     columnsMobile = 1,
     padding = 0,
     backgroundColor = 'transparent',
+    title = '',
+    colorTitle = '',
+
 }) {
     const childrenArray = React.Children.toArray(children);
     const totalCards = childrenArray.length;
@@ -69,6 +72,17 @@ export default function CardsContainer({
             className={styles['cards-container-wrapper']}
             style={{ backgroundColor }}
         >
+            {/* Título opcional */}
+            {title && (
+                <h2
+                    className={styles['cards-container__title']}
+                    style={{ color: colorTitle || '#99f243' }} // Default color si no envían colorTitle
+                >
+                    {title}
+                </h2>
+            )}
+
+            {/* Grid de tarjetas */}
             {rows.map((row, index) => {
                 const isLastRow = index === rows.length - 1;
                 const shouldCenter = isLastRow && isOdd && isDesktop;
@@ -92,4 +106,5 @@ export default function CardsContainer({
             })}
         </div>
     );
+
 }

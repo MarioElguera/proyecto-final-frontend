@@ -27,6 +27,11 @@
     /* Verde neón */
     line-height: 1.4;
     /* font-family: cursive; */
+    overflow-wrap: break-word;
+    /* Forzar corte si es muy largo */
+    word-break: break-word;
+    /* Forzar corte entre letras */
+    max-width: 100%;
 }
 
 /* Autor (nombre en blanco) */
