@@ -6,25 +6,25 @@ import { AuthContext } from '@/context/AuthContext';
 import styles from './articleDetail.module.css';
 import Loading from "@/components/Loading/Loading";
 import CommentCard from "@/components/CommentCard/CommentCard";
-/* 
-  CONSTANTES ESTÁTICAS (UPPER_SNAKE_CASE)
-*/
-const PAGE_TITLE = 'COMENTARIOS';
-const ADD_COMMENT_BUTTON = 'AGREGAR COMENTARIO';
-const DELETE_COMMENT_CONFIRM = '¿ESTÁS SEGURO DE QUE DESEAS ELIMINAR ESTE COMENTARIO?';
-const DELETE_ARTICLE_CONFIRM = '¿ESTÁS SEGURO DE QUE DESEAS ELIMINAR ESTE ARTÍCULO?';
-const COMMENT_AUTHOR_LABEL = 'dice:';
-const NO_COMMENTS_MESSAGE = 'AÚN NO HAY COMENTARIOS.';
-const EDIT_COMMENT_TEXT = 'EDITAR';
-const DELETE_COMMENT_TEXT = 'ELIMINAR';
-const COMMENT_MODAL_TITLE_NEW = 'NUEVO COMENTARIO';
-const COMMENT_MODAL_TITLE_EDIT = 'EDITAR COMENTARIO';
-const COMMENT_MODAL_PLACEHOLDER = 'ESCRIBE TU COMENTARIO AQUÍ...';
-const COMMENT_MODAL_CANCEL = 'CANCELAR';
-const COMMENT_MODAL_SUBMIT = 'ENVIAR';
-const COMMENT_MODAL_SUBMIT_LOADING = 'ENVIANDO...';
-const EDIT_ARTICLE_BUTTON = 'EDITAR';
-const DELETE_ARTICLE_BUTTON = 'ELIMINAR';
+
+import {
+    PAGE_TITLE_COMMENTS,
+    ADD_COMMENT_BUTTON,
+    DELETE_COMMENT_CONFIRM,
+    DELETE_ARTICLE_CONFIRM,
+    NO_COMMENTS_MESSAGE,
+    EDIT_COMMENT_TEXT,
+    DELETE_COMMENT_TEXT,
+    COMMENT_MODAL_TITLE_NEW,
+    COMMENT_MODAL_TITLE_EDIT,
+    COMMENT_MODAL_PLACEHOLDER,
+    COMMENT_MODAL_CANCEL,
+    COMMENT_MODAL_SUBMIT,
+    COMMENT_MODAL_SUBMIT_LOADING,
+    EDIT_ARTICLE_BUTTON,
+    DELETE_ARTICLE_BUTTON,
+}
+    from '@/constants/articles';
 
 export default function ArticleDetailPage() {
     const router = useRouter();
@@ -154,7 +154,7 @@ export default function ArticleDetailPage() {
             {/* Sección de comentarios */}
             <hr className={styles['article-detail__divider']} />
             <div className={styles['article-detail__comments-header']}>
-                <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE}</h2>
+                <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
                 {token && (
                     <button
                         className={styles['article-detail__button--add-comment']}
@@ -175,9 +175,6 @@ export default function ArticleDetailPage() {
                         const canManageComment = userId === c.author?._id || userRole === 'admin';
                         return (
                             <li key={c._id} className={styles['article-detail__comment-item']}>
-                                {/* <p className={styles['article-detail__comment-author']}>
-                                    {c.author?.username} {COMMENT_AUTHOR_LABEL}
-                                </p> */}
                                 <CommentCard
                                     key={c._id}
                                     comment={c.content}

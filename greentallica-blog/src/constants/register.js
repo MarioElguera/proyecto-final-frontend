@@ -1,0 +1,11 @@
+export const REGISTER_TITLE = "Registro de Usuario";
+export const USERNAME_LABEL = "Nombre de usuario";
+export const PASSWORD_LABEL = "Contraseña";
+export const CONFIRM_PASSWORD_LABEL = "Confirmar contraseña";
+export const ADMIN_LABEL = "Registrar como administrador";
+export const SUBMIT_BUTTON_TEXT = "Registrarse";
+export const ALREADY_HAVE_ACCOUNT_TEXT = "¿Ya tienes cuenta?";
+export const LOGIN_LINK_TEXT = "Inicia sesión aquí";
+export const PASSWORDS_MISMATCH_ERROR = "Las contraseñas no coinciden.";
+export const REGISTER_SUCCESS = "Usuario registrado con éxito.";
+export const REGISTER_ERROR = "Error al registrar el usuario.";

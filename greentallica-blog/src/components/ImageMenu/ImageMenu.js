@@ -1,13 +1,14 @@
 // src/components/ImageMenu.js
 import React from 'react';
+import styles from './ImageMenu.module.css';
 
 export default function ImageMenu({ categories = [], onSelectCategory }) {
     return (
-        <div className="category-menu-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+        <div className={styles['category-menu-container']}>
             {categories.map((cat) => (
                 <div
                     key={cat.slug}
-                    className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer group"
+                    className={styles['category-menu__card']}
                     onClick={() => onSelectCategory?.(cat.slug)}
                 >
                     <video
@@ -16,10 +17,12 @@ export default function ImageMenu({ categories = [], onSelectCategory }) {
                         loop
                         muted
                         playsInline
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className={styles['category-menu__video']}
                     />
-                    <div className="absolute inset-0 bg-opacity-40 flex items-center justify-center">
-                        <div className="text-white text-xl font-semibold underline">{cat.name}</div>
+                    <div className={styles['category-menu__overlay']}>
+                        <div className={styles['category-menu__name']}>
+                            {cat.name}
+                        </div>
                     </div>
                 </div>
             ))}

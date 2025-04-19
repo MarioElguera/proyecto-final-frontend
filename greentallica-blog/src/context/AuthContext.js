@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
         setUsername(null);
         setUserId(null);
         setUserRole(null);
-        router.push('/auth/login');
+        router.push('/');
     };
 
     return (

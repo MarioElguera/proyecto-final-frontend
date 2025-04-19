@@ -10,7 +10,6 @@ import { getAllComments } from "@/services/api-comments";
 import { handleApiError } from "@/utils/handleErrors";
 import styles from './Home.module.css';
 
-// Importar constantes de textos e imágenes
 import {
     HERO_SLIDER_IMAGES,
     HERO_TITLE,

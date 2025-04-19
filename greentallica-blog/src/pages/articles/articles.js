@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
 import { getAllArticles } from "@/services/api-articles";
 import categories from "@/utils/categories";
-import ImageMenu from "@/components/ImageMenu";
+import ImageMenu from "@/components/ImageMenu/ImageMenu";
 import CardsContainer from "@/components/CardsContainer/CardsContainer";
 import ArticleCard from "@/components/ArticleCard/ArticleCard";
 import Loading from "@/components/Loading/Loading";
@@ -67,7 +67,7 @@ export default function ArticlesPage() {
             {token && (
                 <button
                     className={styles['create-event__button']}
-                    onClick={() => router.push('/articles/createArticle')}
+                    onClick={() => router.push('/articles/create')}
                     aria-label="Agregar nuevo artículo"
                 >
                     {CREATE_ARTICLE_TEXT}
@@ -102,7 +102,7 @@ export default function ArticlesPage() {
                             columnsDesktop={articles.length === 1 ? 1 : 2}
                             columnsTablet={1}
                             columnsMobile={1}
-                            padding={2}
+                            padding={0}
                             title={`Artículos de ${selectedCategory}`}
                         >
                             {articles.map((article) => (

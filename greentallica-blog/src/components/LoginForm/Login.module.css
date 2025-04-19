@@ -2,8 +2,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 80vh;
-    background-color: #f4f5f7;
+    min-height: 100vh;
+    background-color: #0f172a;
 }
 
 .login-box {

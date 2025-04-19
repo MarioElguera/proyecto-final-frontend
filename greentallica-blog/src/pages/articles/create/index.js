@@ -56,7 +56,7 @@ export default function CreateArticlePage() {
         }
     }, [token]);
 
-    // 🔵 Carga el artículo para editar si aplica
+    // Carga el artículo para editar si aplica
     useEffect(() => {
         const fetchAndValidate = async () => {
             try {

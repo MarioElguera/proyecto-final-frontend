@@ -1,11 +1,25 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { AuthContext } from '@/context/AuthContext';
-import styles from './Register.module.css';
+import Link from 'next/link';
 import { registerUser } from '@/services/api-auth';
 import { handleApiError } from '@/utils/handleErrors';
+import styles from './Register.module.css';
 
-export default function Register() {
+import {
+    REGISTER_TITLE,
+    USERNAME_LABEL,
+    PASSWORD_LABEL,
+    CONFIRM_PASSWORD_LABEL,
+    ADMIN_LABEL,
+    SUBMIT_BUTTON_TEXT,
+    ALREADY_HAVE_ACCOUNT_TEXT,
+    LOGIN_LINK_TEXT,
+    PASSWORDS_MISMATCH_ERROR,
+    REGISTER_SUCCESS,
+    REGISTER_ERROR,
+} from '@/constants/register';
+
+export default function RegisterForm() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,13 +27,13 @@ export default function Register() {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const router = useRouter();
-    const { setToken } = useContext(AuthContext);
 
+    // Manejar envío de registro
     const handleRegister = async (e) => {
         e.preventDefault();
 
         if (password !== confirmPassword) {
-            setErrorMessage('Las contraseñas no coinciden');
+            setErrorMessage(PASSWORDS_MISMATCH_ERROR);
             return;
         }
 
@@ -27,7 +41,7 @@ export default function Register() {
             const role = isAdmin ? 'admin' : 'user';
             await registerUser({ username, password, role });
 
-            setSuccessMessage('Usuario registrado con éxito');
+            setSuccessMessage(REGISTER_SUCCESS);
             setErrorMessage('');
 
             setTimeout(() => {
@@ -35,27 +49,28 @@ export default function Register() {
             }, 1000);
         } catch (error) {
             const mensajeError = handleApiError(error);
-            console.error(mensajeError);
             setSuccessMessage('');
-            setErrorMessage(error.message || 'Error al registrar el usuario');
+            setErrorMessage(mensajeError || REGISTER_ERROR);
         }
     };
 
     return (
         <div className={styles['register']}>
             <div className={styles['register__card']}>
-                <h2 className={styles['register__title']}>Registro de Usuario</h2>
+                <h2 className={styles['register__title']}>{REGISTER_TITLE}</h2>
 
                 {errorMessage && <div className={styles['register__error']}>{errorMessage}</div>}
                 {successMessage && <div className={styles['register__success']}>{successMessage}</div>}
 
                 <form onSubmit={handleRegister} className={styles['register__form']}>
                     <div className={styles['register__field']}>
-                        <label htmlFor="username" className={styles['register__label']}>Nombre de usuario</label>
+                        <label htmlFor="username" className={styles['register__label']}>
+                            {USERNAME_LABEL}
+                        </label>
                         <input
-                            type="text"
                             id="username"
-                            placeholder="Ingrese su nombre de usuario"
+                            type="text"
+                            placeholder={USERNAME_LABEL}
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             className={styles['register__input']}
@@ -64,11 +79,13 @@ export default function Register() {
                     </div>
 
                     <div className={styles['register__field']}>
-                        <label htmlFor="password" className={styles['register__label']}>Contraseña</label>
+                        <label htmlFor="password" className={styles['register__label']}>
+                            {PASSWORD_LABEL}
+                        </label>
                         <input
-                            type="password"
                             id="password"
-                            placeholder="Ingrese su contraseña"
+                            type="password"
+                            placeholder={PASSWORD_LABEL}
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             className={styles['register__input']}
@@ -77,11 +94,13 @@ export default function Register() {
                     </div>
 
                     <div className={styles['register__field']}>
-                        <label htmlFor="confirmPassword" className={styles['register__label']}>Confirmar contraseña</label>
+                        <label htmlFor="confirmPassword" className={styles['register__label']}>
+                            {CONFIRM_PASSWORD_LABEL}
+                        </label>
                         <input
-                            type="password"
                             id="confirmPassword"
-                            placeholder="Repita su contraseña"
+                            type="password"
+                            placeholder={CONFIRM_PASSWORD_LABEL}
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             className={styles['register__input']}
@@ -96,18 +115,21 @@ export default function Register() {
                                 checked={isAdmin}
                                 onChange={() => setIsAdmin(!isAdmin)}
                             />
-                            Registrar como administrador
+                            {ADMIN_LABEL}
                         </label>
                     </div>
 
-                    <button type="submit" className={styles['register__button']}>
-                        Registrarse
+                    <button type="submit" className={styles['register__button']} aria-label={SUBMIT_BUTTON_TEXT}>
+                        {SUBMIT_BUTTON_TEXT}
                     </button>
                 </form>
 
                 <div className={styles['register__footer']}>
                     <p className={styles['register__link']}>
-                        ¿Ya tienes cuenta? <a href="/login">Inicia sesión aquí</a>
+                        {ALREADY_HAVE_ACCOUNT_TEXT}{' '}
+                        <Link href="/auth/login" className={styles['register__link']}>
+                            {LOGIN_LINK_TEXT}
+                        </Link>
                     </p>
                 </div>
             </div>
