@@ -28,7 +28,7 @@
     gap: 0.75rem;
 }
 
-/* =============== Botones generales =============== */
+/* Botones generales */
 .article-detail__button--edit,
 .article-detail__button--delete,
 .article-detail__button--add-comment,
@@ -46,31 +46,25 @@
 
 /* Botones principales (Editar / Eliminar artículo) */
 .article-detail__button--edit,
-.article-detail__button--delete {
+.article-detail__button--delete,
+.article-detail__button--add-comment,
+.article-detail__modal-button--submit {
     background-color: #99f243;
     color: #0f172a;
     border: none;
 }
 
 .article-detail__button--edit:hover,
-.article-detail__button--delete:hover {
+.article-detail__button--delete:hover,
+.article-detail__button--add-comment:hover,
+.article-detail__modal-button--submit:hover {
     background-color: #87e035;
 }
 
-/* Botón Agregar Comentario */
-.article-detail__button--add-comment {
-    background-color: #99f243;
-    color: #0f172a;
-    border: none;
-}
-
-.article-detail__button--add-comment:hover {
-    background-color: #7ccf2b;
-}
-
-/* Botones Editar/Eliminar comentario individuales */
+/* Botones Editar/Eliminar comentario */
 .article-detail__button--edit-comment,
-.article-detail__button--delete-comment {
+.article-detail__button--delete-comment,
+.article-detail__modal-button--cancel {
     background-color: transparent;
     border: 2px solid #99f243;
     color: #99f243;
@@ -79,25 +73,13 @@
 }
 
 .article-detail__button--edit-comment:hover,
-.article-detail__button--delete-comment:hover {
+.article-detail__button--delete-comment:hover,
+.article-detail__modal-button--cancel:hover {
     background-color: #99f243;
     color: #0f172a;
 }
 
-/* Botones Modal */
-.article-detail__modal-button--cancel,
-.article-detail__modal-button--submit {
-    background-color: #99f243;
-    color: #0f172a;
-    border: none;
-}
-
-.article-detail__modal-button--cancel:hover,
-.article-detail__modal-button--submit:hover {
-    background-color: #7ccf2b;
-}
-
-/* =============== Cuerpo Artículo =============== */
+/* Cuerpo del artículo */
 .article-detail__body {
     display: flex;
     flex-direction: row;
@@ -121,7 +103,7 @@
     border-radius: inherit;
 }
 
-/* Contenido */
+/* Contenido del artículo */
 .article-detail__content {
     flex: 1;
 }
@@ -138,13 +120,14 @@
     color: white;
 }
 
-/* =============== Sección de comentarios =============== */
+/* Divider */
 .article-detail__divider {
     margin: 2rem 0;
     border: none;
     border-top: 1px solid #ddd;
 }
 
+/* Comentarios */
 .article-detail__comments-header {
     display: flex;
     justify-content: space-between;
@@ -159,7 +142,6 @@
     margin: 0;
 }
 
-/* Lista de comentarios */
 .article-detail__comment-list {
     list-style: none;
     padding: 0;
@@ -178,21 +160,8 @@
     transition: background-color 0.3s ease;
 }
 
-/* Efecto hover sobre comentario */
 .article-detail__comment-item:hover {
-    background-color: rgb(98, 91, 91);
-}
-
-.article-detail__comment-author {
-    font-size: 0.85rem;
-    color: #555;
-    margin: 0 0 0.5rem;
-}
-
-.article-detail__comment-text {
-    font-size: 1rem;
-    line-height: 1.5;
-    color: #333;
+    background-color: #333;
 }
 
 /* Acciones de comentario */
@@ -202,15 +171,23 @@
     margin-top: 0.5rem;
 }
 
-/* =============== Modal =============== */
+/* No hay comentarios */
+.article-detail__no-comments {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    color: #99f243;
+}
+
+/* =============== Modales (Comentario y Confirmación) =============== */
 .article-detail__modal {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.6);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 50;
+    z-index: 1000;
 }
 
 .article-detail__modal-content {
@@ -220,6 +197,7 @@
     max-width: 500px;
     width: 90%;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
 }
 
 .article-detail__modal-title {
@@ -241,19 +219,33 @@
     color: #333;
 }
 
-/* Acciones del modal */
 .article-detail__modal-actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 1rem;
 }
 
-/* =============== Responsive =============== */
+/* Error messages */
+.article-detail__error {
+    background-color: #ffdddd;
+    color: #d8000c;
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+    margin-top: 1rem;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
     .article-detail__header {
         flex-direction: column;
         align-items: center;
         text-align: center;
+    }
+
+    .article-detail__body {
+        flex-direction: column;
     }
 
     .article-detail__actions {
@@ -264,9 +256,5 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
-    }
-
-    .article-detail__body {
-        flex-direction: column;
     }
 }

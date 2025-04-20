@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import EventsList from '@/components/EventList/EventsList';
+import EventsTimelineContainer from '@/components/GalleryContainer/EventsTimelineContainer';
+import EventCard from '@/components/EventCard/EventCard';
 import Loading from '@/components/Loading/Loading';
 import { getAllEvents } from '@/services/api-events';
 import { AuthContext } from '@/context/AuthContext';
@@ -38,13 +40,12 @@ export default function EventPage() {
                 </button>
             )}
 
-            {loading ? (
-                <Loading />
-            ) : error ? (
-                <p style={{ color: 'red' }}>{error}</p>
-            ) : (
-                <EventsList events={events} title="Eventos" />
-            )}
+            {loading
+                ? (<Loading />) : error
+                    ? (<p style={{ color: 'red' }}>{error}</p>)
+                    : (
+                        <EventsTimelineContainer events={events} />
+                    )}
         </div>
     );
 }

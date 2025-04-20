@@ -120,7 +120,7 @@ export default function Home() {
             ) : (
                 <CardsContainer
                     columnsDesktop={testimonials.length || 2}
-                    columnsTablet={2}
+                    columnsTablet={1}
                     columnsMobile={1}
                     padding={2}
                     backgroundColor="black"

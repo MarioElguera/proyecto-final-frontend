@@ -23,31 +23,33 @@ import {
     COMMENT_MODAL_SUBMIT_LOADING,
     EDIT_ARTICLE_BUTTON,
     DELETE_ARTICLE_BUTTON,
-}
-    from '@/constants/articles';
+} from '@/constants/articles';
 
 export default function ArticleDetailPage() {
     const router = useRouter();
     const { id } = router.query;
     const { token, userId, userRole } = useContext(AuthContext);
 
-    // Estados para artículo, carga, error y comentarios
     const [articleData, setArticleData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
-    // Estados para manejo de comentarios y modal
     const [showModal, setShowModal] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [editingComment, setEditingComment] = useState(null);
 
-    // Obtención de datos del artículo (incluye comentarios)
+    const [showConfirmModal, setShowConfirmModal] = useState(false);
+    const [itemToDelete, setItemToDelete] = useState(null);
+    const [deleteType, setDeleteType] = useState(''); // 'comment' o 'article'
+
+    // Carga el artículo
     const fetchArticle = async () => {
         try {
             const data = await getFullArticleById(id);
             setArticleData(data);
-        } catch (err) {
+        } catch {
             setError('No se pudo cargar el artículo.');
         } finally {
             setLoading(false);
@@ -60,7 +62,7 @@ export default function ArticleDetailPage() {
         }
     }, [id]);
 
-    // Manejo de envío de comentario (crear o editar)
+    // Envía comentario nuevo o actualizado
     const handleSubmitComment = async () => {
         if (!newComment.trim()) return;
         try {
@@ -74,33 +76,43 @@ export default function ArticleDetailPage() {
             setShowModal(false);
             setEditingComment(null);
             fetchArticle();
-        } catch (err) {
-            alert('Error al enviar comentario');
+        } catch {
+            setErrorMessage('Error al enviar el comentario.');
         } finally {
             setSubmitting(false);
         }
     };
 
-    // Manejo de eliminación de comentario
+    // Elimina comentario
     const handleDeleteComment = async (commentId) => {
-        if (!window.confirm(DELETE_COMMENT_CONFIRM)) return;
         try {
             await deleteComment(commentId, token);
             fetchArticle();
-        } catch (err) {
-            alert('Error al eliminar el comentario');
+        } catch {
+            setErrorMessage('Error al eliminar el comentario.');
         }
     };
 
-    // Manejo de eliminación de artículo
+    // Elimina artículo
     const handleDeleteArticle = async () => {
-        if (!window.confirm(DELETE_ARTICLE_CONFIRM)) return;
         try {
             await deleteArticle(id, token);
             router.push('/articles/articles');
-        } catch (err) {
-            alert('Error al eliminar el artículo');
+        } catch {
+            setErrorMessage('Error al eliminar el artículo.');
         }
+    };
+
+    // Confirmación de eliminación
+    const handleConfirmDelete = async () => {
+        if (deleteType === 'comment') {
+            await handleDeleteComment(itemToDelete);
+        } else if (deleteType === 'article') {
+            await handleDeleteArticle();
+        }
+        setShowConfirmModal(false);
+        setItemToDelete(null);
+        setDeleteType('');
     };
 
     if (loading) return <Loading />;
@@ -111,19 +123,22 @@ export default function ArticleDetailPage() {
 
     return (
         <div className={styles['article-detail']}>
-            {/* Encabezado: título del artículo y botones de acciones */}
             <div className={styles['article-detail__header']}>
                 <h1 className={styles['article-detail__title']}>{article.title}</h1>
                 {canEditOrDeleteArticle && (
                     <div className={styles['article-detail__actions']}>
                         <button
-                            onClick={() => router.push(`/articles/createArticle?id=${article._id}`)}
+                            onClick={() => router.push(`/articles/create?id=${article._id}`)}
                             className={styles['article-detail__button--edit']}
                         >
                             {EDIT_ARTICLE_BUTTON}
                         </button>
                         <button
-                            onClick={handleDeleteArticle}
+                            onClick={() => {
+                                setItemToDelete(article._id);
+                                setDeleteType('article');
+                                setShowConfirmModal(true);
+                            }}
                             className={styles['article-detail__button--delete']}
                         >
                             {DELETE_ARTICLE_BUTTON}
@@ -132,7 +147,6 @@ export default function ArticleDetailPage() {
                 )}
             </div>
 
-            {/* Cuerpo del artículo: imagen y contenido */}
             <div className={styles['article-detail__body']}>
                 <div className={styles['article-detail__image-container']}>
                     {article.image && (
@@ -151,7 +165,6 @@ export default function ArticleDetailPage() {
                 </div>
             </div>
 
-            {/* Sección de comentarios */}
             <hr className={styles['article-detail__divider']} />
             <div className={styles['article-detail__comments-header']}>
                 <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
@@ -175,11 +188,7 @@ export default function ArticleDetailPage() {
                         const canManageComment = userId === c.author?._id || userRole === 'admin';
                         return (
                             <li key={c._id} className={styles['article-detail__comment-item']}>
-                                <CommentCard
-                                    key={c._id}
-                                    comment={c.content}
-                                    author={c.author.username}
-                                />
+                                <CommentCard comment={c.content} author={c.author.username} />
                                 {canManageComment && (
                                     <div className={styles['article-detail__comment-actions']}>
                                         <button
@@ -194,7 +203,11 @@ export default function ArticleDetailPage() {
                                         </button>
                                         <button
                                             className={styles['article-detail__button--delete-comment']}
-                                            onClick={() => handleDeleteComment(c._id)}
+                                            onClick={() => {
+                                                setItemToDelete(c._id);
+                                                setDeleteType('comment');
+                                                setShowConfirmModal(true);
+                                            }}
                                         >
                                             {DELETE_COMMENT_TEXT}
                                         </button>
@@ -244,6 +257,31 @@ export default function ArticleDetailPage() {
                     </div>
                 </div>
             )}
+
+            {/* Modal de confirmación de eliminación */}
+            {showConfirmModal && (
+                <div className={styles['article-detail__modal']}>
+                    <div className={styles['article-detail__modal-content']}>
+                        <p>{deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}</p>
+                        <div className={styles['article-detail__modal-actions']}>
+                            <button
+                                onClick={() => setShowConfirmModal(false)}
+                                className={styles['article-detail__modal-button--cancel']}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                onClick={handleConfirmDelete}
+                                className={styles['article-detail__modal-button--submit']}
+                            >
+                                Confirmar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {errorMessage && <p className={styles['article-detail__error']}>{errorMessage}</p>}
         </div>
     );
 }
