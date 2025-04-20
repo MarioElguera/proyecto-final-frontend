@@ -61,12 +61,12 @@ export default function Home() {
 
     return (
         <div>
-            <section className="hero">
-                <div className="hero__content">
-                    <h1 className="hero__title">{HERO_TITLE}</h1>
-                    <p className="hero__description">{HERO_DESCRIPTION}</p>
+            <section className={styles["hero"]}>
+                <div className={styles["hero__content"]}>
+                    <h1 className={styles["hero__title"]}>{HERO_TITLE}</h1>
+                    <p className={styles["hero__description"]}>{HERO_DESCRIPTION}</p>
                 </div>
-                <div className="hero__image">
+                <div className={styles["hero__image"]}>
                     <SliderImages images={HERO_SLIDER_IMAGES} />
                 </div>
             </section>
