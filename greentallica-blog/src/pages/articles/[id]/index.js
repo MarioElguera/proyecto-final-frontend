@@ -1,11 +1,12 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
-import { getFullArticleById, deleteArticle } from '@/services/api-articles';
-import { createComment, updateComment, deleteComment } from '@/services/api-comments';
+import { getArticleById,deleteArticle } from '@/services/api-articles';
+import { getCommentsByArticle, createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
+import Loading from '@/components/Loading/Loading';
+import CommentCard from '@/components/CommentCard/CommentCard';
+import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import styles from './articleDetail.module.css';
-import Loading from "@/components/Loading/Loading";
-import CommentCard from "@/components/CommentCard/CommentCard";
 
 import {
     PAGE_TITLE_COMMENTS,
@@ -30,8 +31,10 @@ export default function ArticleDetailPage() {
     const { id } = router.query;
     const { token, userId, userRole } = useContext(AuthContext);
 
-    const [articleData, setArticleData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [article, setArticle] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [loadingArticle, setLoadingArticle] = useState(true);
+    const [loadingComments, setLoadingComments] = useState(true);
     const [error, setError] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
@@ -42,58 +45,73 @@ export default function ArticleDetailPage() {
 
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
-    const [deleteType, setDeleteType] = useState(''); // 'comment' o 'article'
+    const [deleteType, setDeleteType] = useState('');
 
-    // Carga el artículo
+    // 🔵 Fetch Artículo
     const fetchArticle = async () => {
         try {
-            const data = await getFullArticleById(id);
-            setArticleData(data);
+            setLoadingArticle(true);
+            const data = await getArticleById(id);
+            setArticle(data);
         } catch {
             setError('No se pudo cargar el artículo.');
         } finally {
-            setLoading(false);
+            setLoadingArticle(false);
+        }
+    };
+
+    // 🔵 Fetch Comentarios
+    const fetchComments = async () => {
+        try {
+            setLoadingComments(true);
+            const data = await getCommentsByArticle(id);
+            setComments(data);
+        } catch {
+            setError('No se pudieron cargar los comentarios.');
+        } finally {
+            setLoadingComments(false);
         }
     };
 
     useEffect(() => {
         if (id) {
             fetchArticle();
+            fetchComments();
         }
     }, [id]);
 
-    // Envía comentario nuevo o actualizado
     const handleSubmitComment = async () => {
         if (!newComment.trim()) return;
+        setShowModal(false);
         try {
-            setSubmitting(true);
+            setLoadingComments(true);
             if (editingComment) {
                 await updateComment(editingComment._id, newComment, token);
             } else {
                 await createComment(id, newComment, token);
             }
             setNewComment('');
-            setShowModal(false);
             setEditingComment(null);
-            fetchArticle();
+            await fetchComments();
         } catch {
             setErrorMessage('Error al enviar el comentario.');
         } finally {
-            setSubmitting(false);
+            setLoadingComments(false);
         }
     };
 
-    // Elimina comentario
     const handleDeleteComment = async (commentId) => {
         try {
+            setLoadingComments(true);
             await deleteComment(commentId, token);
-            fetchArticle();
+            await fetchComments();
         } catch {
             setErrorMessage('Error al eliminar el comentario.');
+        } finally {
+            setLoadingComments(false);
         }
     };
 
-    // Elimina artículo
     const handleDeleteArticle = async () => {
         try {
             await deleteArticle(id, token);
@@ -103,26 +121,29 @@ export default function ArticleDetailPage() {
         }
     };
 
-    // Confirmación de eliminación
     const handleConfirmDelete = async () => {
-        if (deleteType === 'comment') {
-            await handleDeleteComment(itemToDelete);
-        } else if (deleteType === 'article') {
-            await handleDeleteArticle();
-        }
         setShowConfirmModal(false);
-        setItemToDelete(null);
-        setDeleteType('');
+        try {
+            if (deleteType === 'comment') {
+                await handleDeleteComment(itemToDelete);
+            } else if (deleteType === 'article') {
+                await handleDeleteArticle();
+            }
+        } finally {
+            setItemToDelete(null);
+            setDeleteType('');
+        }
     };
 
-    if (loading) return <Loading />;
+    if (loadingArticle) return <Loading />;
     if (error) return <p className={styles['article-detail__error']}>{error}</p>;
 
-    const { article, comments } = articleData;
     const canEditOrDeleteArticle = userId === article.author?._id || userRole === 'admin';
 
     return (
         <div className={styles['article-detail']}>
+
+            {/* 🟡 Header */}
             <div className={styles['article-detail__header']}>
                 <h1 className={styles['article-detail__title']}>{article.title}</h1>
                 {canEditOrDeleteArticle && (
@@ -147,6 +168,7 @@ export default function ArticleDetailPage() {
                 )}
             </div>
 
+            {/* 🟠 Cuerpo */}
             <div className={styles['article-detail__body']}>
                 <div className={styles['article-detail__image-container']}>
                     {article.image && (
@@ -165,6 +187,7 @@ export default function ArticleDetailPage() {
                 </div>
             </div>
 
+            {/* 🟢 Comentarios */}
             <hr className={styles['article-detail__divider']} />
             <div className={styles['article-detail__comments-header']}>
                 <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
@@ -182,7 +205,10 @@ export default function ArticleDetailPage() {
                 )}
             </div>
 
-            {comments.length > 0 ? (
+            {/* 🔵 Lista de comentarios */}
+            {loadingComments ? (
+                <Loading />
+            ) : comments.length > 0 ? (
                 <ul className={styles['article-detail__comment-list']}>
                     {comments.map((c) => {
                         const canManageComment = userId === c.author?._id || userRole === 'admin';
@@ -221,7 +247,15 @@ export default function ArticleDetailPage() {
                 <p className={styles['article-detail__no-comments']}>{NO_COMMENTS_MESSAGE}</p>
             )}
 
-            {/* Modal para agregar/editar comentario */}
+            {/* 🟣 ConfirmModal */}
+            <ConfirmModal
+                show={showConfirmModal}
+                message={deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}
+                onCancel={() => setShowConfirmModal(false)}
+                onConfirm={handleConfirmDelete}
+            />
+
+            {/* 🟤 Modal para Agregar/Editar Comentario */}
             {showModal && (
                 <div className={styles['article-detail__modal']}>
                     <div className={styles['article-detail__modal-content']}>
@@ -252,29 +286,6 @@ export default function ArticleDetailPage() {
                                 className={styles['article-detail__modal-button--submit']}
                             >
                                 {submitting ? COMMENT_MODAL_SUBMIT_LOADING : COMMENT_MODAL_SUBMIT}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Modal de confirmación de eliminación */}
-            {showConfirmModal && (
-                <div className={styles['article-detail__modal']}>
-                    <div className={styles['article-detail__modal-content']}>
-                        <p>{deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}</p>
-                        <div className={styles['article-detail__modal-actions']}>
-                            <button
-                                onClick={() => setShowConfirmModal(false)}
-                                className={styles['article-detail__modal-button--cancel']}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={handleConfirmDelete}
-                                className={styles['article-detail__modal-button--submit']}
-                            >
-                                Confirmar
                             </button>
                         </div>
                     </div>

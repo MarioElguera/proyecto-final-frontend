@@ -192,7 +192,7 @@
 
 .article-detail__modal-content {
     background-color: #0f172a;
-    padding: 1.5rem;
+    padding: 2rem;
     border-radius: 8px;
     max-width: 500px;
     width: 90%;
@@ -223,6 +223,7 @@
     display: flex;
     justify-content: center;
     gap: 1rem;
+    padding-top: 1rem;
 }
 
 /* Error messages */

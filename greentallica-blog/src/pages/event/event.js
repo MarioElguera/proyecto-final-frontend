@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import EventsTimelineContainer from '@/components/GalleryContainer/EventsTimelineContainer';
 import EventCard from '@/components/EventCard/EventCard';
 import Loading from '@/components/Loading/Loading';
+import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import { getAllEvents, deleteEvent } from '@/services/api-events';
 import { AuthContext } from '@/context/AuthContext';
 import { formatDate } from '@/utils/helpers';
@@ -14,21 +15,21 @@ export default function EventPage() {
 
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState('');
-
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
 
     const fetchEvents = async () => {
         try {
             const data = await getAllEvents();
-            const processed = data.map((e) => ({
+            const formattedEvents = data.map((e) => ({
                 ...e,
                 eventDate: e.eventDate ? formatDate(e.eventDate) : formatDate(e.createdAt),
             }));
-            setEvents(processed);
+            setEvents(formattedEvents);
         } catch (err) {
-            console.error('Error fetching events:', err.message);
+            console.error('Error cargando eventos:', err.message);
             setError('Error al cargar los eventos.');
         } finally {
             setLoading(false);
@@ -40,20 +41,28 @@ export default function EventPage() {
     }, []);
 
     const handleConfirmDelete = async () => {
+        if (!eventToDelete) return;
+        setShowConfirmModal(false);
+
         try {
+            setDeleting(true);
             await deleteEvent(eventToDelete._id, token);
-            fetchEvents();
-            setEventToDelete(null);
-            setShowConfirmModal(false);
+            await fetchEvents();
         } catch (error) {
             console.error('Error eliminando evento:', error.message);
             setError('Error al eliminar el evento.');
+        } finally {
+            setDeleting(false);
+            setEventToDelete(null);
         }
     };
 
+    const isLoading = loading || deleting; // 🔵 loading inicial o mientras borra evento
+
     return (
         <div className={styles['event-section']}>
-            {token && (
+            {/* Botón Agregar evento */}
+            {!isLoading && token && (
                 <button
                     className={styles['create-event__button']}
                     onClick={() => router.push('/event/create')}
@@ -62,7 +71,8 @@ export default function EventPage() {
                 </button>
             )}
 
-            {loading ? (
+            {/* Mostrar Loading / Error / Empty / Lista */}
+            {isLoading ? (
                 <Loading />
             ) : error ? (
                 <p className={styles['event-section__error']}>{error}</p>
@@ -91,31 +101,17 @@ export default function EventPage() {
                 </EventsTimelineContainer>
             )}
 
-            {/* Modal Confirmación */}
-            {showConfirmModal && (
-                <div className={styles['event-page__modal']}>
-                    <div className={styles['event-page__modal-content']}>
-                        <p>¿Estás seguro que deseas eliminar este evento?</p>
-                        <div className={styles['event-page__modal-actions']}>
-                            <button
-                                onClick={() => {
-                                    setShowConfirmModal(false);
-                                    setEventToDelete(null);
-                                }}
-                                className={styles['event-page__modal-button--cancel']}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                onClick={handleConfirmDelete}
-                                className={styles['event-page__modal-button--confirm']}
-                            >
-                                Confirmar
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
+            {/* Modal de Confirmación */}
+            <ConfirmModal
+                show={showConfirmModal}
+                title="Eliminar evento"
+                message="¿Estás seguro de que deseas eliminar este evento?"
+                onCancel={() => {
+                    setShowConfirmModal(false);
+                    setEventToDelete(null);
+                }}
+                onConfirm={handleConfirmDelete}
+            />
         </div>
     );
 }

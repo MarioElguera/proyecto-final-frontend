@@ -1,14 +1,14 @@
 import { handleApiError } from '@/utils/handleErrors';
 
 // Define la URL base de la API
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/articles';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/articles';
 
 /**
  * Obtiene todos los artículos, opcionalmente filtrados por categoría.
  * @param {string} category - Categoría para filtrar.
  */
 export async function getAllArticles(category) {
-    let url = `${API_BASE_URL}/`;
+    let url = `${NEXT_PUBLIC_API_URL}/`;
     if (category) {
         url += `?category=${encodeURIComponent(category)}`;
     }
@@ -31,7 +31,7 @@ export async function getAllArticles(category) {
  */
 export async function getArticleById(id) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${id}`);
         if (!response.ok) {
             throw new Error('Error al obtener el artículo');
         }
@@ -48,7 +48,7 @@ export async function getArticleById(id) {
  */
 export async function getFullArticleById(id) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}/full`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${id}/full`);
         if (!response.ok) {
             throw new Error('Error al obtener el artículo completo');
         }
@@ -64,7 +64,7 @@ export async function getFullArticleById(id) {
  */
 export async function getCategories() {
     try {
-        const response = await fetch(`${API_BASE_URL}/categories/list`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/categories/list`);
         if (!response.ok) {
             throw new Error('Error al obtener las categorías');
         }
@@ -82,7 +82,7 @@ export async function getCategories() {
  */
 export async function createArticle(article, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ export async function createArticle(article, token) {
  */
 export async function updateArticle(id, article, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -135,7 +135,7 @@ export async function updateArticle(id, article, token) {
  */
 export async function deleteArticle(id, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${id}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${id}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `${token}`,

@@ -78,63 +78,67 @@ export default function Home() {
             )}
 
             <section className={styles['home__section']}>
-                {loadingArticles ? (
-                    <Loading />
-                ) : articles.length > 0 ? (
-                    <CardsContainer
-                        columnsDesktop={articles.length || 2}
-                        columnsTablet={2}
-                        columnsMobile={1}
-                        padding={2}
-                        backgroundColor="grey"
-                        title={ARTICLES_SECTION_TITLE}
-                    >
-                        {articles.map((article) => (
-                            <ArticleCard
-                                key={article._id}
-                                imageSrc={article.image}
-                                altText={article.title}
-                                title={article.title}
-                                description={article.content}
-                                link={article.link}
-                                variant="vertical"
-                                showLink={true}
-                                onLinkClick={() => router.push(`/articles/${article._id}`)}
-                            />
-                        ))}
-                    </CardsContainer>
-                ) : (
-                    <div className={styles['home__no-data-container']}>
-                        <p className={styles['home__no-data']}>{NO_ARTICLES_MESSAGE}</p>
-                    </div>
-                )}
+                {loadingArticles
+                    ? (<Loading />)
+                    : articles.length > 0
+                        ? (
+                            <CardsContainer
+                                columnsDesktop={articles.length || 2}
+                                columnsTablet={2}
+                                columnsMobile={1}
+                                padding={2}
+                                backgroundColor="grey"
+                                title={ARTICLES_SECTION_TITLE}
+                            >
+                                {articles.map((article) => (
+                                    <ArticleCard
+                                        key={article._id}
+                                        imageSrc={article.image}
+                                        altText={article.title}
+                                        title={article.title}
+                                        description={article.content}
+                                        link={article.link}
+                                        variant="vertical"
+                                        showLink={true}
+                                        onLinkClick={() => router.push(`/articles/${article._id}`)}
+                                    />
+                                ))}
+                            </CardsContainer>
+                        )
+                        : (
+                            <div className={styles['home__no-data-container']}>
+                                <p className={styles['home__no-data']}>{NO_ARTICLES_MESSAGE}</p>
+                            </div>
+                        )}
             </section>
 
             <section className={styles['home__section']}>
-                {loadingComments ? (
-                    <Loading />
-                ) : testimonials.length > 0 ? (
-                    <CardsContainer
-                        columnsDesktop={testimonials.length > 4 ? 4 : testimonials.length || 1}
-                        columnsTablet={1}
-                        columnsMobile={1}
-                        padding={2}
-                        backgroundColor="black"
-                        title={COMMENTS_SECTION_TITLE}
-                    >
-                        {testimonials.map((comment) => (
-                            <CommentCard
-                                key={comment._id}
-                                comment={comment.content}
-                                author={comment.author?.username || "Anónimo"}
-                            />
-                        ))}
-                    </CardsContainer>
-                ) : (
-                    <div className={styles['home__no-data-container']}>
-                        <p className={styles['home__no-data']}>{NO_COMMENTS_MESSAGE}</p>
-                    </div>
-                )}
+                {loadingComments
+                    ? (<Loading />)
+                    : testimonials.length > 0
+                        ? (
+                            <CardsContainer
+                                columnsDesktop={testimonials.length > 4 ? 4 : testimonials.length || 1}
+                                columnsTablet={1}
+                                columnsMobile={1}
+                                padding={2}
+                                backgroundColor="black"
+                                title={COMMENTS_SECTION_TITLE}
+                            >
+                                {testimonials.map((comment) => (
+                                    <CommentCard
+                                        key={comment._id}
+                                        comment={comment.content}
+                                        author={comment.author?.username || "Anónimo"}
+                                    />
+                                ))}
+                            </CardsContainer>
+                        )
+                        : (
+                            <div className={styles['home__no-data-container']}>
+                                <p className={styles['home__no-data']}>{NO_COMMENTS_MESSAGE}</p>
+                            </div>
+                        )}
             </section>
         </div>
     );

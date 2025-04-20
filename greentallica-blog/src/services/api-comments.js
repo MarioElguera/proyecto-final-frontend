@@ -1,7 +1,7 @@
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de comentarios
-const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/comments';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/comments';
 
 /**
  * Obtiene todos los comentarios.
@@ -9,7 +9,7 @@ const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/comments
 export async function getAllComments() {
     console.log("Entra al getAllcometns");
     try {
-        const response = await fetch(`${API_BASE_URL}/`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`);
 
         if (!response.ok) {
             throw new Error('Error al obtener los comentarios');
@@ -28,7 +28,7 @@ export async function getAllComments() {
  */
 export async function getCommentsByArticle(articleId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${articleId}`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${articleId}`);
 
         if (!response.ok) {
             throw new Error('Error al obtener los comentarios del artículo');
@@ -49,7 +49,7 @@ export async function getCommentsByArticle(articleId) {
  */
 export async function createComment(articleId, content, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${articleId}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${articleId}`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,7 +77,7 @@ export async function createComment(articleId, content, token) {
  */
 export async function updateComment(commentId, content, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${commentId}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${commentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -104,7 +104,7 @@ export async function updateComment(commentId, content, token) {
  */
 export async function deleteComment(commentId, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${commentId}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${commentId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `${token}`,

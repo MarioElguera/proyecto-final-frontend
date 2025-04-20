@@ -58,11 +58,12 @@ export default function CreateArticlePage() {
 
     // Carga el artículo para editar si aplica
     useEffect(() => {
+        setLoading(true);
         const fetchAndValidate = async () => {
             try {
                 const article = await getArticleById(id);
                 if (userRole !== 'admin' && article.author._id !== userId) {
-                    router.push('/articles');
+                    router.push(`/articles/${article._id}`)
                     return;
                 }
                 setTitle(article.title);
@@ -135,8 +136,8 @@ export default function CreateArticlePage() {
             }
             setError('');
             setTimeout(() => {
-                router.push('/articles/articles');
-            }, 1000);
+                router.push(`/articles/${id}`)
+            }, 500);
         } catch {
             setError(SAVE_ARTICLE_ERROR);
         }

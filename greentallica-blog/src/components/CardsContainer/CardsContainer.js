@@ -76,7 +76,7 @@ export default function CardsContainer({
             {title && (
                 <h2
                     className={styles['cards-container__title']}
-                    style={{ color: colorTitle || '#99f243' }} // Default color si no envían colorTitle
+                    style={{ color: colorTitle || '#99f243' }}
                 >
                     {title}
                 </h2>

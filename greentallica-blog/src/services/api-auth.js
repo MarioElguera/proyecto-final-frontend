@@ -3,7 +3,7 @@
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de autenticación
-const API_BASE_URL = 'http://localhost:5000/auth';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/auth';
 
 /**
  * Registra un nuevo usuario.
@@ -13,7 +13,7 @@ const API_BASE_URL = 'http://localhost:5000/auth';
 export async function registerUser(credentials) {
     try {
         // Realiza la petición al endpoint de registro
-        const response = await fetch(`${API_BASE_URL}/register`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
@@ -42,7 +42,7 @@ export async function registerUser(credentials) {
 export async function loginUser(credentials) {
     try {
         // Realiza la petición al endpoint de login
-        const response = await fetch(`${API_BASE_URL}/login`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),

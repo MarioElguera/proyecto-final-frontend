@@ -1,14 +1,14 @@
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de eventos
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/events';
+const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/events';
 
 /**
  * Obtiene todos los eventos.
  */
 export async function getAllEvents() {
     try {
-        const response = await fetch(`${API_BASE_URL}/`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`);
         if (!response.ok) {
             throw new Error('Error al obtener los eventos');
         }
@@ -25,7 +25,7 @@ export async function getAllEvents() {
  */
 export async function getEventById(eventId) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${eventId}`);
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`);
         if (!response.ok) {
             throw new Error('Error al obtener el evento');
         }
@@ -43,7 +43,7 @@ export async function getEventById(eventId) {
  */
 export async function createEvent(eventData, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,7 +70,7 @@ export async function createEvent(eventData, token) {
  */
 export async function updateEvent(eventId, eventData, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${eventId}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export async function updateEvent(eventId, eventData, token) {
  */
 export async function deleteEvent(eventId, token) {
     try {
-        const response = await fetch(`${API_BASE_URL}/${eventId}`, {
+        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `${token}`,
