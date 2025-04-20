@@ -8,5 +8,17 @@
 .home__no-data {
     text-align: center;
     color: #99f243;
-    margin: 1rem 0;
+    font-size: 1rem;
+}
+
+.home__no-data-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5rem;
+    min-height: 10vh;
+}
+
+.home__section {
+    padding: 4rem 2rem;
 }

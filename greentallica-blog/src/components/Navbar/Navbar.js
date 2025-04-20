@@ -31,7 +31,6 @@ export default function Navbar() {
                     <Link href="/articles/articles" className={`${styles.navbar__link} ${isActive('/articles/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
                     <Link href="/event/event" className={`${styles.navbar__link} ${isActive('/event/event') ? styles['navbar__link--active'] : ''}`}>Eventos</Link>
                     <Link href="/about/about" className={`${styles.navbar__link} ${isActive('/about/about') ? styles['navbar__link--active'] : ''}`}>Acerca De</Link>
-                    <Link href="/contact" className={`${styles.navbar__link} ${isActive('/contact') ? styles['navbar__link--active'] : ''}`}>Contacto</Link>
 
                     <div className={styles.navbar__auth}>
                         {!token ? (

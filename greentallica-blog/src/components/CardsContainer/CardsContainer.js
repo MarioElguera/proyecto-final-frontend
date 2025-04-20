@@ -96,7 +96,7 @@ export default function CardsContainer({
                             gridTemplateColumns: `repeat(${row.length}, 1fr)`,
                             justifyContent: shouldCenter ? 'center' : 'start',
                             ...(shouldCenter
-                                ? { maxWidth: '100%', margin: '0 auto' }
+                                ? { maxWidth: '50%', margin: '0 auto' }
                                 : { maxWidth: '100%' }),
                         }}
                     >

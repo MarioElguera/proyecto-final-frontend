@@ -9,7 +9,6 @@ import { getAllArticles } from "@/services/api-articles";
 import { getAllComments } from "@/services/api-comments";
 import { handleApiError } from "@/utils/handleErrors";
 import styles from './Home.module.css';
-
 import {
     HERO_SLIDER_IMAGES,
     HERO_TITLE,
@@ -28,43 +27,40 @@ export default function Home() {
     const [pageError, setPageError] = useState('');
     const router = useRouter();
 
-    // Obtener artículos
-    async function fetchArticles() {
+    const fetchArticles = async () => {
         try {
             const data = await getAllArticles();
             setArticles(data.slice(0, 4));
         } catch (error) {
             const mensajeError = handleApiError(error);
-            setPageError(mensajeError || "Error cargando artículos.");
+            setPageError(mensajeError || "Error al cargar artículos.");
         } finally {
             setLoadingArticles(false);
         }
-    }
+    };
 
-    // Obtener comentarios
-    async function fetchComments() {
+    const fetchComments = async () => {
         try {
             const data = await getAllComments();
             setTestimonials(data.slice(0, 4));
         } catch (error) {
             const mensajeError = handleApiError(error);
-            setPageError(mensajeError || "Error cargando comentarios.");
+            setPageError(mensajeError || "Error al cargar comentarios.");
         } finally {
             setLoadingComments(false);
         }
-    }
+    };
 
-    // Llamar datos al cargar el componente
     useEffect(() => {
-        async function fetchData() {
-            await Promise.all([fetchArticles(), fetchComments()]);
-        }
+        const fetchData = async () => {
+            await fetchArticles();
+            await fetchComments();
+        };
         fetchData();
     }, []);
 
     return (
         <div>
-            {/* Sección Hero principal */}
             <section className="hero">
                 <div className="hero__content">
                     <h1 className="hero__title">{HERO_TITLE}</h1>
@@ -75,31 +71,29 @@ export default function Home() {
                 </div>
             </section>
 
-            {/* Mostrar error general si existe */}
             {pageError && (
-                <p className={styles['home__error']}>
-                    {pageError}
-                </p>
+                <div className={styles['home__no-data-container']}>
+                    <p className={styles['home__error']}>{pageError}</p>
+                </div>
             )}
 
-            {/* Sección Artículos Destacados */}
-            {loadingArticles ? (
-                <Loading />
-            ) : (
-                <CardsContainer
-                    columnsDesktop={articles.length || 2}
-                    columnsTablet={2}
-                    columnsMobile={1}
-                    padding={2}
-                    backgroundColor="grey"
-                    title={ARTICLES_SECTION_TITLE}
-                >
-                    {articles.length !== 0 ? (
-                        articles.map((article) => (
+            <section className={styles['home__section']}>
+                {loadingArticles ? (
+                    <Loading />
+                ) : articles.length > 0 ? (
+                    <CardsContainer
+                        columnsDesktop={articles.length || 2}
+                        columnsTablet={2}
+                        columnsMobile={1}
+                        padding={2}
+                        backgroundColor="grey"
+                        title={ARTICLES_SECTION_TITLE}
+                    >
+                        {articles.map((article) => (
                             <ArticleCard
                                 key={article._id}
                                 imageSrc={article.image}
-                                altText={article.altText}
+                                altText={article.title}
                                 title={article.title}
                                 description={article.content}
                                 link={article.link}
@@ -107,38 +101,41 @@ export default function Home() {
                                 showLink={true}
                                 onLinkClick={() => router.push(`/articles/${article._id}`)}
                             />
-                        ))
-                    ) : (
+                        ))}
+                    </CardsContainer>
+                ) : (
+                    <div className={styles['home__no-data-container']}>
                         <p className={styles['home__no-data']}>{NO_ARTICLES_MESSAGE}</p>
-                    )}
-                </CardsContainer>
-            )}
+                    </div>
+                )}
+            </section>
 
-            {/* Sección Comentarios Destacados */}
-            {loadingComments ? (
-                <Loading />
-            ) : (
-                <CardsContainer
-                    columnsDesktop={testimonials.length > 4 ? 4 : testimonials.length}
-                    columnsTablet={1}
-                    columnsMobile={1}
-                    padding={2}
-                    backgroundColor="black"
-                    title={COMMENTS_SECTION_TITLE}
-                >
-                    {testimonials.length !== 0 ? (
-                        testimonials.map((comment) => (
+            <section className={styles['home__section']}>
+                {loadingComments ? (
+                    <Loading />
+                ) : testimonials.length > 0 ? (
+                    <CardsContainer
+                        columnsDesktop={testimonials.length > 4 ? 4 : testimonials.length || 1}
+                        columnsTablet={1}
+                        columnsMobile={1}
+                        padding={2}
+                        backgroundColor="black"
+                        title={COMMENTS_SECTION_TITLE}
+                    >
+                        {testimonials.map((comment) => (
                             <CommentCard
                                 key={comment._id}
                                 comment={comment.content}
-                                author={comment.author.username}
+                                author={comment.author?.username || "Anónimo"}
                             />
-                        ))
-                    ) : (
+                        ))}
+                    </CardsContainer>
+                ) : (
+                    <div className={styles['home__no-data-container']}>
                         <p className={styles['home__no-data']}>{NO_COMMENTS_MESSAGE}</p>
-                    )}
-                </CardsContainer>
-            )}
+                    </div>
+                )}
+            </section>
         </div>
     );
 }

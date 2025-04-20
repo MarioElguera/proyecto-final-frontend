@@ -1,12 +1,13 @@
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de comentarios
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/comments';
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:5000/comments';
 
 /**
  * Obtiene todos los comentarios.
  */
 export async function getAllComments() {
+    console.log("Entra al getAllcometns");
     try {
         const response = await fetch(`${API_BASE_URL}/`);
 
