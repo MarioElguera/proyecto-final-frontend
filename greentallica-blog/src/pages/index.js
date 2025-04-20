@@ -119,7 +119,7 @@ export default function Home() {
                 <Loading />
             ) : (
                 <CardsContainer
-                    columnsDesktop={testimonials.length || 2}
+                    columnsDesktop={testimonials.length > 4 ? 4 : testimonials.length}
                     columnsTablet={1}
                     columnsMobile={1}
                     padding={2}

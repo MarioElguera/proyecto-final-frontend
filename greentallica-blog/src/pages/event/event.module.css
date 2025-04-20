@@ -4,7 +4,7 @@
 */
 .event-section {
     background-color: #fff;
-    padding: 2rem;
+    /* padding: 2rem; */
     text-align: center;
 }
 
@@ -90,6 +90,16 @@
     .event-section__card {
         width: 90%;
     }
+}
+
+.event-section__empty {
+    background-color: black;
+    color: #99f243;
+    text-align: center;
+    /* margin-top: 2rem; */
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 10px 0px;
 }
 
 /* Create Event Page
@@ -183,4 +193,71 @@
 
 .create-event__button:hover {
     background-color: #87e035;
+}
+
+/* Modal Confirmación */
+.event-page__modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.event-page__modal-content {
+    background-color: #0f172a;
+    padding: 2rem;
+    border-radius: 8px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    color: white
+}
+
+.event-page__modal-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.event-page__modal-button--cancel,
+.event-page__modal-button--confirm {
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.event-page__modal-button--cancel {
+    background-color: transparent;
+    border: 2px solid #99f243;
+    color: #99f243;
+}
+
+.event-page__modal-button--cancel:hover {
+    background-color: #99f243;
+    color: #0f172a;
+}
+
+.event-page__modal-button--confirm {
+    background-color: #99f243;
+    color: #0f172a;
+    border: none;
+}
+
+.event-page__modal-button--confirm:hover {
+    background-color: #87e035;
+}
+
+/* Mensaje de error */
+.event-section__error {
+    color: red;
+    text-align: center;
+    margin-top: 2rem;
+    font-weight: bold;
 }

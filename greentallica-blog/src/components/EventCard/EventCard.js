@@ -1,30 +1,25 @@
-import React, { useContext } from 'react';
-import { useRouter } from 'next/router';
+import React from 'react';
 import styles from './EventCard.module.css';
-import { formatDate } from '@/utils/helpers';
-import { handleApiError } from '@/utils/handleErrors';
-import { AuthContext } from '@/context/AuthContext';
 
-export default function EventCard({ event }) {
-    const { title, text, createdAt, image, link, author } = event;
-    const { token, userId, userRole } = useContext(AuthContext);
-    const router = useRouter();
-
-    const canManageEvent = token && (userRole === 'admin' || userId === author?._id);
-
-    const handleClick = () => {
-        try {
-            if (link) {
-                window.open(link, '_blank');
-            } else {
-                console.warn("No se proporcionó un link para el evento.");
-            }
-        } catch (error) {
-            const mensajeError = handleApiError(error);
-            console.error(mensajeError);
-            console.error("Error al abrir el link:", error);
-        }
-    };
+/**
+ * EventCard
+ * Muestra una tarjeta de evento con opciones para gestionar (editar, eliminar) y más información.
+ *
+ * Props:
+ * - event: objeto de datos del evento.
+ * - canManageEvent: booleano que habilita botones de edición y eliminación.
+ * - onEdit: función callback para editar.
+ * - onDelete: función callback para eliminar.
+ * - onLinkClick: función callback para abrir el enlace.
+ */
+export default function EventCard({
+    event,
+    canManageEvent = false,
+    onEdit = () => { },
+    onDelete = () => { },
+    onLinkClick = () => { }
+}) {
+    const { title, text, eventDate, image, link } = event;
 
     return (
         <article
@@ -38,29 +33,30 @@ export default function EventCard({ event }) {
                     <div className={styles['event-card__manage']}>
                         <button
                             className={styles['event-card__edit']}
-                            onClick={() => router.push(`/events/edit/${event._id}`)}
+                            onClick={() => onEdit(event)}
                         >
                             Editar
                         </button>
                         <button
                             className={styles['event-card__delete']}
-                            onClick={() => console.log("Eliminar evento", event._id)}
+                            onClick={() => onDelete(event)}
                         >
                             Eliminar
                         </button>
                     </div>
                 )}
 
+                {/* Contenido del evento */}
                 <h3 className={styles['event-card__title']}>{title}</h3>
                 <p className={styles['event-card__description']}>{text}</p>
-                <p className={styles['event-card__date']}>{formatDate(createdAt)}</p>
+                <p className={styles['event-card__date']}>{eventDate}</p>
 
-                {/* Botón Más Información */}
+                {/* Botón de Más Información */}
                 {link && (
                     <div className={styles['event-card__actions']}>
                         <button
                             className={styles['event-card__button']}
-                            onClick={handleClick}
+                            onClick={() => onLinkClick(event)}
                         >
                             Más Información
                         </button>
