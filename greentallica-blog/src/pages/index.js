@@ -31,9 +31,11 @@ export default function Home() {
         try {
             const data = await getAllArticles();
             setArticles(data.slice(0, 4));
+
         } catch (error) {
             const mensajeError = handleApiError(error);
             setPageError(mensajeError || "Error al cargar artículos.");
+
         } finally {
             setLoadingArticles(false);
         }

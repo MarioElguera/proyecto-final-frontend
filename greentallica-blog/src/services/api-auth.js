@@ -1,63 +1,59 @@
-// services/auth.js
+// services/api-auth.js
 
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de autenticación
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/auth';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/auth';
+
+// Función para manejar la respuesta
+async function handleResponse(response) {
+    const data = await response.json();
+
+    if (!response.ok) {
+        const error = new Error(data?.message || 'Error desconocido');
+        error.status = response.status;
+        error.response = data;
+        throw error;
+    }
+
+    return data;
+}
 
 /**
  * Registra un nuevo usuario.
- * @param {Object} credentials - Objeto con `username` y `password`.
- * @returns {Promise<Object>} - Respuesta del servidor.
+ * @param {Object} credentials - { username, password }
+ * @returns {Promise<Object>} - Datos del usuario registrado.
  */
 export async function registerUser(credentials) {
     try {
-        // Realiza la petición al endpoint de registro
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/register`, {
+        const response = await fetch(`${API_BASE_URL}/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
 
-        const data = await response.json();
-
-        // Si la respuesta no es exitosa, lanza error
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al registrar usuario');
-        }
-
-        return data;
+        return await handleResponse(response);
     } catch (error) {
-        // Manejo del error con función utilitaria
         console.error(handleApiError(error));
         throw error;
     }
 }
 
 /**
- * Inicia sesión de usuario.
- * @param {Object} credentials - Objeto con `username` y `password`.
- * @returns {Promise<Object>} - Token y datos del usuario si es válido.
+ * Inicia sesión de un usuario.
+ * @param {Object} credentials - { username, password }
+ * @returns {Promise<Object>} - Token y datos de sesión.
  */
 export async function loginUser(credentials) {
     try {
-        // Realiza la petición al endpoint de login
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/login`, {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
 
-        const data = await response.json();
-
-        // Si la respuesta no es exitosa, lanza error
-        if (!response.ok) {
-            throw new Error(data.message || 'Error al iniciar sesión');
-        }
-
-        return data;
+        return await handleResponse(response);
     } catch (error) {
-        // Manejo del error con función utilitaria
         console.error(handleApiError(error));
         throw error;
     }

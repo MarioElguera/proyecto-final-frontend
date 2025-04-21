@@ -30,6 +30,7 @@ export default function LoginForm() {
             const res = await loginUser({ username, password });
             login(res.token, res.username);
             router.push('/');
+
         } catch (error) {
             const mensajeError = handleApiError(error);
             setErrorMessage(mensajeError || LOGIN_ERROR_MESSAGE);

@@ -1,18 +1,31 @@
+// services/api-events.js
+
 import { handleApiError } from '@/utils/handleErrors';
 
 // URL base de eventos
-const NEXT_PUBLIC_API_URL = process.env.NEXT_PUBLIC_API_URL + '/events';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/events';
+
+// Función para manejar la respuesta de fetch
+async function handleResponse(response) {
+    const data = await response.json();
+
+    if (!response.ok) {
+        const error = new Error(data?.message || 'Error desconocido');
+        error.status = response.status;
+        error.response = data;
+        throw error;
+    }
+
+    return data;
+}
 
 /**
  * Obtiene todos los eventos.
  */
 export async function getAllEvents() {
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`);
-        if (!response.ok) {
-            throw new Error('Error al obtener los eventos');
-        }
-        return await response.json();
+        const response = await fetch(`${API_BASE_URL}/`);
+        return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
         throw error;
@@ -25,11 +38,8 @@ export async function getAllEvents() {
  */
 export async function getEventById(eventId) {
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`);
-        if (!response.ok) {
-            throw new Error('Error al obtener el evento');
-        }
-        return await response.json();
+        const response = await fetch(`${API_BASE_URL}/${eventId}`);
+        return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
         throw error;
@@ -38,12 +48,12 @@ export async function getEventById(eventId) {
 
 /**
  * Crea un nuevo evento.
- * @param {Object} eventData - Datos del evento (title, text, image, link, author).
+ * @param {Object} eventData - Datos del evento.
  * @param {string} token - Token JWT del usuario autenticado.
  */
 export async function createEvent(eventData, token) {
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/`, {
+        const response = await fetch(`${API_BASE_URL}/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,10 +62,7 @@ export async function createEvent(eventData, token) {
             body: JSON.stringify(eventData),
         });
 
-        if (!response.ok) {
-            throw new Error('Error al crear el evento');
-        }
-        return await response.json();
+        return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
         throw error;
@@ -70,7 +77,7 @@ export async function createEvent(eventData, token) {
  */
 export async function updateEvent(eventId, eventData, token) {
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`, {
+        const response = await fetch(`${API_BASE_URL}/${eventId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -79,10 +86,7 @@ export async function updateEvent(eventId, eventData, token) {
             body: JSON.stringify(eventData),
         });
 
-        if (!response.ok) {
-            throw new Error('Error al actualizar el evento');
-        }
-        return await response.json();
+        return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
         throw error;
@@ -96,17 +100,14 @@ export async function updateEvent(eventId, eventData, token) {
  */
 export async function deleteEvent(eventId, token) {
     try {
-        const response = await fetch(`${NEXT_PUBLIC_API_URL}/${eventId}`, {
+        const response = await fetch(`${API_BASE_URL}/${eventId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `${token}`,
             },
         });
 
-        if (!response.ok) {
-            throw new Error('Error al eliminar el evento');
-        }
-        return await response.json();
+        return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
         throw error;
