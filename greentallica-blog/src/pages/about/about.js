@@ -1,3 +1,7 @@
+import { useEffect, useState, useRef } from 'react';
+import styles from './about.module.css';
+
+// Definición de las secciones de parallax
 const sections = [
     { video: '/videos/parallax/messi_run.mp4', title: 'Fútbol', description: 'Me encanta el fútbol' },
     { video: '/videos/parallax/metallica_concert.mp4', title: 'Música', description: 'La música me inspira' },
@@ -6,15 +10,12 @@ const sections = [
     { video: '/videos/parallax/programacion.mp4', title: 'Programación', description: 'Amo programar' },
 ];
 
-import { useEffect, useState, useRef } from 'react';
-import styles from './about.module.css';
-
 export default function AboutParallaxStory() {
     const [currentSection, setCurrentSection] = useState(0);
     const containerRef = useRef(null);
     const videoRefs = useRef([]);
 
-    // Detecta el scroll y cambia la sección activa
+    // Maneja el scroll para activar la sección correspondiente
     useEffect(() => {
         function handleScroll() {
             const container = containerRef.current;
@@ -33,9 +34,9 @@ export default function AboutParallaxStory() {
 
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [sections.length]);
+    }, []);
 
-    // Cambiar mute de videos y aplicar volumen dinámico
+    // Maneja la reproducción de video y el volumen según la sección activa
     useEffect(() => {
         videoRefs.current.forEach((video, index) => {
             if (!video) return;
@@ -49,7 +50,7 @@ export default function AboutParallaxStory() {
         });
     }, [currentSection]);
 
-    // Aumenta volumen progresivamente
+    // Aumenta progresivamente el volumen
     const fadeInVolume = (video) => {
         video.muted = false;
         let vol = 0;
@@ -61,10 +62,10 @@ export default function AboutParallaxStory() {
             } else {
                 clearInterval(fadeIn);
             }
-        }, 80); // Más suave todavía
+        }, 80);
     };
 
-    // Disminuye volumen progresivamente y pausa
+    // Disminuye progresivamente el volumen y pausa
     const fadeOutVolume = (video) => {
         let vol = video.volume;
         const fadeOut = setInterval(() => {
@@ -106,4 +107,3 @@ export default function AboutParallaxStory() {
         </div>
     );
 }
-

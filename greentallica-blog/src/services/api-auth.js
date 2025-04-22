@@ -1,27 +1,12 @@
-// services/api-auth.js
-
 import { handleApiError } from '@/utils/handleErrors';
+import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de autenticación
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/auth';
 
-// Función para manejar la respuesta
-async function handleResponse(response) {
-    const data = await response.json();
-
-    if (!response.ok) {
-        const error = new Error(data?.message || 'Error desconocido');
-        error.status = response.status;
-        error.response = data;
-        throw error;
-    }
-
-    return data;
-}
-
 /**
  * Registra un nuevo usuario.
- * @param {Object} credentials - { username, password }
+ * @param {Object} credentials - { username: string, password: string }
  * @returns {Promise<Object>} - Datos del usuario registrado.
  */
 export async function registerUser(credentials) {
@@ -31,7 +16,6 @@ export async function registerUser(credentials) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
@@ -41,7 +25,7 @@ export async function registerUser(credentials) {
 
 /**
  * Inicia sesión de un usuario.
- * @param {Object} credentials - { username, password }
+ * @param {Object} credentials - { username: string, password: string }
  * @returns {Promise<Object>} - Token y datos de sesión.
  */
 export async function loginUser(credentials) {
@@ -51,7 +35,6 @@ export async function loginUser(credentials) {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(credentials),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));

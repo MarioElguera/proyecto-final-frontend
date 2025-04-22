@@ -1,4 +1,6 @@
-/* Contenedor general */
+/* ============================= */
+/* CONTENEDOR PRINCIPAL */
+/* ============================= */
 .create-event {
     background-color: #0f172a;
     min-height: 100vh;
@@ -6,9 +8,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: sans-serif;
 }
 
-/* Título principal */
+/* ============================= */
+/* TÍTULO PRINCIPAL */
+/* ============================= */
 .create-event__title {
     font-size: 2rem;
     font-weight: bold;
@@ -17,9 +22,10 @@
     margin-bottom: 2rem;
 }
 
-/* Mensajes de error y éxito */
+/* ============================= */
+/* MENSAJES DE ERROR Y ÉXITO */
+/* ============================= */
 .create-event__error {
-    background-color: #ffdddd;
     color: #d8000c;
     padding: 0.8rem 1.2rem;
     margin-bottom: 1rem;
@@ -42,7 +48,9 @@
     text-align: center;
 }
 
-/* Formulario */
+/* ============================= */
+/* FORMULARIO */
+/* ============================= */
 .create-event__form {
     display: flex;
     flex-wrap: wrap;
@@ -51,7 +59,7 @@
     max-width: 900px;
 }
 
-/* Columnas izquierda y derecha */
+/* COLUMNAS DEL FORMULARIO */
 .create-event__left,
 .create-event__right {
     flex: 1 1 300px;
@@ -60,14 +68,14 @@
     gap: 1.2rem;
 }
 
-/* Labels */
+/* LABELS */
 .create-event__left label,
 .create-event__right label {
     font-weight: bold;
     color: #99f243;
 }
 
-/* Inputs y Textarea */
+/* INPUTS Y TEXTAREA */
 .create-event__left input,
 .create-event__right textarea {
     background-color: #ffffff;
@@ -84,13 +92,15 @@
     outline: none;
 }
 
-/* Textarea */
+/* TEXTAREA ESPECÍFICO */
 .create-event__right textarea {
     resize: vertical;
     min-height: 200px;
 }
 
-/* Botones */
+/* ============================= */
+/* BOTÓN DE ENVIAR */
+/* ============================= */
 .create-event__actions {
     width: 100%;
     margin-top: 1rem;
@@ -115,7 +125,9 @@
     transform: scale(1.05);
 }
 
-/* Responsivo */
+/* ============================= */
+/* RESPONSIVO */
+/* ============================= */
 @media (max-width: 768px) {
     .create-event__form {
         flex-direction: column;

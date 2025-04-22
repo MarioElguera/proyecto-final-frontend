@@ -1,263 +1,80 @@
-/* 
-  event-section: Contenedor principal para la sección de eventos.
-  Se utiliza flex-wrap para que las tarjetas se distribuyan de forma flexible.
-*/
+/* =================== */
+/* Estilos Globales    */
+/* =================== */
+
 .event-section {
-    background-color: #fff;
-    /* padding: 2rem; */
+    background-color: black;
     text-align: center;
+    min-height: 100vh;
 }
 
-/* Título principal de la sección en mayúsculas y color verde (#99f243) */
+/* =================== */
+/* Header de la sección */
+/* =================== */
+
+.event-section__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000;
+    gap: 1rem;
+    padding: 1rem;
+}
+
 .event-section__title {
     font-size: 2rem;
     font-weight: bold;
     color: #99f243;
-    margin-bottom: 2rem;
-}
-
-/*
-    Grid de eventos:
-    Se utiliza un contenedor flex con wrap para disponer las tarjetas.
-    Cada tarjeta tendrá un ancho fijo para que, si hay espacio, se puedan ver 4 por fila en pantallas grandes.
-    Las tarjetas se irán ajustando automáticamente al ancho disponible sin necesidad de media queries específicas para definir columnas.
-  */
-.event-section__grid {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: center;
-    align-items: stretch;
-    /* Todas las tarjetas de la misma fila tendrán la misma altura */
-}
-
-/* Tarjeta de evento con dimensiones fijas */
-.event-section__card {
-    background-color: #1c1c1c;
-    color: #fff;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    width: 250px;
-    /* Ancho fijo para mantener uniformidad */
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-}
-
-.event-section__card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-}
-
-/* Título de la tarjeta */
-.event-section__card-title {
-    font-size: 1.3rem;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    color: #99f243;
-    /* Verde neón */
-}
-
-/* Meta información: fecha y ubicación */
-.event-section__card-meta {
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
-    color: #ccc;
-}
-
-.event-section__card-date,
-.event-section__card-location {
-    font-weight: 600;
-}
-
-/* Descripción de la tarjeta */
-.event-section__card-description {
-    font-size: 1rem;
-    color: #ddd;
-    line-height: 1.5;
-    margin-top: auto;
-}
-
-/* 
-    Responsividad:
-    Al reducir el ancho de pantalla, las tarjetas se adaptan automáticamente.
-    Puesto que usamos flex-wrap, no es necesario definir media queries específicas.
-    Si deseas ajustar el ancho mínimo en dispositivos muy pequeños, podrías considerar:
-  */
-@media (max-width: 480px) {
-    .event-section__card {
-        width: 90%;
-    }
-}
-
-.event-section__empty {
-    background-color: black;
-    color: #99f243;
-    text-align: center;
-    /* margin-top: 2rem; */
-    font-size: 1.5rem;
-    font-weight: bold;
-    padding: 10px 0px;
-}
-
-/* Create Event Page
-/* Contenedor principal del page de creación/actualización de eventos */
-.create-event {
-    max-width: 600px;
-    margin: 2rem auto;
-    padding: 2rem;
-    background-color: #0f172a;
-    /* Fondo oscuro */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    color: #fff;
-    font-family: sans-serif;
-}
-
-/* Título principal */
-.create-event__title {
-    font-size: 2rem;
-    text-align: center;
-    color: #99f243;
-    /* Verde neón */
-    margin-bottom: 1rem;
-}
-
-/* Mensajes de error y éxito */
-.create-event__error {
-    color: #ef4444;
-    /* Rojo para errores */
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.create-event__success {
-    color: #99f243;
-    /* Verde para éxito */
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-/* Formulario */
-.create-event__form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Grupo de formulario (label + input/textarea) */
-.create-event__form-group {
-    display: flex;
-    flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
 }
 
-/* Etiqueta */
-.create-event__label {
-    font-weight: 600;
+.event-section__info-icon {
+    font-size: 1.2rem;
+    cursor: pointer;
     color: #99f243;
+    transition: color 0.3s ease;
 }
 
-/* Inputs y textarea */
-.create-event__input,
-.create-event__textarea {
-    padding: 0.75rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
+.event-section__info-icon:hover {
+    color: #7ccf2b;
 }
 
-/* Textarea: se adapta para permitir resize vertical y tiene mínimo de altura */
-.create-event__textarea {
-    min-height: 100px;
-    resize: vertical;
-}
+/* =================== */
+/* Botón crear evento */
+/* =================== */
 
-/* Botón de envío */
 .create-event__button {
+    margin: 0rem auto;
     padding: 0.75rem;
     background-color: #99f243;
-    /* Botón en verde */
     color: #000;
-    /* Texto negro */
-    border: none;
-    border-radius: 4px;
     font-size: 1rem;
     font-weight: 600;
+    width: 100%;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%;
 }
 
 .create-event__button:hover {
     background-color: #87e035;
 }
 
-/* Modal Confirmación */
-.event-page__modal {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
+/* =================== */
+/* Estados             */
+/* =================== */
 
-.event-page__modal-content {
-    background-color: #0f172a;
-    padding: 2rem;
-    border-radius: 8px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    color: white
-}
-
-.event-page__modal-actions {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.event-page__modal-button--cancel,
-.event-page__modal-button--confirm {
-    padding: 0.75rem 1.5rem;
-    border-radius: 6px;
-    font-weight: bold;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.event-page__modal-button--cancel {
-    background-color: transparent;
-    border: 2px solid #99f243;
-    color: #99f243;
-}
-
-.event-page__modal-button--cancel:hover {
-    background-color: #99f243;
-    color: #0f172a;
-}
-
-.event-page__modal-button--confirm {
-    background-color: #99f243;
-    color: #0f172a;
-    border: none;
-}
-
-.event-page__modal-button--confirm:hover {
-    background-color: #87e035;
-}
-
-/* Mensaje de error */
 .event-section__error {
     color: red;
-    text-align: center;
-    margin-top: 2rem;
     font-weight: bold;
+    margin-top: 2rem;
+}
+
+.event-section__empty {
+    color: #99f243;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding: 2rem 0;
+    background-color: #000;
 }

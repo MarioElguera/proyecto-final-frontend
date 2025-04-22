@@ -1,23 +1,13 @@
 import { handleApiError } from '@/utils/handleErrors';
+import { handleResponse } from '@/utils/handleResponse';
 
+// URL base de articulos
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/articles';
 
-// Función genérica para manejar respuestas
-async function handleResponse(response) {
-    const data = await response.json();
-
-    if (!response.ok) {
-        const error = new Error(data?.message || 'Error desconocido');
-        error.status = response.status;
-        error.response = data;
-        throw error;
-    }
-
-    return data;
-}
-
 /**
- * Obtener todos los artículos (con filtro opcional por categoría).
+ * Obtiene todos los artículos, opcionalmente filtrados por categoría.
+ * @param {string} [category] - Categoría para filtrar.
+ * @returns {Promise<Object[]>}
  */
 export async function getAllArticles(category) {
     let url = `${API_BASE_URL}/`;
@@ -35,7 +25,9 @@ export async function getAllArticles(category) {
 }
 
 /**
- * Obtener un artículo por su ID.
+ * Obtiene un artículo por su ID.
+ * @param {string} id - ID del artículo.
+ * @returns {Promise<Object>}
  */
 export async function getArticleById(id) {
     try {
@@ -48,7 +40,9 @@ export async function getArticleById(id) {
 }
 
 /**
- * Obtener un artículo completo (detalle + comentarios).
+ * Obtiene un artículo completo (detalle + comentarios).
+ * @param {string} id - ID del artículo.
+ * @returns {Promise<Object>}
  */
 export async function getFullArticleById(id) {
     try {
@@ -61,7 +55,8 @@ export async function getFullArticleById(id) {
 }
 
 /**
- * Obtener lista de categorías.
+ * Obtiene la lista de categorías disponibles.
+ * @returns {Promise<string[]>}
  */
 export async function getCategories() {
     try {
@@ -74,7 +69,10 @@ export async function getCategories() {
 }
 
 /**
- * Crear un nuevo artículo.
+ * Crea un nuevo artículo.
+ * @param {Object} article - Datos del artículo.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>}
  */
 export async function createArticle(article, token) {
     try {
@@ -94,7 +92,11 @@ export async function createArticle(article, token) {
 }
 
 /**
- * Actualizar un artículo.
+ * Actualiza un artículo existente.
+ * @param {string} id - ID del artículo.
+ * @param {Object} article - Datos actualizados del artículo.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>}
  */
 export async function updateArticle(id, article, token) {
     try {
@@ -114,7 +116,10 @@ export async function updateArticle(id, article, token) {
 }
 
 /**
- * Eliminar un artículo.
+ * Elimina un artículo por ID.
+ * @param {string} id - ID del artículo.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>}
  */
 export async function deleteArticle(id, token) {
     try {

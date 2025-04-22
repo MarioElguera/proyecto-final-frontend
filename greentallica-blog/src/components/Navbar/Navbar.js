@@ -14,7 +14,7 @@ export default function Navbar() {
     return (
         <header className={styles.navbar}>
             <div className={styles.navbar__container}>
-                <Link href="/" className={styles.navbar__logo}>BLOG PERSONAL</Link>
+                <Link href="/" className={styles.navbar__logo}>GREENTALLICA</Link>
 
                 <button
                     className={styles.navbar__hamburger}
@@ -28,7 +28,7 @@ export default function Navbar() {
 
                 <nav className={`${styles.navbar__links} ${isMenuOpen ? styles['navbar__links--open'] : ''}`}>
                     <Link href="/" className={`${styles.navbar__link} ${isActive('/') ? styles['navbar__link--active'] : ''}`}>Inicio</Link>
-                    <Link href="/articles/articles" className={`${styles.navbar__link} ${isActive('/articles/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
+                    <Link href="/articles" className={`${styles.navbar__link} ${isActive('/articles') ? styles['navbar__link--active'] : ''}`}>Artículos</Link>
                     <Link href="/event/event" className={`${styles.navbar__link} ${isActive('/event/event') ? styles['navbar__link--active'] : ''}`}>Eventos</Link>
                     <Link href="/about/about" className={`${styles.navbar__link} ${isActive('/about/about') ? styles['navbar__link--active'] : ''}`}>Acerca De</Link>
 
@@ -36,7 +36,7 @@ export default function Navbar() {
                         {!token ? (
                             <>
                                 <Link href="/auth/login" className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}>Iniciar sesión</Link>
-                                <Link href="/auth/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link>
+                                {/* <Link href="/auth/register" className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}>Registrarse</Link> */}
                             </>
                         ) : (
                             <div className={styles.navbar__user}>

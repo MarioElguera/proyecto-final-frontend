@@ -1,3 +1,7 @@
+/*
+  ========== Contenedor principal de la tarjeta ==========
+*/
+
 .commentCard {
     background-color: #1c1c1c;
     width: 100%;
@@ -18,7 +22,10 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Texto principal (testimonio) */
+/*
+    ========== Texto del comentario ==========
+  */
+
 .commentCard__text {
     font-size: 1rem;
     font-weight: bold;
@@ -26,18 +33,67 @@
     color: #99f243;
     /* Verde neón */
     line-height: 1.4;
-    /* font-family: cursive; */
     overflow-wrap: break-word;
-    /* Forzar corte si es muy largo */
     word-break: break-word;
-    /* Forzar corte entre letras */
     max-width: 100%;
 }
 
-/* Autor (nombre en blanco) */
+/*
+    ========== Autor del comentario ==========
+  */
+
 .commentCard__author {
-    font-size: 1rem;
+    font-size: 0.8rem;
     color: #fff;
     margin: 0;
-    /* text-align: right; */
+}
+
+/*
+    ========== Contenedor de acciones (editar/eliminar) ==========
+  */
+
+.commentCard__actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    justify-content: left;
+}
+
+/*
+    ========== Botones de acciones ==========
+  */
+
+.commentCard__button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #99f243;
+    background-color: transparent;
+    border: 2px solid #99f243;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.commentCard__button:hover {
+    background-color: #99f243;
+    color: #0f172a;
+}
+
+/*
+    ========== Responsive ==========
+  */
+
+@media (max-width: 768px) {
+    .commentCard {
+        padding: 0.8rem;
+    }
+
+    .commentCard__text {
+        font-size: 0.95rem;
+    }
+
+    .commentCard__author {
+        font-size: 0.9rem;
+    }
 }

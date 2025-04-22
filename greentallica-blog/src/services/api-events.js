@@ -1,26 +1,12 @@
-// services/api-events.js
-
 import { handleApiError } from '@/utils/handleErrors';
+import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de eventos
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/events';
 
-// Función para manejar la respuesta de fetch
-async function handleResponse(response) {
-    const data = await response.json();
-
-    if (!response.ok) {
-        const error = new Error(data?.message || 'Error desconocido');
-        error.status = response.status;
-        error.response = data;
-        throw error;
-    }
-
-    return data;
-}
-
 /**
  * Obtiene todos los eventos.
+ * @returns {Promise<Array>} - Lista de eventos.
  */
 export async function getAllEvents() {
     try {
@@ -35,6 +21,7 @@ export async function getAllEvents() {
 /**
  * Obtiene un evento por su ID.
  * @param {string} eventId - ID del evento.
+ * @returns {Promise<Object>} - Datos del evento.
  */
 export async function getEventById(eventId) {
     try {
@@ -48,8 +35,9 @@ export async function getEventById(eventId) {
 
 /**
  * Crea un nuevo evento.
- * @param {Object} eventData - Datos del evento.
- * @param {string} token - Token JWT del usuario autenticado.
+ * @param {Object} eventData - Datos del nuevo evento.
+ * @param {string} token - Token JWT de autenticación.
+ * @returns {Promise<Object>} - Evento creado.
  */
 export async function createEvent(eventData, token) {
     try {
@@ -61,7 +49,6 @@ export async function createEvent(eventData, token) {
             },
             body: JSON.stringify(eventData),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
@@ -73,7 +60,8 @@ export async function createEvent(eventData, token) {
  * Actualiza un evento existente.
  * @param {string} eventId - ID del evento.
  * @param {Object} eventData - Datos actualizados del evento.
- * @param {string} token - Token JWT del usuario autenticado.
+ * @param {string} token - Token JWT de autenticación.
+ * @returns {Promise<Object>} - Evento actualizado.
  */
 export async function updateEvent(eventId, eventData, token) {
     try {
@@ -85,7 +73,6 @@ export async function updateEvent(eventId, eventData, token) {
             },
             body: JSON.stringify(eventData),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
@@ -96,7 +83,8 @@ export async function updateEvent(eventId, eventData, token) {
 /**
  * Elimina un evento.
  * @param {string} eventId - ID del evento.
- * @param {string} token - Token JWT del usuario autenticado.
+ * @param {string} token - Token JWT de autenticación.
+ * @returns {Promise<Object>} - Resultado de eliminación.
  */
 export async function deleteEvent(eventId, token) {
     try {
@@ -106,7 +94,6 @@ export async function deleteEvent(eventId, token) {
                 'Authorization': `${token}`,
             },
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));

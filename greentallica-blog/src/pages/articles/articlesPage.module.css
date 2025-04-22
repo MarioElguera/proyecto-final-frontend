@@ -1,0 +1,180 @@
+/* ========================================
+    CONTENEDORES PRINCIPALES
+======================================== */
+
+/* Sección de menú y sección de lista de artículos */
+.articlesPage__menu-section,
+.articlesPage__list-section {
+    padding: 1rem;
+    font-family: sans-serif;
+}
+
+/* ========================================
+    HEADER: TÍTULO Y BOTÓN
+======================================== */
+
+/* Contenedor del header */
+.articlesPage__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+    gap: 16px;
+}
+
+/* Adaptación del header para pantallas medianas */
+@media (min-width: 640px) {
+    .articlesPage__header {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Título principal */
+.articlesPage__title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #99f243;
+    margin: 0;
+}
+
+/* ========================================
+    BOTÓN DE CREAR ARTÍCULO
+======================================== */
+
+/* Botón principal para crear artículo */
+.articlesPage__createBtn {
+    background-color: #99f243;
+    color: black;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover del botón de crear artículo */
+.articlesPage__createBtn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Icono dentro del botón */
+.articlesPage__createBtnIcon {
+    font-size: 1.25rem;
+    display: block;
+}
+
+/* Texto dentro del botón */
+.articlesPage__createBtnText {
+    display: none;
+}
+
+/* Mostrar solo el texto en pantallas mayores a 640px */
+@media (min-width: 640px) {
+    .articlesPage__createBtnIcon {
+        display: none;
+    }
+
+    .articlesPage__createBtnText {
+        display: inline;
+    }
+}
+
+/* ========================================
+    MENSAJE PARA LOGIN REQUERIDO
+======================================== */
+
+/* Mensaje de advertencia cuando el usuario no ha iniciado sesión */
+.articlesPage__loginRequired {
+    color: #dc2626;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* ========================================
+    ELEMENTOS DE SEPARACIÓN
+======================================== */
+
+/* Línea divisoria */
+.articlesPage__hr {
+    margin: 32px 0;
+    border: none;
+    border-top: 1px solid #d1d5db;
+}
+
+/* ========================================
+    SPINNER DE CARGA
+======================================== */
+
+/* Contenedor para mostrar loading */
+.articlesPage__spinnerContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 48px;
+}
+
+/* Texto de carga */
+.articlesPage__loadingText {
+    margin-top: 16px;
+    font-size: 1rem;
+    color: #2563eb;
+    font-weight: 500;
+}
+
+.articlesPage__error {
+    text-align: center;
+    color: red
+}
+
+/* ========================================
+    MENSAJES DE LISTA VACÍA
+======================================== */
+
+/* Mensaje cuando no hay artículos o selección */
+.articlesPage__message {
+    text-align: center;
+    font-size: 1.125rem;
+    margin: 2rem;
+    font-weight: 600;
+    color: white;
+}
+
+/* ========================================
+    BOTÓN DE CREAR EVENTO
+======================================== */
+
+/* Botón verde general de crear */
+.create-event__button {
+    padding: 0.75rem;
+    background-color: #99f243;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+/* ========================================
+    ICONO DE INFORMACIÓN
+======================================== */
+
+/* Icono ℹ️ que muestra información extra */
+.articlesPage__info-icon {
+    margin-left: 0.5rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+    vertical-align: middle;
+    color: #99f243;
+    transition: color 0.3s ease;
+}
+
+/* Hover sobre el icono de información */
+.articlesPage__info-icon:hover {
+    color: #7ccf2b;
+}

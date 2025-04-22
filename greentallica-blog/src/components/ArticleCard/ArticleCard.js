@@ -37,7 +37,7 @@ export default function ArticleCard({
                 <div className={styles['article-card--horizontal__content']}>
                     <h3 className={styles['article-card--horizontal__title']}>{title}</h3>
                     <p className={styles['article-card--horizontal__description']}>
-                        {truncateText(description, 200)}
+                        {truncateText(description, 150)}
                     </p>
                     {showLink && (
                         <Link

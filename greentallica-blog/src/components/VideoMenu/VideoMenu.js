@@ -1,6 +1,5 @@
-// src/components/ImageMenu.js
 import React from 'react';
-import styles from './ImageMenu.module.css';
+import styles from './VideoMenu.module.css';
 
 export default function ImageMenu({ categories = [], onSelectCategory }) {
     return (

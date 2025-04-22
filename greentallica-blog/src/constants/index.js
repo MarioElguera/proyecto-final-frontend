@@ -9,7 +9,7 @@ export const HERO_SLIDER_IMAGES = [
 ];
 
 // Textos estáticos del Hero
-export const HERO_TITLE = "Bienvenido Greentallica!";
+export const HERO_TITLE = "Bienvenido!";
 export const HERO_DESCRIPTION = "Bienvenido a un blog hecho para compartir pasiones: fútbol, música, cine y viajes. Aquí encontrarás artículos auténticos, comentarios reales y una experiencia hecha con dedicación.";
 
 // Títulos de secciones

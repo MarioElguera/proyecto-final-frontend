@@ -14,9 +14,8 @@
     flex-direction: row;
     width: 100%;
     max-width: 100%;
-    /* Ancho máximo */
     height: 250px;
-    /* Altura fija para uniformidad */
+    /* Altura fija solo para desktop */
     background-color: #0f172a;
     border-radius: 8px;
     overflow: hidden;
@@ -34,9 +33,7 @@
 /* Contenedor de imagen en horizontal */
 .article-card--horizontal__image-container {
     flex: 0 0 40%;
-    /* Imagen ocupa el 40% del ancho */
     background-color: #1e293b;
-    /* Fondo de reserva */
     overflow: hidden;
 }
 
@@ -44,7 +41,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* La imagen se adapta al contenedor */
     transition: transform 0.3s ease;
 }
 
@@ -52,7 +48,7 @@
     transform: scale(1.05);
 }
 
-/* Contenedor de contenido en horizontal */
+/* Contenido horizontal */
 .article-card--horizontal__content {
     flex: 1;
     padding: 1.5rem;
@@ -63,17 +59,15 @@
     color: #fff;
 }
 
-/* Título principal en horizontal */
+/* Título horizontal */
 .article-card--horizontal__title {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #99f243;
-    /* Verde neón */
 }
 
-/* Descripción en horizontal 
-     Se limita a 3 líneas y se agregan puntos suspensivos. */
+/* Descripción horizontal */
 .article-card--horizontal__description {
     flex: 1 1 auto;
     font-size: 1rem;
@@ -81,16 +75,14 @@
     color: #cbd5e1;
     margin-bottom: 1rem;
 
-    /* Truncado del texto a 3 líneas */
     display: -webkit-box;
     -webkit-line-clamp: 3;
-    /* número de líneas */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Enlace / botón en horizontal */
+/* Enlace horizontal */
 .article-card--horizontal__link {
     font-size: 0.9rem;
     font-weight: 600;
@@ -107,18 +99,20 @@
     color: #60a5fa;
 }
 
-/* Responsividad variante horizontal */
-@media (max-width: 768px) {
+/* ============================
+   RESPONSIVE HORIZONTAL
+   ============================ */
+@media (max-width: 767px) {
     .article-card--horizontal {
         flex-direction: column;
-        max-height: 100%;
-        max-width: 100%;
+        height: auto;
+        /* ✅ Altura automática en móvil */
+        max-height: none;
     }
 
     .article-card--horizontal__image-container {
         width: 100%;
         height: 180px;
-        /* Ajusta la altura de la imagen en móvil */
     }
 
     .article-card--horizontal__content {
@@ -128,18 +122,15 @@
 }
 
 /* ============================
-     VARIANTE VERTICAL (FEATURED)
-     ============================ */
+   VARIANTE VERTICAL (FEATURED)
+   ============================ */
 .article-card--vertical {
     display: flex;
     flex-direction: column;
     width: 100%;
     height: 100%;
     background-color: #f9f9f9;
-    /* overflow: hidden; */
-    /* margin: 1rem auto; */
     text-align: left;
-    /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -180,7 +171,7 @@
     font-size: 1.5rem;
     font-weight: 700;
     margin: 1rem 0 0.5rem;
-    color: #99f243
+    color: #99f243;
 }
 
 .article-card--vertical__text {
@@ -203,7 +194,9 @@
     color: #ff0000;
 }
 
-/* Responsividad variante vertical */
+/* ============================
+   RESPONSIVE VERTICAL
+   ============================ */
 @media (max-width: 768px) {
     .article-card--vertical {
         width: 100%;

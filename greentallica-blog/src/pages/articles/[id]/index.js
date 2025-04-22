@@ -1,13 +1,12 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
-import { getArticleById,deleteArticle } from '@/services/api-articles';
+import { getArticleById, deleteArticle } from '@/services/api-articles';
 import { getCommentsByArticle, createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
 import Loading from '@/components/Loading/Loading';
 import CommentCard from '@/components/CommentCard/CommentCard';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
 import styles from './articleDetail.module.css';
-
 import {
     PAGE_TITLE_COMMENTS,
     ADD_COMMENT_BUTTON,
@@ -25,6 +24,10 @@ import {
     EDIT_ARTICLE_BUTTON,
     DELETE_ARTICLE_BUTTON,
 } from '@/constants/articles';
+
+// Límites del comentario (según modelo API)
+const COMMENT_MIN_LENGTH = 5;
+const COMMENT_MAX_LENGTH = 500;
 
 export default function ArticleDetailPage() {
     const router = useRouter();
@@ -47,7 +50,7 @@ export default function ArticleDetailPage() {
     const [itemToDelete, setItemToDelete] = useState(null);
     const [deleteType, setDeleteType] = useState('');
 
-    // 🔵 Fetch Artículo
+    // Fetch Artículo
     const fetchArticle = async () => {
         try {
             setLoadingArticle(true);
@@ -60,7 +63,7 @@ export default function ArticleDetailPage() {
         }
     };
 
-    // 🔵 Fetch Comentarios
+    // Fetch Comentarios
     const fetchComments = async () => {
         try {
             setLoadingComments(true);
@@ -80,10 +83,27 @@ export default function ArticleDetailPage() {
         }
     }, [id]);
 
+    // Validar comentario antes de enviar
+    const validateComment = (comment) => {
+        if (!comment.trim()) return 'El comentario no puede estar vacío.';
+        if (comment.length < COMMENT_MIN_LENGTH)
+            return `El comentario debe tener al menos ${COMMENT_MIN_LENGTH} caracteres.`;
+        if (comment.length > COMMENT_MAX_LENGTH)
+            return `El comentario no puede superar los ${COMMENT_MAX_LENGTH} caracteres.`;
+        return null;
+    };
+
+    // Enviar comentario nuevo o editado
     const handleSubmitComment = async () => {
-        if (!newComment.trim()) return;
+        const validationError = validateComment(newComment);
+        if (validationError) {
+            setErrorMessage(validationError);
+            return;
+        }
+
         setShowModal(false);
         try {
+            setSubmitting(true);
             setLoadingComments(true);
             if (editingComment) {
                 await updateComment(editingComment._id, newComment, token);
@@ -96,6 +116,7 @@ export default function ArticleDetailPage() {
         } catch {
             setErrorMessage('Error al enviar el comentario.');
         } finally {
+            setSubmitting(false);
             setLoadingComments(false);
         }
     };
@@ -115,7 +136,7 @@ export default function ArticleDetailPage() {
     const handleDeleteArticle = async () => {
         try {
             await deleteArticle(id, token);
-            router.push('/articles/articles');
+            router.push('/articles');
         } catch {
             setErrorMessage('Error al eliminar el artículo.');
         }
@@ -142,9 +163,8 @@ export default function ArticleDetailPage() {
 
     return (
         <div className={styles['article-detail']}>
-
-            {/* 🟡 Header */}
-            <div className={styles['article-detail__header']}>
+            {/* Header */}
+            <header className={styles['article-detail__header']}>
                 <h1 className={styles['article-detail__title']}>{article.title}</h1>
                 {canEditOrDeleteArticle && (
                     <div className={styles['article-detail__actions']}>
@@ -166,10 +186,10 @@ export default function ArticleDetailPage() {
                         </button>
                     </div>
                 )}
-            </div>
+            </header>
 
-            {/* 🟠 Cuerpo */}
-            <div className={styles['article-detail__body']}>
+            {/* Cuerpo */}
+            <section className={styles['article-detail__body']}>
                 <div className={styles['article-detail__image-container']}>
                     {article.image && (
                         <img
@@ -185,69 +205,65 @@ export default function ArticleDetailPage() {
                     </p>
                     <p className={styles['article-detail__text']}>{article.content}</p>
                 </div>
-            </div>
+            </section>
 
-            {/* 🟢 Comentarios */}
+            {/* Comentarios */}
             <hr className={styles['article-detail__divider']} />
-            <div className={styles['article-detail__comments-header']}>
-                <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
-                {token && (
-                    <button
-                        className={styles['article-detail__button--add-comment']}
-                        onClick={() => {
-                            setShowModal(true);
-                            setEditingComment(null);
-                            setNewComment('');
-                        }}
-                    >
-                        {ADD_COMMENT_BUTTON}
-                    </button>
+            <section className={styles['article-detail__comments']}>
+                {/* Header de comentarios */}
+                <div className={styles['article-detail__comments-header']}>
+                    <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
+                    {token && (
+                        <button
+                            className={styles['article-detail__button--add-comment']}
+                            onClick={() => {
+                                setShowModal(true);
+                                setEditingComment(null);
+                                setNewComment('');
+                                setErrorMessage('');
+                            }}
+                        >
+                            {ADD_COMMENT_BUTTON}
+                        </button>
+                    )}
+                </div>
+
+                {/* Lista de comentarios o estados */}
+                {loadingComments ? (
+                    <Loading />
+                ) : comments.length > 0 ? (
+                    <ul className={styles['article-detail__comment-list']}>
+                        {comments.map((c) => {
+                            const canManageComment = userId === c.author?._id || userRole === 'admin';
+                            return (
+                                <li key={c._id} className={styles['article-detail__comment-item']}>
+                                    <CommentCard
+                                        comment={c.content}
+                                        author={c.author.username}
+                                        showEdit={canManageComment}
+                                        showDelete={canManageComment}
+                                        onEdit={() => {
+                                            setEditingComment(c);
+                                            setNewComment(c.content);
+                                            setShowModal(true);
+                                        }}
+                                        onDelete={() => {
+                                            setItemToDelete(c._id);
+                                            setDeleteType('comment');
+                                            setShowConfirmModal(true);
+                                        }}
+                                    />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                ) : (
+                    <p className={styles['article-detail__no-comments']}>{NO_COMMENTS_MESSAGE}</p>
                 )}
-            </div>
+            </section>
 
-            {/* 🔵 Lista de comentarios */}
-            {loadingComments ? (
-                <Loading />
-            ) : comments.length > 0 ? (
-                <ul className={styles['article-detail__comment-list']}>
-                    {comments.map((c) => {
-                        const canManageComment = userId === c.author?._id || userRole === 'admin';
-                        return (
-                            <li key={c._id} className={styles['article-detail__comment-item']}>
-                                <CommentCard comment={c.content} author={c.author.username} />
-                                {canManageComment && (
-                                    <div className={styles['article-detail__comment-actions']}>
-                                        <button
-                                            className={styles['article-detail__button--edit-comment']}
-                                            onClick={() => {
-                                                setEditingComment(c);
-                                                setNewComment(c.content);
-                                                setShowModal(true);
-                                            }}
-                                        >
-                                            {EDIT_COMMENT_TEXT}
-                                        </button>
-                                        <button
-                                            className={styles['article-detail__button--delete-comment']}
-                                            onClick={() => {
-                                                setItemToDelete(c._id);
-                                                setDeleteType('comment');
-                                                setShowConfirmModal(true);
-                                            }}
-                                        >
-                                            {DELETE_COMMENT_TEXT}
-                                        </button>
-                                    </div>
-                                )}
-                            </li>
-                        );
-                    })}
-                </ul>
-            ) : (
-                <p className={styles['article-detail__no-comments']}>{NO_COMMENTS_MESSAGE}</p>
-            )}
 
-            {/* 🟣 ConfirmModal */}
+            {/* Modal Confirmación */}
             <ConfirmModal
                 show={showConfirmModal}
                 message={deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}
@@ -255,13 +271,17 @@ export default function ArticleDetailPage() {
                 onConfirm={handleConfirmDelete}
             />
 
-            {/* 🟤 Modal para Agregar/Editar Comentario */}
+            {/* Modal Agregar/Editar Comentario */}
             {showModal && (
                 <div className={styles['article-detail__modal']}>
                     <div className={styles['article-detail__modal-content']}>
                         <h3 className={styles['article-detail__modal-title']}>
                             {editingComment ? COMMENT_MODAL_TITLE_EDIT : COMMENT_MODAL_TITLE_NEW}
                         </h3>
+                        {/* Mostrar errores individuales de comentarios */}
+                        {errorMessage && (
+                            <p className={styles['article-detail__error']}>{errorMessage}</p>
+                        )}
                         <textarea
                             className={styles['article-detail__modal-textarea']}
                             rows="4"
@@ -275,6 +295,7 @@ export default function ArticleDetailPage() {
                                     setShowModal(false);
                                     setNewComment('');
                                     setEditingComment(null);
+                                    setErrorMessage('');
                                 }}
                                 className={styles['article-detail__modal-button--cancel']}
                             >
@@ -291,8 +312,6 @@ export default function ArticleDetailPage() {
                     </div>
                 </div>
             )}
-
-            {errorMessage && <p className={styles['article-detail__error']}>{errorMessage}</p>}
         </div>
     );
 }

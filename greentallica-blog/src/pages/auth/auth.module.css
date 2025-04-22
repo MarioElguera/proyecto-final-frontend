@@ -1,0 +1,124 @@
+/* ============================== */
+/* CONTENEDOR GENERAL DEL LOGIN   */
+/* ============================== */
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #0a1128;
+    /* Fondo oscuro */
+    padding: 2rem;
+}
+
+/* ============================== */
+/* CAJA DE LOGIN                  */
+/* ============================== */
+
+.login-box {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+}
+
+/* Título */
+.login-box__title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+/* Grupo de input */
+.login-box__group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+/* Label */
+.login-box__label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: #0f172a;
+    margin-bottom: 0.5rem;
+}
+
+/* Input */
+.login-box__input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+}
+
+.login-box__input:focus {
+    border-color: #99f243;
+    outline: none;
+}
+
+/* Error de login */
+.login-box__error {
+    background-color: #ffe0e0;
+    color: #d10000;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1.5rem;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+/* Botón de envío */
+.login-box__button {
+    width: 100%;
+    background-color: #99f243;
+    color: #0f172a;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-box__button:hover {
+    background-color: #6cd806;
+}
+
+/* Pie de página */
+.login-box__footer {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #0f172a;
+}
+
+/* Link de registro */
+.login-box__link {
+    color: #1877f2;
+    font-weight: bold;
+    text-decoration: none;
+    margin-left: 0.5rem;
+}
+
+.login-box__link:hover {
+    text-decoration: underline;
+}
+
+/* ============================== */
+/* RESPONSIVE DESIGN              */
+/* ============================== */
+
+/* Para mobile */
+@media (max-width: 640px) {
+    .login-container {
+        justify-content: left;
+        align-items: start;
+    }
+}

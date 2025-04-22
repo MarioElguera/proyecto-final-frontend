@@ -1,26 +1,12 @@
-// services/api-comments.js
-
 import { handleApiError } from '@/utils/handleErrors';
+import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de comentarios
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/comments';
 
-// Función para manejar la respuesta de fetch
-async function handleResponse(response) {
-    const data = await response.json();
-
-    if (!response.ok) {
-        const error = new Error(data?.message || 'Error desconocido');
-        error.status = response.status;
-        error.response = data;
-        throw error;
-    }
-
-    return data;
-}
-
 /**
  * Obtiene todos los comentarios.
+ * @returns {Promise<Array>} - Lista de comentarios.
  */
 export async function getAllComments() {
     try {
@@ -35,6 +21,7 @@ export async function getAllComments() {
 /**
  * Obtiene los comentarios de un artículo específico.
  * @param {string} articleId - ID del artículo.
+ * @returns {Promise<Array>} - Comentarios del artículo.
  */
 export async function getCommentsByArticle(articleId) {
     try {
@@ -51,6 +38,7 @@ export async function getCommentsByArticle(articleId) {
  * @param {string} articleId - ID del artículo.
  * @param {string} content - Contenido del comentario.
  * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Comentario creado.
  */
 export async function createComment(articleId, content, token) {
     try {
@@ -62,7 +50,6 @@ export async function createComment(articleId, content, token) {
             },
             body: JSON.stringify({ content }),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
@@ -75,6 +62,7 @@ export async function createComment(articleId, content, token) {
  * @param {string} commentId - ID del comentario.
  * @param {string} content - Nuevo contenido.
  * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Comentario actualizado.
  */
 export async function updateComment(commentId, content, token) {
     try {
@@ -86,7 +74,6 @@ export async function updateComment(commentId, content, token) {
             },
             body: JSON.stringify({ content }),
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));
@@ -98,6 +85,7 @@ export async function updateComment(commentId, content, token) {
  * Elimina un comentario.
  * @param {string} commentId - ID del comentario.
  * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} - Resultado de la eliminación.
  */
 export async function deleteComment(commentId, token) {
     try {
@@ -107,7 +95,6 @@ export async function deleteComment(commentId, token) {
                 'Authorization': `${token}`,
             },
         });
-
         return await handleResponse(response);
     } catch (error) {
         console.error(handleApiError(error));

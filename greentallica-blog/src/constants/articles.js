@@ -1,5 +1,6 @@
-// Constantes de textos
+// Page Articles
 export const PAGE_TITLE = "Categorías";
+export const PAGE_TITLE_INFO_ICON_TEXT = "Si quieres agregar un artículo, debes iniciar sesión.";
 export const CREATE_ARTICLE_TEXT = "Agregar Artículo";
 export const NO_ARTICLES_TEXT = "No hay artículos en esta categoría.";
 export const SELECT_CATEGORY_TEXT = "👉 Selecciona una de las categorías que se muestran arriba para ver los artículos. 👈";
