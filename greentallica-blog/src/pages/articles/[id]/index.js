@@ -1,11 +1,23 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState, useContext } from 'react';
-import { getArticleById, deleteArticle } from '@/services/api-articles';
-import { getCommentsByArticle, createComment, updateComment, deleteComment } from '@/services/api-comments';
 import { AuthContext } from '@/context/AuthContext';
+
+// Servicios y utilidades
+import {
+    getCommentsByArticle,
+    createComment,
+    updateComment,
+    deleteComment
+} from '@/services/api-comments';
+import { getArticleById, deleteArticle } from '@/services/api-articles';
+import { handleApiError } from '@/utils/handleErrors';
+
+// Componentes reutilizables
 import Loading from '@/components/Loading/Loading';
 import CommentCard from '@/components/CommentCard/CommentCard';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
+
+// Estilos y constantes
 import styles from './articleDetail.module.css';
 import {
     PAGE_TITLE_COMMENTS,
@@ -13,8 +25,6 @@ import {
     DELETE_COMMENT_CONFIRM,
     DELETE_ARTICLE_CONFIRM,
     NO_COMMENTS_MESSAGE,
-    EDIT_COMMENT_TEXT,
-    DELETE_COMMENT_TEXT,
     COMMENT_MODAL_TITLE_NEW,
     COMMENT_MODAL_TITLE_EDIT,
     COMMENT_MODAL_PLACEHOLDER,
@@ -22,10 +32,10 @@ import {
     COMMENT_MODAL_SUBMIT,
     COMMENT_MODAL_SUBMIT_LOADING,
     EDIT_ARTICLE_BUTTON,
-    DELETE_ARTICLE_BUTTON,
+    DELETE_ARTICLE_BUTTON
 } from '@/constants/articles';
 
-// Límites del comentario (según modelo API)
+// Límites del contenido del comentario
 const COMMENT_MIN_LENGTH = 5;
 const COMMENT_MAX_LENGTH = 500;
 
@@ -34,139 +44,145 @@ export default function ArticleDetailPage() {
     const { id } = router.query;
     const { token, userId, userRole } = useContext(AuthContext);
 
+    // Estados principales
     const [article, setArticle] = useState(null);
     const [comments, setComments] = useState([]);
     const [loadingArticle, setLoadingArticle] = useState(true);
     const [loadingComments, setLoadingComments] = useState(true);
-    const [error, setError] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
 
+    // Estados para errores diferenciados
+    const [articleError, setArticleError] = useState('');
+    const [commentsError, setCommentsError] = useState('');
+    const [modalCommentError, setModalCommentError] = useState('');
+
+    // Estados para modal de comentario
     const [showModal, setShowModal] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [editingComment, setEditingComment] = useState(null);
 
+    // Estados para confirmación de eliminación
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
     const [deleteType, setDeleteType] = useState('');
 
-    // Fetch Artículo
-    const fetchArticle = async () => {
-        try {
-            setLoadingArticle(true);
-            const data = await getArticleById(id);
-            setArticle(data);
-        } catch {
-            setError('No se pudo cargar el artículo.');
-        } finally {
-            setLoadingArticle(false);
-        }
-    };
-
-    // Fetch Comentarios
-    const fetchComments = async () => {
-        try {
-            setLoadingComments(true);
-            const data = await getCommentsByArticle(id);
-            setComments(data);
-        } catch {
-            setError('No se pudieron cargar los comentarios.');
-        } finally {
-            setLoadingComments(false);
-        }
-    };
-
+    // Cargar artículo
     useEffect(() => {
-        if (id) {
-            fetchArticle();
-            fetchComments();
-        }
+        const fetchArticle = async () => {
+            try {
+                setLoadingArticle(true);
+                const data = await getArticleById(id);
+                setArticle(data);
+            } catch (error) {
+                setArticleError(handleApiError(error));
+            } finally {
+                setLoadingArticle(false);
+            }
+        };
+
+        if (id) fetchArticle();
     }, [id]);
 
-    // Validar comentario antes de enviar
-    const validateComment = (comment) => {
-        if (!comment.trim()) return 'El comentario no puede estar vacío.';
-        if (comment.length < COMMENT_MIN_LENGTH)
-            return `El comentario debe tener al menos ${COMMENT_MIN_LENGTH} caracteres.`;
-        if (comment.length > COMMENT_MAX_LENGTH)
-            return `El comentario no puede superar los ${COMMENT_MAX_LENGTH} caracteres.`;
+    // Cargar comentarios
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                setLoadingComments(true);
+                const data = await getCommentsByArticle(id);
+                setComments(data);
+            } catch (error) {
+                setCommentsError(handleApiError(error));
+            } finally {
+                setLoadingComments(false);
+            }
+        };
+
+        if (id) fetchComments();
+    }, [id]);
+
+    // Validar contenido del comentario
+    const validateComment = (text) => {
+        if (!text.trim()) return 'El comentario no puede estar vacío.';
+        if (text.length < COMMENT_MIN_LENGTH) return `Debe tener al menos ${COMMENT_MIN_LENGTH} caracteres.`;
+        if (text.length > COMMENT_MAX_LENGTH) return `No puede superar los ${COMMENT_MAX_LENGTH} caracteres.`;
         return null;
     };
 
-    // Enviar comentario nuevo o editado
+    // Crear o actualizar comentario
     const handleSubmitComment = async () => {
         const validationError = validateComment(newComment);
-        if (validationError) {
-            setErrorMessage(validationError);
-            return;
-        }
+        if (validationError) return setModalCommentError(validationError);
 
+        setModalCommentError('');
         setShowModal(false);
+
         try {
             setSubmitting(true);
             setLoadingComments(true);
+
             if (editingComment) {
                 await updateComment(editingComment._id, newComment, token);
             } else {
                 await createComment(id, newComment, token);
             }
+
             setNewComment('');
             setEditingComment(null);
-            await fetchComments();
+            const updated = await getCommentsByArticle(id);
+            setComments(updated);
         } catch {
-            setErrorMessage('Error al enviar el comentario.');
+            setModalCommentError('Error al enviar el comentario.');
         } finally {
             setSubmitting(false);
             setLoadingComments(false);
         }
     };
 
+    // Eliminar comentario
     const handleDeleteComment = async (commentId) => {
         try {
             setLoadingComments(true);
             await deleteComment(commentId, token);
-            await fetchComments();
+            const updated = await getCommentsByArticle(id);
+            setComments(updated);
         } catch {
-            setErrorMessage('Error al eliminar el comentario.');
+            setCommentsError('Error al eliminar el comentario.');
         } finally {
             setLoadingComments(false);
         }
     };
 
+    // Eliminar artículo
     const handleDeleteArticle = async () => {
         try {
             await deleteArticle(id, token);
             router.push('/articles');
         } catch {
-            setErrorMessage('Error al eliminar el artículo.');
+            setArticleError('Error al eliminar el artículo.');
         }
     };
 
-    const handleConfirmDelete = async () => {
+    const handleConfirmDelete = () => {
         setShowConfirmModal(false);
-        try {
-            if (deleteType === 'comment') {
-                await handleDeleteComment(itemToDelete);
-            } else if (deleteType === 'article') {
-                await handleDeleteArticle();
-            }
-        } finally {
-            setItemToDelete(null);
-            setDeleteType('');
-        }
+        if (deleteType === 'comment') handleDeleteComment(itemToDelete);
+        else if (deleteType === 'article') handleDeleteArticle();
+
+        setItemToDelete(null);
+        setDeleteType('');
     };
 
     if (loadingArticle) return <Loading />;
-    if (error) return <p className={styles['article-detail__error']}>{error}</p>;
+    if (articleError) return <p className={styles['article-detail__error']}>{articleError}</p>;
 
-    const canEditOrDeleteArticle = userId === article.author?._id || userRole === 'admin';
+    const canManageArticle = userId === article?.author?._id || userRole === 'admin';
 
     return (
         <div className={styles['article-detail']}>
+
             {/* Header */}
             <header className={styles['article-detail__header']}>
                 <h1 className={styles['article-detail__title']}>{article.title}</h1>
-                {canEditOrDeleteArticle && (
+                {canManageArticle && (
                     <div className={styles['article-detail__actions']}>
                         <button
                             onClick={() => router.push(`/articles/create?id=${article._id}`)}
@@ -190,18 +206,14 @@ export default function ArticleDetailPage() {
 
             {/* Cuerpo */}
             <section className={styles['article-detail__body']}>
-                <div className={styles['article-detail__image-container']}>
-                    {article.image && (
-                        <img
-                            src={article.image}
-                            alt={article.title}
-                            className={styles['article-detail__image']}
-                        />
-                    )}
-                </div>
+                {article.image && (
+                    <div className={styles['article-detail__image-container']}>
+                        <img src={article.image} alt={article.title} className={styles['article-detail__image']} />
+                    </div>
+                )}
                 <div className={styles['article-detail__content']}>
                     <p className={styles['article-detail__meta']}>
-                        Categoría: {article.category} | Autor: {article.author?.username}
+                        Categoría: {article.category} | Autor: {article.author.username}
                     </p>
                     <p className={styles['article-detail__text']}>{article.content}</p>
                 </div>
@@ -210,7 +222,6 @@ export default function ArticleDetailPage() {
             {/* Comentarios */}
             <hr className={styles['article-detail__divider']} />
             <section className={styles['article-detail__comments']}>
-                {/* Header de comentarios */}
                 <div className={styles['article-detail__comments-header']}>
                     <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
                     {token && (
@@ -220,7 +231,7 @@ export default function ArticleDetailPage() {
                                 setShowModal(true);
                                 setEditingComment(null);
                                 setNewComment('');
-                                setErrorMessage('');
+                                setModalCommentError('');
                             }}
                         >
                             {ADD_COMMENT_BUTTON}
@@ -228,7 +239,9 @@ export default function ArticleDetailPage() {
                     )}
                 </div>
 
-                {/* Lista de comentarios o estados */}
+                {/* Mensaje de error de comentarios */}
+                {commentsError && <p className={styles['article-detail__error']}>{commentsError}</p>}
+
                 {loadingComments ? (
                     <Loading />
                 ) : comments.length > 0 ? (
@@ -262,8 +275,7 @@ export default function ArticleDetailPage() {
                 )}
             </section>
 
-
-            {/* Modal Confirmación */}
+            {/* Modal de Confirmación */}
             <ConfirmModal
                 show={showConfirmModal}
                 message={deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}
@@ -278,10 +290,7 @@ export default function ArticleDetailPage() {
                         <h3 className={styles['article-detail__modal-title']}>
                             {editingComment ? COMMENT_MODAL_TITLE_EDIT : COMMENT_MODAL_TITLE_NEW}
                         </h3>
-                        {/* Mostrar errores individuales de comentarios */}
-                        {errorMessage && (
-                            <p className={styles['article-detail__error']}>{errorMessage}</p>
-                        )}
+                        {modalCommentError && <p className={styles['article-detail__error']}>{modalCommentError}</p>}
                         <textarea
                             className={styles['article-detail__modal-textarea']}
                             rows="4"
@@ -292,10 +301,10 @@ export default function ArticleDetailPage() {
                         <div className={styles['article-detail__modal-actions']}>
                             <button
                                 onClick={() => {
-                                    setShowModal(false);
                                     setNewComment('');
                                     setEditingComment(null);
-                                    setErrorMessage('');
+                                    setModalCommentError('');
+                                    setShowModal(false);
                                 }}
                                 className={styles['article-detail__modal-button--cancel']}
                             >

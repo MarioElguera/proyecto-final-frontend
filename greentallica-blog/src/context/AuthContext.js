@@ -8,6 +8,7 @@ export function AuthProvider({ children }) {
     const [username, setUsername] = useState(null);
     const [userId, setUserId] = useState(null);
     const [userRole, setUserRole] = useState(null);
+    const [isLoadingContextInfo, setIsLoadingContextInfo] = useState(true);
     const router = useRouter();
 
     useEffect(() => {
@@ -19,6 +20,7 @@ export function AuthProvider({ children }) {
             decodeToken(storedToken);
         }
         if (storedUsername) setUsername(storedUsername);
+        setIsLoadingContextInfo(false);
     }, []);
 
     const decodeToken = (jwt) => {
@@ -50,7 +52,15 @@ export function AuthProvider({ children }) {
     };
 
     return (
-        <AuthContext.Provider value={{ token, username, userId, userRole, login, logout }}>
+        <AuthContext.Provider value={{
+            token,
+            username,
+            userId,
+            userRole,
+            login,
+            logout,
+            isLoadingContextInfo
+        }}>
             {children}
         </AuthContext.Provider>
     );

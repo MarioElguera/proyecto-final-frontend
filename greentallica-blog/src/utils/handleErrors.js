@@ -5,6 +5,7 @@
  * @returns {string} - Mensaje de error procesado para mostrar en el frontend.
  */
 export function handleApiError(error) {
+    console.log("handleApiError => ", error);
     if (!error) {
         return 'Ocurrió un error inesperado. Intenta de nuevo.';
     }
@@ -22,8 +23,8 @@ export function handleApiError(error) {
             500: 'Error interno del servidor.',
         };
 
-        return message || statusMessages[status] || 'Ocurrió un error inesperado.';
+        return message || statusMessages[status] || 'No se pudo cargar la información.';
     }
 
-    return 'Ocurrió un error inesperado.';
+    return 'No se pudo cargar la información.';
 }

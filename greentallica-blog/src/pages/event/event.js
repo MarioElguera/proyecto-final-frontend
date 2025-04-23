@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
 import { getAllEvents, deleteEvent } from '@/services/api-events';
-import EventsTimelineContainer from '@/components/GalleryContainer/EventsTimelineContainer';
+import EventsTimelineContainer from '@/components/EventsTimelineContainer/EventsTimelineContainer';
 import EventCard from '@/components/EventCard/EventCard';
 import Loading from '@/components/Loading/Loading';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';

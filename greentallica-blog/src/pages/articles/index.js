@@ -1,19 +1,19 @@
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
 
 // Servicios y utilidades
 import { getAllArticles } from "@/services/api-articles";
 import { handleApiError } from "@/utils/handleErrors";
+import categories from "@/utils/categories";
 
-// Componentes
+// Componentes reutilizables
 import VideoMenu from "@/components/VideoMenu/VideoMenu";
 import CardsContainer from "@/components/CardsContainer/CardsContainer";
 import ArticleCard from "@/components/ArticleCard/ArticleCard";
 import Loading from "@/components/Loading/Loading";
 
 // Estilos y constantes
-import categories from "@/utils/categories";
 import styles from "./articlesPage.module.css";
 import {
     PAGE_TITLE,
@@ -27,28 +27,29 @@ export default function ArticlesPage() {
     const { token } = useContext(AuthContext);
     const router = useRouter();
 
+    // Estados para artículos, error, carga y categoría seleccionada
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
-    const [pageError, setPageError] = useState('');
+    const [error, setError] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // Función genérica para cargar artículos (con o sin categoría)
+    // Carga artículos desde la API (opcionalmente filtrando por categoría)
     const fetchArticles = async (category = null) => {
         setLoading(true);
         try {
             const data = await getAllArticles(category);
             setArticles(data);
-            setPageError('');
+            setError('');
         } catch (error) {
             const mensajeError = handleApiError(error);
-            setPageError(mensajeError || "Error cargando artículos.");
+            setError(mensajeError || "Error cargando artículos.");
             setArticles([]);
         } finally {
             setLoading(false);
         }
     };
 
-    // Maneja la selección de categoría
+    // Actualiza artículos cuando se selecciona una categoría
     const handleCategorySelect = async (slug) => {
         setSelectedCategory(slug);
         await fetchArticles(slug);
@@ -56,7 +57,7 @@ export default function ArticlesPage() {
 
     return (
         <>
-            {/* Botón Agregar Artículo */}
+            {/* Botón para crear nuevo artículo */}
             {token && (
                 <button
                     className={styles['create-event__button']}
@@ -67,7 +68,7 @@ export default function ArticlesPage() {
                 </button>
             )}
 
-            {/* Sección del Menú de Categorías */}
+            {/* Sección de selección de categorías */}
             <section className={styles['articlesPage__menu-section']}>
                 <div className={styles['articlesPage__header']}>
                     <h2 className={styles['articlesPage__title']}>
@@ -89,14 +90,14 @@ export default function ArticlesPage() {
                 />
             </section>
 
-            {/* Sección de Artículos */}
+            {/* Sección donde se muestran los artículos */}
             <section className={styles['articlesPage__list-section']}>
                 <hr className={styles['articlesPage__hr']} />
 
                 {loading ? (
                     <Loading />
-                ) : pageError ? (
-                    <p className={styles['articlesPage__error']}>{pageError}</p>
+                ) : error ? (
+                    <p className={styles['articlesPage__error']}>{error}</p>
                 ) : articles.length > 0 ? (
                     <CardsContainer
                         columnsDesktop={articles.length === 1 ? 1 : 2}
@@ -125,6 +126,5 @@ export default function ArticlesPage() {
                 )}
             </section>
         </>
-
     );
 }

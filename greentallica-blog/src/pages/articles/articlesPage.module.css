@@ -40,51 +40,6 @@
 }
 
 /* ========================================
-    BOTÓN DE CREAR ARTÍCULO
-======================================== */
-
-/* Botón principal para crear artículo */
-.articlesPage__createBtn {
-    background-color: #99f243;
-    color: black;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background-color 0.3s ease;
-}
-
-/* Hover del botón de crear artículo */
-.articlesPage__createBtn:hover {
-    background-color: #1d4ed8;
-}
-
-/* Icono dentro del botón */
-.articlesPage__createBtnIcon {
-    font-size: 1.25rem;
-    display: block;
-}
-
-/* Texto dentro del botón */
-.articlesPage__createBtnText {
-    display: none;
-}
-
-/* Mostrar solo el texto en pantallas mayores a 640px */
-@media (min-width: 640px) {
-    .articlesPage__createBtnIcon {
-        display: none;
-    }
-
-    .articlesPage__createBtnText {
-        display: inline;
-    }
-}
-
-/* ========================================
     MENSAJE PARA LOGIN REQUERIDO
 ======================================== */
 
@@ -107,24 +62,8 @@
 }
 
 /* ========================================
-    SPINNER DE CARGA
+    MENSAJE DE ERROR
 ======================================== */
-
-/* Contenedor para mostrar loading */
-.articlesPage__spinnerContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 48px;
-}
-
-/* Texto de carga */
-.articlesPage__loadingText {
-    margin-top: 16px;
-    font-size: 1rem;
-    color: #2563eb;
-    font-weight: 500;
-}
 
 .articlesPage__error {
     text-align: center;
