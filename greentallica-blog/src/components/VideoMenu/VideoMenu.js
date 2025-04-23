@@ -1,7 +1,14 @@
 import React from 'react';
 import styles from './VideoMenu.module.css';
 
-export default function ImageMenu({ categories = [], onSelectCategory }) {
+/**
+ * VideoMenu
+ * Componente visual que muestra categorías en tarjetas con videos en loop.
+ * 
+ * @param {Array} categories - Lista de categorías con slug, name e image (video).
+ * @param {function} onSelectCategory - Callback al hacer clic en una categoría.
+ */
+export default function VideoMenu({ categories = [], onSelectCategory }) {
     return (
         <div className={styles['category-menu-container']}>
             {categories.map((cat) => (

@@ -1,3 +1,10 @@
+/*
+  ==========================
+  ESTILOS PRINCIPALES
+  ==========================
+*/
+
+/* Tarjeta principal del evento con imagen de fondo */
 .event-card {
     position: relative;
     background-color: #1c1c1c;
@@ -14,11 +21,13 @@
     cursor: context-menu;
 }
 
+/* Hover para animación */
 .event-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
+/* Overlay de contenido */
 .event-card__overlay {
     position: relative;
     margin: auto 0 0;
@@ -32,7 +41,13 @@
     justify-content: flex-end;
 }
 
-/* Botones de gestionar evento */
+/*
+  ==========================
+  BOTONES DE GESTIÓN
+  ==========================
+*/
+
+/* Contenedor de acciones de edición y eliminación */
 .event-card__manage {
     position: absolute;
     top: 0.75rem;
@@ -41,9 +56,8 @@
     gap: 0.5rem;
 }
 
-/* Botón Editar */
+/* Botón de edición */
 .event-card__edit {
-    /* background-color: #99f243; */
     padding: 0.4rem 0.6rem;
     border: none;
     border-radius: 8px;
@@ -58,9 +72,8 @@
     background-color: yellowgreen;
 }
 
-/* Botón Eliminar */
+/* Botón de eliminación */
 .event-card__delete {
-    /* background-color: #f44336; */
     padding: 0.4rem 0.6rem;
     border: none;
     border-radius: 8px;
@@ -75,7 +88,13 @@
     background-color: #d32f2f;
 }
 
-/* Título */
+/*
+  ==========================
+  CONTENIDO DEL EVENTO
+  ==========================
+*/
+
+/* Título del evento */
 .event-card__title {
     font-size: 1.2rem;
     font-weight: bold;
@@ -83,27 +102,31 @@
     color: #99f243;
 }
 
-/* Descripción */
+/* Descripción del evento */
 .event-card__description {
     font-size: 0.9rem;
     line-height: 1.4;
     margin-bottom: 0.5rem;
 }
 
-/* Fecha */
+/* Fecha del evento */
 .event-card__date {
     font-size: 0.9rem;
     color: #ddd;
     margin-bottom: 1rem;
 }
 
-/* Botón "Más Información" */
+/*
+  ==========================
+  BOTÓN "MÁS INFORMACIÓN"
+  ==========================
+*/
+
 .event-card__actions {
     display: flex;
 }
 
 .event-card__button {
-    /* background-color: #99f243; */
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 6px;
@@ -114,11 +137,15 @@
 }
 
 .event-card__button:hover {
-    /* background-color: #87e035; */
     color: white;
 }
 
-/* Responsive */
+/*
+  ==========================
+  RESPONSIVE
+  ==========================
+*/
+
 @media (max-width: 768px) {
     .event-card__manage {
         top: 0.5rem;

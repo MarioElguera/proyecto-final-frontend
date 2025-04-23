@@ -2,11 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import styles from './SliderImages.module.css';
 
 /**
- * SliderImages Component
- * Muestra un slider automático de imágenes con navegación táctil y botones.
+ * Componente visual de slider automático para mostrar una serie de imágenes.
  *
- * Props:
- * - images: array de URLs de imágenes a mostrar.
+ * @param {string[]} images - Arreglo de URLs de imágenes a mostrar en el slider.
  */
 export default function SliderImages({ images }) {
     const [current, setCurrent] = useState(1);
@@ -15,9 +13,10 @@ export default function SliderImages({ images }) {
     const touchStartX = useRef(0);
     const touchEndX = useRef(0);
 
+    // Inserta la última imagen al inicio y la primera al final para loop infinito
     const slides = [images[images.length - 1], ...images, images[0]];
 
-    // Detiene el autoplay manualmente
+    // Detiene el autoplay si existe
     const stopAutoplay = () => {
         if (autoplayRef.current) {
             clearInterval(autoplayRef.current);
@@ -25,34 +24,35 @@ export default function SliderImages({ images }) {
         }
     };
 
-    // Ir a slide específico
+    // Navega a un slide específico
     const goToSlide = (index) => {
         setCurrent(index);
         setTransition(true);
     };
 
-    // Slide siguiente
+    // Navega al slide siguiente
     const nextSlide = () => {
         stopAutoplay();
         goToSlide(current + 1);
     };
 
-    // Slide anterior
+    // Navega al slide anterior
     const prevSlide = () => {
         stopAutoplay();
         goToSlide(current - 1);
     };
 
-    // Autoplay al montar
+    // Inicia el autoplay al montar el componente
     useEffect(() => {
         autoplayRef.current = setInterval(() => {
             setCurrent((prev) => prev + 1);
             setTransition(true);
         }, 2000);
+
         return () => clearInterval(autoplayRef.current);
     }, []);
 
-    // Ciclo infinito para el primer y último slide
+    // Resetea la transición al llegar al final o al inicio del loop
     useEffect(() => {
         if (current === slides.length - 1) {
             setTimeout(() => {
@@ -60,6 +60,7 @@ export default function SliderImages({ images }) {
                 setCurrent(1);
             }, 500);
         }
+
         if (current === 0) {
             setTimeout(() => {
                 setTransition(false);
@@ -68,7 +69,7 @@ export default function SliderImages({ images }) {
         }
     }, [current, slides.length]);
 
-    // Eventos touch para móviles
+    // Eventos para navegación táctil
     const handleTouchStart = (e) => {
         touchStartX.current = e.touches[0].clientX;
     };
@@ -95,6 +96,7 @@ export default function SliderImages({ images }) {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
         >
+            {/* Contenedor de imágenes con efecto de transición */}
             <div
                 className={styles['slider__track']}
                 style={{
@@ -113,9 +115,11 @@ export default function SliderImages({ images }) {
                 ))}
             </div>
 
+            {/* Botones de navegación manual */}
             <button onClick={prevSlide} className={`${styles['slider__btn']} ${styles['slider__btn--prev']}`}>‹</button>
             <button onClick={nextSlide} className={`${styles['slider__btn']} ${styles['slider__btn--next']}`}>›</button>
 
+            {/* Puntos indicadores de navegación */}
             <div className={styles['slider__dots']}>
                 {images.map((_, index) => (
                     <button

@@ -1,16 +1,16 @@
-// Imports
 import React from 'react';
 import styles from './CommentCard.module.css';
 
 /**
- * Componente de tarjeta de comentario con acciones opcionales.
- *
- * @param {string} comment - Texto del comentario.
- * @param {string} author - Autor del comentario.
- * @param {boolean} showEdit - Mostrar botón de editar.
- * @param {boolean} showDelete - Mostrar botón de eliminar.
- * @param {function} onEdit - Callback para acción de editar.
- * @param {function} onDelete - Callback para acción de eliminar.
+ * Componente visual para mostrar un comentario con posibles acciones.
+ * Permite mostrar botones para editar o eliminar si se requieren.
+ * 
+ * @param {string} comment - Contenido del comentario.
+ * @param {string} author - Nombre del autor del comentario.
+ * @param {boolean} showEdit - Muestra el botón de editar si es true.
+ * @param {boolean} showDelete - Muestra el botón de eliminar si es true.
+ * @param {function} onEdit - Función que se ejecuta al hacer clic en editar.
+ * @param {function} onDelete - Función que se ejecuta al hacer clic en eliminar.
  */
 export default function CommentCard({
     comment,
@@ -25,7 +25,7 @@ export default function CommentCard({
             <p className={styles.commentCard__text}>"{comment}"</p>
             <p className={styles.commentCard__author}>escrito por : {author}</p>
 
-            {/* Acciones individuales */}
+            {/* Acciones (editar / eliminar) */}
             {(showEdit || showDelete) && (
                 <div className={styles.commentCard__actions}>
                     {showEdit && (

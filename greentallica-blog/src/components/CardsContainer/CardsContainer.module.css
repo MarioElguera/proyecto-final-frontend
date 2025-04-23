@@ -1,3 +1,6 @@
+/* =====================================
+   TÍTULO DEL CONTENEDOR DE TARJETAS
+   ===================================== */
 .cards-container__title {
     text-align: center;
     font-size: 2rem;
@@ -5,13 +8,20 @@
     font-weight: bold;
 }
 
+/* =====================================
+   CONTENEDOR PRINCIPAL DEL GRID
+   ===================================== */
 .cards-container-wrapper {
     display: flex;
     flex-direction: column;
-    /* min-height: 50vh; */
+    /* Este contenedor envuelve todas las filas de tarjetas */
 }
 
+/* =====================================
+   CADA FILA DEL GRID DE TARJETAS
+   ===================================== */
 .cards-container-row {
     display: grid;
     gap: 1.5rem;
+    /* El número de columnas se define dinámicamente vía inline style */
 }

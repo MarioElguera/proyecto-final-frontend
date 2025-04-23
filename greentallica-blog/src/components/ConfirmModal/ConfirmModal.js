@@ -2,14 +2,14 @@ import React from 'react';
 import styles from './ConfirmModal.module.css';
 
 /**
- * Componente ConfirmModal
+ * Componente visual para mostrar un modal de confirmación.
+ * Permite al usuario confirmar o cancelar una acción crítica como eliminar.
  * 
- * Props:
- * - show: booleano que muestra u oculta el modal
- * - title: título opcional
- * - message: mensaje principal
- * - onCancel: función a ejecutar al cancelar
- * - onConfirm: función a ejecutar al confirmar
+ * @param {boolean} show - Controla si el modal se muestra o no.
+ * @param {string} title - Título opcional del modal.
+ * @param {string} message - Mensaje principal del cuerpo del modal.
+ * @param {function} onCancel - Callback que se ejecuta al presionar "Cancelar".
+ * @param {function} onConfirm - Callback que se ejecuta al presionar "Confirmar".
  */
 export default function ConfirmModal({ show, title = '', message, onCancel, onConfirm }) {
     if (!show) return null;

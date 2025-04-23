@@ -1,3 +1,10 @@
+/**
+ * Componente Footer
+ * Renderiza el pie de página del sitio con derechos reservados.
+ *
+ * No recibe props.
+ */
+
 import styles from './Footer.module.css';
 
 export default function Footer() {

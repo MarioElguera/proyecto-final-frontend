@@ -2,16 +2,17 @@ import React, { useState, useEffect } from 'react';
 import styles from './CardsContainer.module.css';
 
 /**
- * CardsContainer Component
- * Agrupa cards de forma responsiva, adaptando columnas, centrado y fondo según el tamaño de pantalla.
+ * Contenedor visual para agrupar tarjetas de forma responsiva.
+ * Ajusta columnas, padding y estilos según el tamaño de pantalla.
  *
- * Props:
- * - children: Cards a renderizar.
- * - columnsDesktop: Número de columnas en desktop.
- * - columnsTablet: Número de columnas en tablet.
- * - columnsMobile: Número de columnas en móvil.
- * - padding: Padding en rem.
- * - backgroundColor: Color de fondo personalizado (opcional).
+ * @param {React.ReactNode} children - Componentes hijos (tarjetas) a mostrar.
+ * @param {number} columnsDesktop - Columnas en escritorio.
+ * @param {number} columnsTablet - Columnas en tablet.
+ * @param {number} columnsMobile - Columnas en móvil.
+ * @param {number} padding - Padding en rem alrededor de cada fila.
+ * @param {string} backgroundColor - Color de fondo del contenedor.
+ * @param {string} title - Título opcional que aparece arriba del grid.
+ * @param {string} colorTitle - Color personalizado para el título.
  */
 export default function CardsContainer({
     children,
@@ -22,7 +23,6 @@ export default function CardsContainer({
     backgroundColor = 'transparent',
     title = '',
     colorTitle = '',
-
 }) {
     const childrenArray = React.Children.toArray(children);
     const totalCards = childrenArray.length;
@@ -30,7 +30,7 @@ export default function CardsContainer({
     const [columns, setColumns] = useState(columnsDesktop);
     const [isDesktop, setIsDesktop] = useState(true);
 
-    // Maneja el tamaño de pantalla para adaptar columnas y detectar si estamos en desktop
+    // Detecta tamaño de pantalla para adaptar columnas
     useEffect(() => {
         function updateColumns() {
             const width = window.innerWidth;
@@ -47,22 +47,19 @@ export default function CardsContainer({
             }
         }
 
-        updateColumns(); // Ejecutar al montar
+        updateColumns();
         window.addEventListener('resize', updateColumns);
         return () => window.removeEventListener('resize', updateColumns);
     }, [columnsDesktop, columnsTablet, columnsMobile]);
 
     const fullRows = Math.floor(totalCards / columns);
     const itemsInLastRow = totalCards % columns;
-
     const isOdd = totalCards % 2 !== 0;
 
     const rows = [];
-
     for (let i = 0; i < fullRows; i++) {
         rows.push(childrenArray.slice(i * columns, (i + 1) * columns));
     }
-
     if (itemsInLastRow > 0) {
         rows.push(childrenArray.slice(fullRows * columns));
     }
@@ -72,7 +69,7 @@ export default function CardsContainer({
             className={styles['cards-container-wrapper']}
             style={{ backgroundColor }}
         >
-            {/* Título opcional */}
+            {/* Título superior opcional */}
             {title && (
                 <h2
                     className={styles['cards-container__title']}
@@ -82,7 +79,7 @@ export default function CardsContainer({
                 </h2>
             )}
 
-            {/* Grid de tarjetas */}
+            {/* Renderizado de filas con tarjetas */}
             {rows.map((row, index) => {
                 const isLastRow = index === rows.length - 1;
                 const shouldCenter = isLastRow && isOdd && isDesktop;
@@ -106,5 +103,4 @@ export default function CardsContainer({
             })}
         </div>
     );
-
 }

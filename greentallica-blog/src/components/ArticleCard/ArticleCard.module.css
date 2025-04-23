@@ -1,21 +1,21 @@
 /**
- * Bloque principal: 'article-card'
- * 
- * Contiene dos variantes:
- * - article-card--horizontal: imagen a la izquierda, texto a la derecha.
- * - article-card--vertical: imagen arriba, texto abajo.
+ * Estilos para el componente ArticleCard
+ * - Se definen dos variantes: horizontal y vertical
+ * - Estilos responsivos para móvil y tablet
  */
 
-/* ============================
+/* ===========================
    VARIANTE HORIZONTAL
-   ============================ */
+   =========================== */
+
+/* Contenedor principal en horizontal */
 .article-card--horizontal {
     display: flex;
     flex-direction: row;
     width: 100%;
     max-width: 100%;
     height: 250px;
-    /* Altura fija solo para desktop */
+    /* Altura fija en desktop */
     background-color: #0f172a;
     border-radius: 8px;
     overflow: hidden;
@@ -25,12 +25,13 @@
     cursor: pointer;
 }
 
+/* Animación hover */
 .article-card--horizontal:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Contenedor de imagen en horizontal */
+/* Imagen en horizontal */
 .article-card--horizontal__image-container {
     flex: 0 0 40%;
     background-color: #1e293b;
@@ -48,7 +49,7 @@
     transform: scale(1.05);
 }
 
-/* Contenido horizontal */
+/* Contenido en horizontal */
 .article-card--horizontal__content {
     flex: 1;
     padding: 1.5rem;
@@ -59,7 +60,6 @@
     color: #fff;
 }
 
-/* Título horizontal */
 .article-card--horizontal__title {
     font-size: 1.2rem;
     font-weight: bold;
@@ -67,14 +67,12 @@
     color: #99f243;
 }
 
-/* Descripción horizontal */
 .article-card--horizontal__description {
-    flex: 1 1 auto;
+    flex: 1;
     font-size: 1rem;
     line-height: 1.5;
     color: #cbd5e1;
     margin-bottom: 1rem;
-
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -82,7 +80,7 @@
     text-overflow: ellipsis;
 }
 
-/* Enlace horizontal */
+/* Botón en horizontal */
 .article-card--horizontal__link {
     font-size: 0.9rem;
     font-weight: 600;
@@ -99,14 +97,13 @@
     color: #60a5fa;
 }
 
-/* ============================
+/* ===========================
    RESPONSIVE HORIZONTAL
-   ============================ */
+   =========================== */
 @media (max-width: 767px) {
     .article-card--horizontal {
         flex-direction: column;
         height: auto;
-        /* ✅ Altura automática en móvil */
         max-height: none;
     }
 
@@ -121,9 +118,10 @@
     }
 }
 
-/* ============================
+/* ===========================
    VARIANTE VERTICAL (FEATURED)
-   ============================ */
+   =========================== */
+
 .article-card--vertical {
     display: flex;
     flex-direction: column;
@@ -139,6 +137,7 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
+/* Imagen en vertical */
 .article-card--vertical__image-container {
     background-color: #000;
     width: 100%;
@@ -157,9 +156,10 @@
     transform: scale(1.1);
 }
 
+/* Contenido en vertical */
 .article-card--vertical__content {
     background-color: #0f172a;
-    color: #333;
+    color: #fff;
     padding: 1rem;
     display: flex;
     flex-direction: column;
@@ -194,9 +194,9 @@
     color: #ff0000;
 }
 
-/* ============================
+/* ===========================
    RESPONSIVE VERTICAL
-   ============================ */
+   =========================== */
 @media (max-width: 768px) {
     .article-card--vertical {
         width: 100%;

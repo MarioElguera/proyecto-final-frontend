@@ -1,4 +1,6 @@
-/* Slider */
+/* ================================
+   Slider: Contenedor principal
+   ================================ */
 .slider {
     position: relative;
     width: 100%;
@@ -10,17 +12,22 @@
     box-shadow: 6px 10px 10px rgb(205, 201, 201);
 }
 
+/* Altura personalizada para pantallas grandes */
 @media (min-width: 768px) {
     .slider {
         height: 500px;
     }
 }
 
+/* ================================
+   Track: Línea de imágenes
+   ================================ */
 .slider__track {
     display: flex;
     height: 100%;
 }
 
+/* Imagen del slide */
 .slider__image {
     width: 100%;
     height: 100%;
@@ -28,6 +35,9 @@
     flex-shrink: 0;
 }
 
+/* ================================
+   Overlay: Capa con texto encima
+   ================================ */
 .slider__overlay {
     position: absolute;
     inset: 0;
@@ -42,12 +52,14 @@
     padding: 1rem;
 }
 
+/* Título en el overlay */
 .slider__titulo {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
+/* Responsive para título y descripción */
 @media (min-width: 640px) {
     .slider__titulo {
         font-size: 2.5rem;
@@ -58,11 +70,15 @@
     }
 }
 
+/* Descripción en el overlay */
 .slider__descripcion {
     max-width: 600px;
     font-size: 1rem;
 }
 
+/* ================================
+   Botones de navegación
+   ================================ */
 .slider__btn {
     position: absolute;
     top: 50%;
@@ -91,6 +107,9 @@
     right: 1rem;
 }
 
+/* ================================
+   Dots: Navegación inferior
+   ================================ */
 .slider__dots {
     position: absolute;
     bottom: 1rem;

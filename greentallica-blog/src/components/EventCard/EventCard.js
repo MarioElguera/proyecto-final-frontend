@@ -2,15 +2,13 @@ import React from 'react';
 import styles from './EventCard.module.css';
 
 /**
- * EventCard
- * Muestra una tarjeta de evento con opciones para gestionar (editar, eliminar) y más información.
+ * Componente visual para mostrar un evento como tarjeta interactiva.
  *
- * Props:
- * - event: objeto de datos del evento.
- * - canManageEvent: booleano que habilita botones de edición y eliminación.
- * - onEdit: función callback para editar.
- * - onDelete: función callback para eliminar.
- * - onLinkClick: función callback para abrir el enlace.
+ * @param {Object} event - Objeto que contiene los datos del evento (title, text, eventDate, image, link).
+ * @param {boolean} canManageEvent - Determina si se deben mostrar los botones de editar y eliminar.
+ * @param {function} onEdit - Callback al hacer clic en "Editar".
+ * @param {function} onDelete - Callback al hacer clic en "Eliminar".
+ * @param {function} onLinkClick - Callback al hacer clic en "Más Información".
  */
 export default function EventCard({
     event,
@@ -28,7 +26,7 @@ export default function EventCard({
         >
             <div className={styles['event-card__overlay']}>
 
-                {/* Botones Editar / Eliminar */}
+                {/* Acciones de gestión del evento (visible solo si puede administrar) */}
                 {canManageEvent && (
                     <div className={styles['event-card__manage']}>
                         <button
@@ -46,12 +44,12 @@ export default function EventCard({
                     </div>
                 )}
 
-                {/* Contenido del evento */}
+                {/* Contenido principal del evento */}
                 <h3 className={styles['event-card__title']}>{title}</h3>
                 <p className={styles['event-card__description']}>{text}</p>
                 <p className={styles['event-card__date']}>{eventDate}</p>
 
-                {/* Botón de Más Información */}
+                {/* Acción adicional (enlace a más info) */}
                 {link && (
                     <div className={styles['event-card__actions']}>
                         <button

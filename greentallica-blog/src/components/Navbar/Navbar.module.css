@@ -1,3 +1,7 @@
+/* ================================
+   Navbar: Cabecera de navegación
+   ================================ */
+
 .navbar {
     background-color: #111;
     color: #fff;
@@ -14,7 +18,10 @@
     position: relative;
 }
 
-/* Logo centrado arriba */
+/* ================================
+   Logo centrado superior
+   ================================ */
+
 .navbar__logo {
     font-size: 1.6rem;
     font-weight: 700;
@@ -24,7 +31,10 @@
     margin-bottom: 0.8rem;
 }
 
-/* Enlaces centrados */
+/* ================================
+   Enlaces de navegación
+   ================================ */
+
 .navbar__links {
     display: flex;
     flex-wrap: wrap;
@@ -49,7 +59,10 @@
     color: #99f243;
 }
 
-/* Botones de autenticación */
+/* ================================
+   Botones de autenticación (login/logout)
+   ================================ */
+
 .navbar__auth {
     display: flex;
     align-items: center;
@@ -93,7 +106,10 @@
     padding: 0px 15px;
 }
 
-/* Hamburguesa */
+/* ================================
+   Menú hamburguesa (modo mobile)
+   ================================ */
+
 .navbar__hamburger {
     display: none;
     background: none;
@@ -107,11 +123,13 @@
 .navbar__hamburgerLine {
     width: 25px;
     height: 3px;
-    /* background-color: #fff; */
     margin: 5px 0;
 }
 
-/* Responsive */
+/* ================================
+   Responsive: versión móvil/tablet
+   ================================ */
+
 @media (max-width: 820px) {
     .navbar__links {
         display: none;

@@ -1,9 +1,13 @@
+/* ================================
+   VideoMenu: Contenedor principal
+   ================================ */
 .category-menu-container {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 1.5rem;
 }
 
+/* Media queries para layout responsive */
 @media (min-width: 640px) {
     .category-menu-container {
         grid-template-columns: repeat(2, 1fr);
@@ -16,6 +20,9 @@
     }
 }
 
+/* ================================
+   Tarjeta individual de categoría
+   ================================ */
 .category-menu__card {
     position: relative;
     overflow: hidden;
@@ -24,18 +31,25 @@
     cursor: pointer;
 }
 
+/* ================================
+   Video de la tarjeta
+   ================================ */
 .category-menu__video {
     width: 100%;
     height: 12rem;
-    /* 48 tailwind units = 192px aprox */
+    /* 192px aprox */
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 
+/* Efecto de hover en el video */
 .category-menu__card:hover .category-menu__video {
     transform: scale(1.05);
 }
 
+/* ================================
+   Capa de superposición
+   ================================ */
 .category-menu__overlay {
     position: absolute;
     inset: 0;
@@ -45,10 +59,12 @@
     justify-content: center;
 }
 
+/* ================================
+   Nombre de la categoría
+   ================================ */
 .category-menu__name {
     color: white;
     font-size: 1.25rem;
-    /* text-xl */
     font-weight: 600;
     text-decoration: underline;
 }

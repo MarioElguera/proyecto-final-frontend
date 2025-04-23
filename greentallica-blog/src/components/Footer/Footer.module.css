@@ -1,13 +1,27 @@
+/* ================================
+   Footer: Pie de página
+   ================================ */
+
 .footer {
     background-color: black;
+    /* Fondo negro */
     color: #fff;
+    /* Texto blanco */
     text-align: center;
+    /* Centrado horizontal del contenido */
     padding: 1rem;
+    /* Espaciado interior */
     border: 1px white;
+    /* Bordes superior e inferior */
     border-style: solid none;
 }
 
+/* ================================
+   Texto del Footer
+   ================================ */
 .text {
     margin: 0.5rem 0;
+    /* Margen vertical */
     font-size: 1rem;
+    /* Tamaño de fuente base */
 }

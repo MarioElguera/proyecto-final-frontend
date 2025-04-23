@@ -1,15 +1,23 @@
+/* ================================================
+   CONTENEDOR PRINCIPAL DEL MODAL
+   ================================================ */
 .confirm-modal {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.6);
+    /* Fondo oscuro semitransparente */
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
 }
 
+/* ================================================
+   CONTENEDOR INTERNO DEL MODAL
+   ================================================ */
 .confirm-modal__content {
     background-color: #0f172a;
+    /* Fondo azul oscuro */
     padding: 2rem;
     border-radius: 8px;
     width: 90%;
@@ -18,25 +26,36 @@
     text-align: center;
 }
 
+/* ================================================
+   TÍTULO DEL MODAL
+   ================================================ */
 .confirm-modal__title {
     font-size: 1.5rem;
     font-weight: bold;
     color: #99f243;
+    /* Verde neón */
     margin-bottom: 1rem;
 }
 
+/* ================================================
+   MENSAJE PRINCIPAL DEL MODAL
+   ================================================ */
 .confirm-modal__message {
     font-size: 1rem;
     color: #ffffff;
     margin-bottom: 2rem;
 }
 
+/* ================================================
+   ACCIONES (BOTONES)
+   ================================================ */
 .confirm-modal__actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
 }
 
+/* Botones genéricos */
 .confirm-modal__button--cancel,
 .confirm-modal__button--confirm {
     padding: 0.7rem 1.2rem;

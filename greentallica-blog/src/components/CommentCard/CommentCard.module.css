@@ -1,7 +1,8 @@
-/*
-  ========== Contenedor principal de la tarjeta ==========
-*/
+/* ============================================================
+   COMENTARIOS - ESTILOS PARA TARJETA DE COMENTARIO INDIVIDUAL
+   ============================================================ */
 
+/* Contenedor principal de la tarjeta de comentario */
 .commentCard {
     background-color: #1c1c1c;
     width: 100%;
@@ -22,36 +23,26 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-/*
-    ========== Texto del comentario ==========
-  */
-
+/* Texto principal del comentario */
 .commentCard__text {
     font-size: 1rem;
     font-weight: bold;
     margin: 0 0 1rem;
     color: #99f243;
-    /* Verde neón */
     line-height: 1.4;
     overflow-wrap: break-word;
     word-break: break-word;
     max-width: 100%;
 }
 
-/*
-    ========== Autor del comentario ==========
-  */
-
+/* Nombre del autor del comentario */
 .commentCard__author {
     font-size: 0.8rem;
     color: #fff;
     margin: 0;
 }
 
-/*
-    ========== Contenedor de acciones (editar/eliminar) ==========
-  */
-
+/* Contenedor para los botones de acción (editar/eliminar) */
 .commentCard__actions {
     display: flex;
     gap: 0.75rem;
@@ -59,10 +50,7 @@
     justify-content: left;
 }
 
-/*
-    ========== Botones de acciones ==========
-  */
-
+/* Botón genérico de acción (editar/eliminar) */
 .commentCard__button {
     padding: 0.5rem 1rem;
     font-size: 0.9rem;
@@ -80,10 +68,7 @@
     color: #0f172a;
 }
 
-/*
-    ========== Responsive ==========
-  */
-
+/* Versión responsive para pantallas pequeñas */
 @media (max-width: 768px) {
     .commentCard {
         padding: 0.8rem;
