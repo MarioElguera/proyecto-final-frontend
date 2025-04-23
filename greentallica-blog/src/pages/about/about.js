@@ -1,14 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import styles from './about.module.css';
+import sectionsParallax from '@/utils/about';
 
-// Definición de las secciones de parallax
-const sections = [
-    { video: '/videos/parallax/messi_run.mp4', title: 'Fútbol', description: 'Me encanta el fútbol' },
-    { video: '/videos/parallax/metallica_concert.mp4', title: 'Música', description: 'La música me inspira' },
-    { video: '/videos/parallax/spiderman_suit.mp4', title: 'Cine', description: 'Fanático del cine' },
-    { video: '/videos/parallax/newyork_time_square.mp4', title: 'Viajes', description: 'Viajar es vivir' },
-    { video: '/videos/parallax/programacion.mp4', title: 'Programación', description: 'Amo programar' },
-];
 
 export default function AboutParallaxStory() {
     const [currentSection, setCurrentSection] = useState(0);
@@ -24,10 +17,10 @@ export default function AboutParallaxStory() {
             const containerHeight = container.offsetHeight;
 
             const relativeScroll = scrollTop - containerTop;
-            const sectionHeight = containerHeight / sections.length;
+            const sectionHeight = containerHeight / sectionsParallax.length;
 
             const newSection = Math.floor(relativeScroll / sectionHeight);
-            if (newSection >= 0 && newSection < sections.length) {
+            if (newSection >= 0 && newSection < sectionsParallax.length) {
                 setCurrentSection(newSection);
             }
         }
@@ -82,7 +75,7 @@ export default function AboutParallaxStory() {
 
     return (
         <div ref={containerRef} className={styles['about-parallax']}>
-            {sections.map((section, index) => (
+            {sectionsParallax.map((section, index) => (
                 <div
                     key={index}
                     className={`${styles['about-parallax__section']} ${currentSection === index ? styles['about-parallax__section--active'] : ''}`}
