@@ -51,14 +51,14 @@ export default function Navbar() {
                         Artículos
                     </Link>
                     <Link
-                        href="/event/event"
-                        className={`${styles.navbar__link} ${isActive('/event/event') ? styles['navbar__link--active'] : ''}`}
+                        href="/events"
+                        className={`${styles.navbar__link} ${isActive('/events') ? styles['navbar__link--active'] : ''}`}
                     >
                         Eventos
                     </Link>
                     <Link
-                        href="/about/about"
-                        className={`${styles.navbar__link} ${isActive('/about/about') ? styles['navbar__link--active'] : ''}`}
+                        href="/about"
+                        className={`${styles.navbar__link} ${isActive('/about') ? styles['navbar__link--active'] : ''}`}
                     >
                         Acerca De
                     </Link>

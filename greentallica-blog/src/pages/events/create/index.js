@@ -1,67 +1,94 @@
-// Imports
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
-import { createEvent, getEventById, updateEvent } from '@/services/api-events';
 import { AuthContext } from '@/context/AuthContext';
+
+// Servicios
+import { createEvent, getEventById, updateEvent } from '@/services/api-events';
+import { handleApiError } from '@/utils/handleErrors';
+
+// Componentes
 import Loading from '@/components/Loading/Loading';
+
+// Estilos y constantes
 import styles from './createEvent.module.css';
+import {
+    PAGE_TITLE_CREATE,
+    PAGE_TITLE_EDIT,
+    SUBMIT_CREATE_TEXT,
+    SUBMIT_UPDATE_TEXT,
+    FIELD_REQUIRED_ERROR,
+    LOAD_EVENT_ERROR,
+    IMAGE_MAX_SIZE_ERROR,
+    IMAGE_INVALID_FORMAT_ERROR
+} from '@/constants/events';
 
-// Textos constantes
-const PAGE_TITLE_CREATE = 'Crear evento';
-const PAGE_TITLE_EDIT = 'Editar evento';
-const SUBMIT_CREATE_TEXT = 'Crear evento';
-const SUBMIT_UPDATE_TEXT = 'Actualizar evento';
-const FIELD_REQUIRED_ERROR = 'Todos los campos son obligatorios.';
-const LOAD_EVENT_ERROR = 'Error al cargar el evento.';
-const SAVE_EVENT_ERROR = 'Error al guardar el evento.';
-const IMAGE_MAX_SIZE_ERROR = 'La imagen supera el tamaño máximo de 2MB.';
-const IMAGE_INVALID_FORMAT_ERROR = 'Formato de imagen inválido. Solo JPG, PNG o WEBP.';
-
-// Límites
+// Límites de validación
 const TITLE_MIN_LENGTH = 5;
 const TITLE_MAX_LENGTH = 100;
 const TEXT_MIN_LENGTH = 10;
-const TEXT_MAX_LENGTH = 1000;
+const TEXT_MAX_LENGTH = 400;
 
 export default function CreateEventPage() {
-    const { token } = useContext(AuthContext);
+    const { token, userId, userRole, isLoadingContextInfo } = useContext(AuthContext);
     const router = useRouter();
     const { id } = router.query;
     const isEditing = !!id;
 
-    // Estados
+    // Estados de formulario
     const [title, setTitle] = useState('');
     const [text, setText] = useState('');
     const [link, setLink] = useState('');
     const [eventDate, setEventDate] = useState('');
     const [imageBase64, setImageBase64] = useState('');
+
+    // Estados UI
     const [error, setError] = useState('');
+    const [fatalError, setFatalError] = useState(false);
     const [loadingPage, setLoadingPage] = useState(true);
     const [loadingAction, setLoadingAction] = useState(false);
 
-    // Cargar datos si estamos editando
+    // Redirige si no hay token después de cargar contexto
     useEffect(() => {
-        if (token && isEditing && id) {
-            (async () => {
-                try {
-                    const event = await getEventById(id);
-                    setTitle(event.title);
-                    setText(event.text);
-                    setLink(event.link);
-                    setImageBase64(event.image || '');
-                    setEventDate(event.eventDate?.substring(0, 10)); // formato yyyy-mm-dd
-                } catch {
-                    setError(LOAD_EVENT_ERROR);
-                } finally {
-                    setLoadingPage(false);
+        if (!isLoadingContextInfo && !token) {
+            router.push('/events');
+        }
+    }, [isLoadingContextInfo, token]);
+
+    // Cargar evento si estamos editando
+    useEffect(() => {
+        const fetchEventById = async () => {
+            setLoadingPage(true);
+            try {
+                const event = await getEventById(id);
+
+                // Validar permisos
+                if (userRole !== 'admin' && event.author !== userId) {
+                    router.push('/events');
+                    return;
                 }
-            })();
+
+                // rellenar datos
+                setTitle(event.title);
+                setText(event.text);
+                setLink(event.link);
+                setImageBase64(event.image || '');
+                setEventDate(event.eventDate?.substring(0, 10));
+            } catch (err) {
+                setError(LOAD_EVENT_ERROR);
+                setFatalError(true);
+            } finally {
+                setLoadingPage(false);
+            }
+        };
+
+        if (token && isEditing && id) {
+            fetchEventById();
         } else {
             setLoadingPage(false);
         }
-    }, [token, isEditing, id]);
+    }, [isEditing, id]);
 
-    // Convertir imagen a base64 validando tipo y tamaño
+    // Validación y conversión de imagen
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -87,7 +114,7 @@ export default function CreateEventPage() {
         reader.readAsDataURL(file);
     };
 
-    // Validaciones manuales
+    // Validar campos del formulario
     const validateFields = () => {
         if (!title.trim() || !text.trim() || !link.trim() || !eventDate) {
             return FIELD_REQUIRED_ERROR;
@@ -104,7 +131,7 @@ export default function CreateEventPage() {
         return null;
     };
 
-    // Submit del formulario
+    // Maneja el envío del formulario
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -113,6 +140,7 @@ export default function CreateEventPage() {
         const validationError = validateFields();
         if (validationError) {
             setError(validationError);
+            setTimeout(() => setError(''), 1500);
             setLoadingAction(false);
             return;
         }
@@ -125,27 +153,40 @@ export default function CreateEventPage() {
             } else {
                 await createEvent(payload, token);
             }
-            router.push('/event/event');
-        } catch {
-            setError(SAVE_EVENT_ERROR);
+            router.push('/events');
+        } catch (error) {
+            setError(handleApiError(error));
         } finally {
             setLoadingAction(false);
         }
     };
 
-    // Mostrar loading general si carga página o acción
-    if (loadingPage || loadingAction) {
-        return <Loading />;
+    // Mostrar loading
+    if (loadingPage || loadingAction) return <Loading />;
+
+    // Error fatal: no cargar formulario
+    if (fatalError) {
+        return (
+            <section className={styles['create-event']}>
+                <h1 className={styles['create-event__title']}>
+                    {isEditing ? PAGE_TITLE_EDIT : PAGE_TITLE_CREATE}
+                </h1>
+                <p className={styles['create-event__error']}>{error}</p>
+            </section>
+        );
     }
 
     return (
-        <div className={styles['create-event']}>
+        <section className={styles['create-event']}>
+            {/* Título */}
             <h1 className={styles['create-event__title']}>
                 {isEditing ? PAGE_TITLE_EDIT : PAGE_TITLE_CREATE}
             </h1>
 
+            {/* Mensaje de error */}
             {error && <p className={styles['create-event__error']}>{error}</p>}
 
+            {/* Formulario de creación / edición */}
             <form onSubmit={handleSubmit} className={styles['create-event__form']}>
                 <div className={styles['create-event__left']}>
                     <label htmlFor="title">Título</label>
@@ -204,6 +245,6 @@ export default function CreateEventPage() {
                     </button>
                 </div>
             </form>
-        </div>
+        </section>
     );
 }

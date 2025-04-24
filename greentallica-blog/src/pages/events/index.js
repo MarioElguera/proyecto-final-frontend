@@ -1,49 +1,59 @@
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
+
+// Servicios y utilidades
 import { getAllEvents, deleteEvent } from '@/services/api-events';
+import { formatDate } from '@/utils/helpers';
+import { handleApiError } from '@/utils/handleErrors';
+
+// Componentes
 import EventsTimelineContainer from '@/components/EventsTimelineContainer/EventsTimelineContainer';
 import EventCard from '@/components/EventCard/EventCard';
 import Loading from '@/components/Loading/Loading';
 import ConfirmModal from '@/components/ConfirmModal/ConfirmModal';
-import { formatDate } from '@/utils/helpers';
-import styles from './event.module.css';
 
-// Constantes de textos
-const PAGE_TITLE = "Eventos";
-const BUTTON_ADD_EVENT = "Agregar evento";
-const ERROR_LOADING_EVENTS = "Error al cargar los eventos.";
-const EMPTY_EVENTS_MESSAGE = "No hay eventos disponibles por el momento.";
-const CONFIRM_DELETE_TITLE = "Eliminar evento";
-const CONFIRM_DELETE_MESSAGE = "¿Estás seguro de que deseas eliminar este evento?";
-const INFO_TOOLTIP_MESSAGE = "Si quieres agregar un evento, debes iniciar sesión.";
+// Estilos y textos
+import styles from './events.module.css';
+import {
+    PAGE_TITLE,
+    BUTTON_ADD_EVENT,
+    ERROR_LOADING_EVENTS,
+    EMPTY_EVENTS_MESSAGE,
+    CONFIRM_DELETE_TITLE,
+    CONFIRM_DELETE_MESSAGE,
+    INFO_TOOLTIP_MESSAGE
+} from '@/constants/events';
 
 export default function EventPage() {
     const router = useRouter();
     const { token, userId, userRole } = useContext(AuthContext);
 
+    // Estados principales
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState('');
+
+    // Modal de confirmación
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
 
     const isLoading = loading || deleting;
 
-    // Obtener todos los eventos
+    // Cargar y ordenar eventos
     const fetchEvents = async () => {
         try {
             const data = await getAllEvents();
-            const formattedEvents = data.map((event) => ({
+
+            const events = data.map((event) => ({
                 ...event,
-                eventDate: event.eventDate ? formatDate(event.eventDate) : formatDate(event.createdAt),
+                eventDate: formatDate(event.eventDate),
             }));
-            setEvents(formattedEvents);
+            setEvents(events);
             setError('');
         } catch (err) {
-            console.error('Error cargando eventos:', err.message);
-            setError(ERROR_LOADING_EVENTS);
+            setError(handleApiError(err));
         } finally {
             setLoading(false);
         }
@@ -53,7 +63,7 @@ export default function EventPage() {
         fetchEvents();
     }, []);
 
-    // Confirmar eliminación
+    // Eliminar evento y recargar lista
     const handleConfirmDelete = async () => {
         if (!eventToDelete) return;
         setShowConfirmModal(false);
@@ -63,8 +73,7 @@ export default function EventPage() {
             await deleteEvent(eventToDelete._id, token);
             await fetchEvents();
         } catch (err) {
-            console.error('Error eliminando evento:', err.message);
-            setError('Error al eliminar el evento.');
+            setError(handleApiError(err));
         } finally {
             setDeleting(false);
             setEventToDelete(null);
@@ -78,7 +87,7 @@ export default function EventPage() {
             {!isLoading && token && (
                 <button
                     className={styles['create-event__button']}
-                    onClick={() => router.push('/event/create')}
+                    onClick={() => router.push('/events/create')}
                     aria-label={BUTTON_ADD_EVENT}
                 >
                     {BUTTON_ADD_EVENT}
@@ -110,13 +119,13 @@ export default function EventPage() {
             ) : (
                 <EventsTimelineContainer>
                     {events.map((event) => {
-                        const canManage = token && (userRole === 'admin' || userId === event.author?._id);
+                        const canManage = token && (userRole === 'admin' || userId === event.author._id);
                         return (
                             <EventCard
                                 key={event._id}
                                 event={event}
                                 canManageEvent={canManage}
-                                onEdit={() => router.push(`/event/create?id=${event._id}`)}
+                                onEdit={() => router.push(`/events/create?id=${event._id}`)}
                                 onDelete={() => {
                                     setEventToDelete(event);
                                     setShowConfirmModal(true);
@@ -128,7 +137,7 @@ export default function EventPage() {
                 </EventsTimelineContainer>
             )}
 
-            {/* Modal de Confirmación */}
+            {/* Modal de confirmación */}
             <ConfirmModal
                 show={showConfirmModal}
                 title={CONFIRM_DELETE_TITLE}

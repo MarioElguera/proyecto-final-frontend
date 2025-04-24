@@ -43,15 +43,11 @@
 
 /* Círculo decorativo que representa un punto del timeline */
 .timeline__circle {
-    background-color: #0f172a;
-    border: 2px solid #99f243;
+    background-color: #99f243;
     color: #99f243;
-    font-weight: bold;
-    font-size: 0.8rem;
     border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    min-width: 60px;
+    width: 2rem;
+    height: 2rem;
     display: flex;
     justify-content: center;
     align-items: center;
