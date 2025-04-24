@@ -3,6 +3,9 @@ import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de articulos
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/articles';
+console.log("url api .env => ", process.env.NEXT_PUBLIC_API_URL);
+console.log("API_BASE_URL => ", API_BASE_URL);
+
 
 /**
  * Obtiene todos los artículos, opcionalmente filtrados por categoría.
