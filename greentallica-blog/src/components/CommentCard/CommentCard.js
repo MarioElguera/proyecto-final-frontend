@@ -22,7 +22,7 @@ export default function CommentCard({
 }) {
     return (
         <article className={styles.commentCard}>
-            <p className={styles.commentCard__text}>"{comment}"</p>
+            <p className={styles.commentCard__text}>{comment}</p>
             <p className={styles.commentCard__author}>escrito por : {author}</p>
 
             {/* Acciones (editar / eliminar) */}

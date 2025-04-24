@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './ArticleCard.module.css';
 
 /**
@@ -44,7 +45,7 @@ export default function ArticleCard({
         return (
             <article className={styles['article-card--horizontal']}>
                 <div className={styles['article-card--horizontal__image-container']}>
-                    <img
+                    <Image
                         src={imageSource}
                         alt={altText}
                         className={styles['article-card--horizontal__image']}
@@ -73,7 +74,7 @@ export default function ArticleCard({
     return (
         <article className={styles['article-card--vertical']}>
             <div className={styles['article-card--vertical__image-container']}>
-                <img
+                <Image
                     src={imageSource}
                     alt={altText}
                     className={styles['article-card--vertical__image']}

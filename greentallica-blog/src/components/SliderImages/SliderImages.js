@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import styles from './SliderImages.module.css';
 
 /**
@@ -105,7 +106,7 @@ export default function SliderImages({ images }) {
                 }}
             >
                 {slides.map((img, index) => (
-                    <img
+                    <Image
                         key={index}
                         src={img}
                         alt={`slide-${index}`}

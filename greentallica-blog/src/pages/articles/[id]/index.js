@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 import { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '@/context/AuthContext';
 
@@ -208,7 +209,7 @@ export default function ArticleDetailPage() {
             <section className={styles['article-detail__body']}>
                 {article.image && (
                     <div className={styles['article-detail__image-container']}>
-                        <img src={article.image} alt={article.title} className={styles['article-detail__image']} />
+                        <Image src={article.image} alt={article.title} className={styles['article-detail__image']} />
                     </div>
                 )}
                 <div className={styles['article-detail__content']}>
