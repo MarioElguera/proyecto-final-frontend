@@ -25,15 +25,13 @@ export default function ArticleCard({
     onLinkClick = () => { },
 }) {
     const isBase64 = imageSrc?.startsWith('data:image')
-    const placeholderSrc = '/images/placeholder.jpg'
 
     const handleClick = (e) => {
         e.preventDefault()
         onLinkClick(e)
     }
 
-    const truncateText = (text, maxLength) =>
-        text?.length > maxLength ? `${text.slice(0, maxLength)}…` : text
+    const truncateText = (text, maxLength) => text?.length > maxLength ? `${text.slice(0, maxLength)}…` : text
 
     const Img = () => (
         <Image
@@ -51,33 +49,21 @@ export default function ArticleCard({
     if (variant === 'horizontal') {
         return (
             <article className={styles['article-card--horizontal']}>
-                <div
-                    className={
-                        styles['article-card--horizontal__image-container']
-                    }
-                >
+                <div className={styles['article-card--horizontal__image-container']}                >
                     <Img />
                 </div>
                 <div className={styles['article-card--horizontal__content']}>
-                    <h3
-                        className={styles['article-card--horizontal__title']}
-                    >
+                    <h3 className={styles['article-card--horizontal__title']}                    >
                         {title}
                     </h3>
-                    <p
-                        className={
-                            styles['article-card--horizontal__description']
-                        }
-                    >
-                        {truncateText(description, 150)}
+                    <p className={styles['article-card--horizontal__description']}                    >
+                        {truncateText(description, 100)}
                     </p>
                     {showLink && (
                         <Link
                             href="#"
                             onClick={handleClick}
-                            className={
-                                styles['article-card--horizontal__link']
-                            }
+                            className={styles['article-card--horizontal__link']}
                         >
                             Ver detalles
                         </Link>
@@ -90,31 +76,21 @@ export default function ArticleCard({
     // vertical
     return (
         <article className={styles['article-card--vertical']}>
-            <div
-                className={
-                    styles['article-card--vertical__image-container']
-                }
-            >
+            <div className={styles['article-card--vertical__image-container']}>
                 <Img />
             </div>
             <div className={styles['article-card--vertical__content']}>
-                <h3
-                    className={styles['article-card--vertical__title']}
-                >
+                <h3 className={styles['article-card--vertical__title']}>
                     {title}
                 </h3>
-                <p
-                    className={styles['article-card--vertical__text']}
-                >
+                <p className={styles['article-card--vertical__text']}>
                     {truncateText(description, 200)}
                 </p>
                 {showLink && (
                     <Link
                         href="#"
                         onClick={handleClick}
-                        className={
-                            styles['article-card--vertical__link']
-                        }
+                        className={styles['article-card--vertical__link']}
                     >
                         Ver detalle
                     </Link>
