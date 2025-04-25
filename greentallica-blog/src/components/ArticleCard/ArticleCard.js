@@ -57,7 +57,7 @@ export default function ArticleCard({
                         {title}
                     </h3>
                     <p className={styles['article-card--horizontal__description']}                    >
-                        {truncateText(description, 100)}
+                        {truncateText(description, 200)}
                     </p>
                     {showLink && (
                         <Link
