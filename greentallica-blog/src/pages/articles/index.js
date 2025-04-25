@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
 
@@ -27,6 +27,9 @@ export default function ArticlesPage() {
     const { token } = useContext(AuthContext);
     const router = useRouter();
 
+    // Refs
+    const articlesSectionRef = useRef(null)
+
     // Estados para artículos, error, carga y categoría seleccionada
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -53,6 +56,8 @@ export default function ArticlesPage() {
     const handleCategorySelect = async (slug) => {
         setSelectedCategory(slug);
         await fetchArticles(slug);
+        // Scroll suave a la sección de artículos
+        articlesSectionRef.current?.scrollIntoView({ behavior: "smooth" })
     };
 
     return (
@@ -91,7 +96,7 @@ export default function ArticlesPage() {
             </section>
 
             {/* Sección donde se muestran los artículos */}
-            <section className={styles['articlesPage__list-section']}>
+            <section id="articulos-categoria" ref={articlesSectionRef} className={styles['articlesPage__list-section']}>
                 <hr className={styles['articlesPage__hr']} />
 
                 {loading ? (

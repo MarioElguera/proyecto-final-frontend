@@ -100,10 +100,8 @@
      =========================== */
 @media (max-width: 767px) {
     .article-card--horizontal {
-        /* flex-direction: column; */
         width: 100%;
         height: 100%;
-        /* overflow: visible; */
     }
 
     .article-card--horizontal__image-container {
