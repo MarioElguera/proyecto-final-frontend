@@ -1,111 +1,133 @@
-import { useState, useContext } from 'react';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { AuthContext } from '@/context/AuthContext';
-import styles from './Navbar.module.css';
+import { useState } from 'react'
+import styles from './Navbar.module.css'
 
 /**
- * Componente Navbar
- * Cabecera del sitio con navegación y menú responsive.
+ * @typedef {Object} NavLink
+ * @property {string} label — Texto que se muestra en el enlace
+ * @property {string} href  — Ruta o identificador de la página
  */
-export default function Navbar() {
-    const { token, username, logout } = useContext(AuthContext);
-    const { pathname } = useRouter();
-    const router = useRouter();
 
-    // Estado para abrir/cerrar menú hamburguesa
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+/**
+ * @typedef {Object} NavbarProps
+ * @property {string} logoText            — Texto o marca del logo
+ * @property {NavLink[]} links            — Array de enlaces de navegación
+ * @property {string} activePath          — Ruta activa para resaltar el enlace correspondiente
+ * @property {boolean} isLoggedIn         — Estado de autenticación
+ * @property {string} [username]          — Nombre de usuario (vacío si no hay sesión)
+ * @property {(href: string) => void} onNavigate — Callback que maneja la navegación
+ * @property {() => void} onLogout        — Callback que maneja el cierre de sesión
+ * @property {() => void} onLogin         — Callback que maneja la acción de iniciar sesión
+ */
 
-    // Determina si una ruta está activa
-    const isActive = (href) => pathname === href;
+/**
+ * Navbar: cabecera con logo, enlaces en segunda fila, y sección de autenticación.
+ *
+ * @param {NavbarProps} props
+ */
+export default function Navbar({
+    logoText,
+    links,
+    activePath,
+    isLoggedIn,
+    username = '',
+    onNavigate,
+    onLogout,
+    onLogin,
+}) {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    // Maneja navegación y cierra el menú
-    const handleNavigation = (href) => {
-        setIsMenuOpen(false);
-        router.push(href);
-    };
+    /** Alterna el menú hamburguesa */
+    const toggleMenu = () => {
+        setIsMenuOpen(prev => !prev)
+    }
+
+    /**
+     * Navega a la ruta indicada y cierra el menú.
+     * @param {string} href
+     */
+    const handleNavigate = href => {
+        setIsMenuOpen(false)
+        onNavigate(href)
+    }
 
     return (
         <header className={styles.navbar}>
             <div className={styles.navbar__container}>
-                {/* Logo principal */}
-                <Link href="/" className={styles.navbar__logo}>
-                    GREENTALLICA
-                </Link>
-
-                {/* Botón menú hamburguesa */}
+                {/* Logo */}
                 <button
-                    className={styles.navbar__hamburger}
-                    onClick={toggleMenu}
-                    aria-label="Menú"
+                    type="button"
+                    className={styles.navbar__logo}
+                    onClick={() => handleNavigate('/')}
+                    aria-label="Inicio"
                 >
-                    <span className={styles.navbar__hamburgerLine}>☰</span>
+                    {logoText}
                 </button>
 
-                {/* Menú de navegación */}
-                <nav className={`${styles.navbar__links} ${isMenuOpen ? styles['navbar__links--open'] : ''}`}>
-                    <button
-                        href="/"
-                        onClick={() => handleNavigation('/')}
-                        className={`${styles.navbar__link} ${isActive('/') ? styles['navbar__link--active'] : ''}`}
-                    >
-                        Inicio
-                    </button>
-                    <button
-                        onClick={() => handleNavigation('/articles')}
-                        className={`${styles.navbar__link} ${isActive('/articles') ? styles['navbar__link--active'] : ''}`}
-                    >
-                        Artículos
-                    </button>
-                    <button
-                        onClick={() => handleNavigation('/events')}
-                        className={`${styles.navbar__link} ${isActive('/events') ? styles['navbar__link--active'] : ''}`}
-                    >
-                        Eventos
-                    </button>
-                    <button
-                        onClick={() => handleNavigation('/about')}
-                        className={`${styles.navbar__link} ${isActive('/about') ? styles['navbar__link--active'] : ''}`}
-                    >
-                        Acerca De
-                    </button>
+                {/* Botón hamburguesa (sólo en móvil/tablet) */}
+                <button
+                    type="button"
+                    className={styles.navbar__hamburger}
+                    onClick={toggleMenu}
+                    aria-label="Toggle menu"
+                    aria-expanded={isMenuOpen}
+                >
+                    <span className={styles.navbar__hamburgerLine} />
+                    <span className={styles.navbar__hamburgerLine} />
+                    <span className={styles.navbar__hamburgerLine} />
+                </button>
 
-                    {/* Autenticación */}
+
+
+                {/* Enlaces de navegación (segunda fila) */}
+                <nav
+                    className={
+                        isMenuOpen
+                            ? `${styles.navbar__links} ${styles['navbar__links--open']}`
+                            : styles.navbar__links
+                    }
+                >
+                    {links.map(({ label, href }) => (
+                        <button
+                            key={href}
+                            type="button"
+                            onClick={() => handleNavigate(href)}
+                            className={
+                                activePath === href
+                                    ? `${styles.navbar__link} ${styles['navbar__link--active']}`
+                                    : styles.navbar__link
+                            }
+                        >
+                            {label}
+                        </button>
+                    ))}
+
+                    {/* Sección de autenticación (misma fila que logo) */}
                     <div className={styles.navbar__auth}>
-                        {!token ? (
+                        {isLoggedIn ? (
                             <>
-                                <Link
-                                    href="/auth/login"
-                                    className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}
-                                >
-                                    Iniciar sesión
-                                </Link>
-                                Registro deshabilitado
-                                <Link
-                                    href="/auth/register"
-                                    className={`${styles.navbar__btn} ${styles['navbar__btn--register']}`}
-                                >
-                                    Registrarse
-                                </Link>
-
-                            </>
-                        ) : (
-                            <div className={styles.navbar__user}>
                                 <span className={styles.navbar__username}>
-                                    Hola, {username || 'usuario'}
+                                    Hola, {username}
                                 </span>
                                 <button
-                                    onClick={logout}
+                                    type="button"
                                     className={`${styles.navbar__btn} ${styles['navbar__btn--logout']}`}
+                                    onClick={onLogout}
                                 >
                                     Cerrar sesión
                                 </button>
-                            </div>
+                            </>
+                        ) : (
+                            <button
+                                type="button"
+                                className={`${styles.navbar__btn} ${styles['navbar__btn--login']}`}
+                                onClick={onLogin}
+                            >
+                                Iniciar sesión
+                            </button>
                         )}
                     </div>
                 </nav>
             </div>
         </header>
-    );
+    )
 }
