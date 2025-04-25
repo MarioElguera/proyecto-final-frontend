@@ -1,102 +1,58 @@
-/* ================================
-   Slider: Contenedor principal
-   ================================ */
+/* Contenedor principal */
 .slider {
     position: relative;
     width: 100%;
-    max-width: 100%;
-    height: 100%;
-    margin: 0 auto;
     overflow: hidden;
     border-radius: 10px;
     box-shadow: 6px 10px 10px rgb(205, 201, 201);
 }
 
-/* Altura personalizada para pantallas grandes */
-@media (min-width: 768px) {
+/* Alturas según breakpoint */
+@media (max-width: 767px) {
     .slider {
-        height: 500px;
+        height: 300px;
     }
 }
 
-/* ================================
-   Track: Línea de imágenes
-   ================================ */
+@media (min-width: 768px) {
+    .slider {
+        height: 400px;
+    }
+}
+
+/* Track: línea de slides */
 .slider__track {
     display: flex;
     height: 100%;
+    transition: transform 0.5s ease-in-out;
 }
 
-/* Imagen del slide */
-.slider__image {
-    width: 100%;
+/* Cada slide ocupa todo el contenedor */
+.slider__slide {
+    position: relative;
+    flex: 0 0 100%;
     height: 100%;
-    object-fit: cover;
-    flex-shrink: 0;
 }
 
-/* ================================
-   Overlay: Capa con texto encima
-   ================================ */
-.slider__overlay {
-    position: absolute;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    color: white;
-    pointer-events: none;
-    padding: 1rem;
-}
-
-/* Título en el overlay */
-.slider__titulo {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-}
-
-/* Responsive para título y descripción */
-@media (min-width: 640px) {
-    .slider__titulo {
-        font-size: 2.5rem;
-    }
-
-    .slider__descripcion {
-        font-size: 1.125rem;
-    }
-}
-
-/* Descripción en el overlay */
-.slider__descripcion {
-    max-width: 600px;
-    font-size: 1rem;
-}
-
-/* ================================
-   Botones de navegación
-   ================================ */
+/* Botones */
 .slider__btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    padding: 0.5rem 1rem;
     font-size: 2rem;
     font-weight: bold;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
     border: none;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
     border-radius: 4px;
+    cursor: pointer;
     z-index: 10;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 .slider__btn:hover {
-    background-color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.7);
 }
 
 .slider__btn--prev {
@@ -107,9 +63,7 @@
     right: 1rem;
 }
 
-/* ================================
-   Dots: Navegación inferior
-   ================================ */
+/* Dots */
 .slider__dots {
     position: absolute;
     bottom: 1rem;
@@ -124,12 +78,12 @@
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.5);
     border: none;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background 0.3s ease;
 }
 
 .slider__dot--active {
-    background-color: white;
+    background: #fff;
 }

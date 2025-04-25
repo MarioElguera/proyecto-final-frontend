@@ -15,7 +15,6 @@
     width: 100%;
     max-width: 100%;
     height: 250px;
-    /* Altura fija en desktop */
     background-color: #0f172a;
     border-radius: 8px;
     overflow: hidden;
@@ -25,7 +24,6 @@
     cursor: pointer;
 }
 
-/* Animación hover */
 .article-card--horizontal:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
@@ -33,15 +31,15 @@
 
 /* Imagen en horizontal */
 .article-card--horizontal__image-container {
+    position: relative;
+    /* ← necesario para next/image fill */
     flex: 0 0 40%;
     background-color: #1e293b;
     overflow: hidden;
 }
 
 .article-card--horizontal__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    /* Next/Image con fill ocupará todo el contenedor */
     transition: transform 0.3s ease;
 }
 
@@ -98,8 +96,8 @@
 }
 
 /* ===========================
-   RESPONSIVE HORIZONTAL
-   =========================== */
+     RESPONSIVE HORIZONTAL
+     =========================== */
 @media (max-width: 767px) {
     .article-card--horizontal {
         flex-direction: column;
@@ -118,10 +116,12 @@
     }
 }
 
-/* ===========================
-   VARIANTE VERTICAL (FEATURED)
-   =========================== */
 
+/* ===========================
+     VARIANTE VERTICAL (FEATURED)
+     =========================== */
+
+/* Contenedor principal en vertical */
 .article-card--vertical {
     display: flex;
     flex-direction: column;
@@ -139,6 +139,8 @@
 
 /* Imagen en vertical */
 .article-card--vertical__image-container {
+    position: relative;
+    /* ← necesario para next/image fill */
     background-color: #000;
     width: 100%;
     height: 220px;
@@ -146,9 +148,7 @@
 }
 
 .article-card--vertical__image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    /* Next/Image con fill ocupará todo el contenedor */
     transition: transform 0.3s ease;
 }
 
@@ -181,6 +181,7 @@
     margin-bottom: 1rem;
 }
 
+/* Link en vertical */
 .article-card--vertical__link {
     font-size: 1.2rem;
     color: #1877f2;
@@ -195,8 +196,8 @@
 }
 
 /* ===========================
-   RESPONSIVE VERTICAL
-   =========================== */
+     RESPONSIVE VERTICAL
+     =========================== */
 @media (max-width: 768px) {
     .article-card--vertical {
         width: 100%;

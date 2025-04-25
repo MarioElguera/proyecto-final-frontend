@@ -38,14 +38,9 @@
     flex: 1;
     display: flex;
     justify-content: center;
-    max-width: 500px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
-}
-
-.hero__image img {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
 /* Responsive */
@@ -57,7 +52,6 @@
 
     .hero__image {
         border: none;
-        max-width: 100%;
     }
 }
 

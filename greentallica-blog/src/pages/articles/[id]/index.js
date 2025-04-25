@@ -209,7 +209,14 @@ export default function ArticleDetailPage() {
             <section className={styles['article-detail__body']}>
                 {article.image && (
                     <div className={styles['article-detail__image-container']}>
-                        <Image src={article.image} alt={article.title} className={styles['article-detail__image']} />
+                        <Image
+                            src={article.image}
+                            alt={article.title}
+                            width={800}
+                            height={600}
+                            className={styles['article-detail__image']}
+                            loading="lazy"
+                        />
                     </div>
                 )}
                 <div className={styles['article-detail__content']}>
