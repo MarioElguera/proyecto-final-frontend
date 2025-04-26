@@ -1,14 +1,22 @@
+/**
+ * Página 'Acerca de' con efecto parallax - Muestra videos y textos sincronizados al hacer scroll.
+ */
+
 import { useEffect, useState, useRef } from 'react';
 import styles from './about.module.css';
 import sectionsParallax from '@/utils/about';
 
-
 export default function AboutParallaxStory() {
+    // Estado para controlar qué sección está activa
     const [currentSection, setCurrentSection] = useState(0);
+
+    // Referencias a contenedor principal y a los videos
     const containerRef = useRef(null);
     const videoRefs = useRef([]);
 
-    // Maneja el scroll para activar la sección correspondiente
+    /**
+     * Efecto para manejar el cambio de sección en función del scroll.
+     */
     useEffect(() => {
         function handleScroll() {
             const container = containerRef.current;
@@ -29,7 +37,9 @@ export default function AboutParallaxStory() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Maneja la reproducción de video y el volumen según la sección activa
+    /**
+     * Efecto para controlar reproducción y volumen de videos según sección activa.
+     */
     useEffect(() => {
         videoRefs.current.forEach((video, index) => {
             if (!video) return;
@@ -43,7 +53,11 @@ export default function AboutParallaxStory() {
         });
     }, [currentSection]);
 
-    // Aumenta progresivamente el volumen
+    /**
+     * Aumenta progresivamente el volumen del video activo.
+     *
+     * @param {HTMLVideoElement} video - Video que debe aumentar su volumen.
+     */
     const fadeInVolume = (video) => {
         video.muted = false;
         let vol = 0;
@@ -58,7 +72,11 @@ export default function AboutParallaxStory() {
         }, 80);
     };
 
-    // Disminuye progresivamente el volumen y pausa
+    /**
+     * Reduce progresivamente el volumen y pausa el video inactivo.
+     *
+     * @param {HTMLVideoElement} video - Video que debe disminuir su volumen y pausarse.
+     */
     const fadeOutVolume = (video) => {
         let vol = video.volume;
         const fadeOut = setInterval(() => {
@@ -74,7 +92,9 @@ export default function AboutParallaxStory() {
     };
 
     return (
-        <div ref={containerRef} className={styles['about-parallax']}>
+        <section ref={containerRef} className={styles['about-parallax']}>
+
+            {/* Renderizado de cada sección parallax */}
             {sectionsParallax.map((section, index) => (
                 <div
                     key={index}
@@ -97,6 +117,6 @@ export default function AboutParallaxStory() {
                     </div>
                 </div>
             ))}
-        </div>
+        </section>
     );
 }
