@@ -5,7 +5,6 @@
  * @returns {string} - Mensaje de error procesado para mostrar en el frontend.
  */
 export function handleApiError(error) {
-    console.log("handleApiError => ", error);
     if (!error) {
         return 'Ocurrió un error inesperado. Intenta de nuevo.';
     }

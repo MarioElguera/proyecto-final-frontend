@@ -1,3 +1,6 @@
+// Page Login
+
+// Textos del formulario
 export const LOGIN_TITLE = "Iniciar sesión";
 export const USERNAME_LABEL = "Nombre de usuario";
 export const USERNAME_PLACEHOLDER = "Ingrese su nombre de usuario";

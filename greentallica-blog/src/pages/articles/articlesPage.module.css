@@ -1,19 +1,23 @@
-/* ========================================
-    CONTENEDORES PRINCIPALES
-======================================== */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE ARTÍCULOS */
+/* ========================================================================= */
 
-/* Sección de menú y sección de lista de artículos */
+/* ============================== */
+/* CONTENEDORES PRINCIPALES */
+/* ============================== */
+
+/* Sección del menú de categorías y lista de artículos */
 .articlesPage__menu-section,
 .articlesPage__list-section {
     padding: 1rem;
     font-family: sans-serif;
 }
 
-/* ========================================
-    HEADER: TÍTULO Y BOTÓN
-======================================== */
+/* ============================== */
+/* HEADER: TÍTULO Y BOTÓN */
+/* ============================== */
 
-/* Contenedor del header */
+/* Contenedor del encabezado */
 .articlesPage__header {
     display: flex;
     flex-direction: column;
@@ -23,7 +27,7 @@
     gap: 16px;
 }
 
-/* Adaptación del header para pantallas medianas */
+/* Adaptación del header en pantallas medianas */
 @media (min-width: 640px) {
     .articlesPage__header {
         flex-direction: column;
@@ -31,7 +35,7 @@
     }
 }
 
-/* Título principal */
+/* Título principal del header */
 .articlesPage__title {
     font-size: 1.5rem;
     font-weight: 700;
@@ -39,42 +43,43 @@
     margin: 0;
 }
 
-/* ========================================
-    MENSAJE PARA LOGIN REQUERIDO
-======================================== */
+/* ============================== */
+/* MENSAJE PARA LOGIN REQUERIDO */
+/* ============================== */
 
-/* Mensaje de advertencia cuando el usuario no ha iniciado sesión */
+/* Mensaje de advertencia para usuarios no logueados */
 .articlesPage__loginRequired {
     color: #dc2626;
     font-weight: 600;
     text-align: center;
 }
 
-/* ========================================
-    ELEMENTOS DE SEPARACIÓN
-======================================== */
+/* ============================== */
+/* ELEMENTOS DE SEPARACIÓN */
+/* ============================== */
 
-/* Línea divisoria */
+/* Línea divisoria entre secciones */
 .articlesPage__hr {
     margin: 32px 0;
     border: none;
     border-top: 1px solid #d1d5db;
 }
 
-/* ========================================
-    MENSAJE DE ERROR
-======================================== */
+/* ============================== */
+/* MENSAJE DE ERROR */
+/* ============================== */
 
+/* Estilos para mensajes de error */
 .articlesPage__error {
     text-align: center;
-    color: red
+    color: red;
 }
 
-/* ========================================
-    MENSAJES DE LISTA VACÍA
-======================================== */
+/* ============================== */
+/* MENSAJES DE LISTA VACÍA */
+/* ============================== */
 
-/* Mensaje cuando no hay artículos o selección */
+/* Estilos para mensaje de lista vacía */
 .articlesPage__message {
     text-align: center;
     font-size: 1.125rem;
@@ -83,11 +88,11 @@
     color: white;
 }
 
-/* ========================================
-    BOTÓN DE CREAR EVENTO
-======================================== */
+/* ============================== */
+/* BOTÓN DE CREAR EVENTO */
+/* ============================== */
 
-/* Botón verde general de crear */
+/* Botón verde para crear artículos o eventos */
 .create-event__button {
     padding: 0.75rem;
     background-color: #99f243;
@@ -99,11 +104,11 @@
     width: 100%;
 }
 
-/* ========================================
-    ICONO DE INFORMACIÓN
-======================================== */
+/* ============================== */
+/* ICONO DE INFORMACIÓN */
+/* ============================== */
 
-/* Icono ℹ️ que muestra información extra */
+/* Icono ℹ️ para mostrar información adicional */
 .articlesPage__info-icon {
     margin-left: 0.5rem;
     font-size: 1.2rem;
@@ -113,7 +118,7 @@
     transition: color 0.3s ease;
 }
 
-/* Hover sobre el icono de información */
+/* Efecto hover sobre el icono de información */
 .articlesPage__info-icon:hover {
     color: #7ccf2b;
 }

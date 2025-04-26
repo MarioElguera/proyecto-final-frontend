@@ -1,4 +1,4 @@
-// src/constants/homePage.js
+//Page Principal (HOME)
 
 // Imágenes del slider principal
 export const HERO_SLIDER_IMAGES = [

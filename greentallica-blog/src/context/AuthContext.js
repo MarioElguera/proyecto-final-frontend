@@ -23,16 +23,28 @@ export function AuthProvider({ children }) {
         setIsLoadingContextInfo(false);
     }, []);
 
+    /**
+     * Decodifica el token JWT para extraer información del usuario.
+     *
+     * @param {string} jwt - Token JWT.
+     */
     const decodeToken = (jwt) => {
         try {
             const decoded = JSON.parse(atob(jwt.split('.')[1]));
             setUserId(decoded.id);
             setUserRole(decoded.role);
         } catch (err) {
-            console.error('Error decodificando el token:', err);
+            setUserId(null);
+            setUserRole(null);
         }
     };
 
+    /**
+     * Maneja el login de usuario guardando datos en localStorage.
+     *
+     * @param {string} jwt - Token JWT.
+     * @param {string} username - Nombre de usuario.
+     */
     const login = (jwt, username) => {
         localStorage.setItem('token', jwt);
         localStorage.setItem('username', username);
@@ -41,6 +53,9 @@ export function AuthProvider({ children }) {
         decodeToken(jwt);
     };
 
+    /**
+     * Maneja el logout de usuario limpiando datos y redirigiendo al home.
+     */
     const logout = () => {
         localStorage.removeItem('token');
         localStorage.removeItem('username');

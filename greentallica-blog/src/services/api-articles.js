@@ -1,11 +1,8 @@
 import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
-// URL base de articulos
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/articles';
-console.log("url api .env => ", process.env.NEXT_PUBLIC_API_URL);
-console.log("API_BASE_URL => ", API_BASE_URL);
-
+// URL base de artículos
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'articles';
 
 /**
  * Obtiene todos los artículos, opcionalmente filtrados por categoría.
@@ -22,8 +19,7 @@ export async function getAllArticles(category) {
         const response = await fetch(url);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -37,8 +33,7 @@ export async function getArticleById(id) {
         const response = await fetch(`${API_BASE_URL}/${id}`);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -52,8 +47,7 @@ export async function getFullArticleById(id) {
         const response = await fetch(`${API_BASE_URL}/${id}/full`);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -66,8 +60,7 @@ export async function getCategories() {
         const response = await fetch(`${API_BASE_URL}/categories/list`);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -89,8 +82,7 @@ export async function createArticle(article, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -113,8 +105,7 @@ export async function updateArticle(id, article, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
@@ -134,7 +125,6 @@ export async function deleteArticle(id, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }

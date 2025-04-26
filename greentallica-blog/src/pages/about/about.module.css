@@ -1,15 +1,23 @@
-/* ============================= */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA ABOUT PARALLAX */
+/* ========================================================================= */
+
+/* ============================== */
 /* CONTENEDOR PRINCIPAL */
-/* ============================= */
+/* ============================== */
+
+/* Contenedor general del efecto parallax */
 .about-parallax {
     position: relative;
     width: 100%;
     height: 500vh;
 }
 
-/* ============================= */
+/* ============================== */
 /* SECCIONES INDIVIDUALES */
-/* ============================= */
+/* ============================== */
+
+/* Sección individual del parallax */
 .about-parallax__section {
     position: sticky;
     top: 0;
@@ -20,14 +28,17 @@
     transition: opacity 1s ease-in-out;
 }
 
+/* Sección activa del parallax */
 .about-parallax__section--active {
     opacity: 1;
     width: 100%;
 }
 
-/* ============================= */
+/* ============================== */
 /* VIDEO */
-/* ============================= */
+/* ============================== */
+
+/* Estilos del video de fondo */
 .about-parallax__video {
     width: 100%;
     height: 100%;
@@ -37,13 +48,16 @@
     transition: transform 1s ease-in-out;
 }
 
+/* Video activo con efecto de zoom */
 .about-parallax__video--active {
     transform: scale(1.05);
 }
 
-/* ============================= */
+/* ============================== */
 /* OVERLAY DE TEXTO */
-/* ============================= */
+/* ============================== */
+
+/* Contenedor del overlay de texto */
 .about-parallax__overlay {
     position: absolute;
     top: 50%;
@@ -59,32 +73,40 @@
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
 
+/* Overlay de texto activo */
 .about-parallax__overlay--active {
     width: 70%;
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
 
-/* ============================= */
+/* ============================== */
 /* TEXTOS DEL OVERLAY */
-/* ============================= */
+/* ============================== */
+
+/* Título dentro del overlay */
 .about-parallax__title {
     font-size: 2.5rem;
     margin-bottom: 1rem;
 }
 
+/* Descripción dentro del overlay */
 .about-parallax__description {
     font-size: 1.2rem;
 }
 
-/* ============================= */
+/* ============================== */
 /* RESPONSIVE */
-/* ============================= */
+/* ============================== */
+
 @media (max-width: 768px) {
+
+    /* Ajuste del tamaño de título en móviles */
     .about-parallax__title {
         font-size: 2rem;
     }
 
+    /* Ajuste del tamaño de descripción en móviles */
     .about-parallax__description {
         font-size: 1rem;
     }

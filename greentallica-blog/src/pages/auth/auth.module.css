@@ -1,21 +1,26 @@
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE LOGIN */
+/* ========================================================================= */
+
 /* ============================== */
-/* CONTENEDOR GENERAL DEL LOGIN   */
+/* CONTENEDOR GENERAL DEL LOGIN */
 /* ============================== */
 
+/* Contenedor principal de la página de login */
 .login-container {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #0a1128;
-    /* Fondo oscuro */
     padding: 2rem;
 }
 
 /* ============================== */
-/* CAJA DE LOGIN                  */
+/* CAJA DE LOGIN */
 /* ============================== */
 
+/* Contenedor de la caja de login */
 .login-box {
     background-color: white;
     padding: 2rem;
@@ -26,20 +31,28 @@
     text-align: center;
 }
 
-/* Título */
+/* ============================== */
+/* TÍTULO DEL LOGIN */
+/* ============================== */
+
+/* Estilos del título principal del login */
 .login-box__title {
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
 
-/* Grupo de input */
+/* ============================== */
+/* GRUPOS DE INPUTS */
+/* ============================== */
+
+/* Contenedor de grupo de input */
 .login-box__group {
     margin-bottom: 1.5rem;
     text-align: left;
 }
 
-/* Label */
+/* Etiqueta de los inputs */
 .login-box__label {
     display: block;
     font-size: 0.9rem;
@@ -48,7 +61,7 @@
     margin-bottom: 0.5rem;
 }
 
-/* Input */
+/* Campo de input */
 .login-box__input {
     width: 100%;
     padding: 0.75rem;
@@ -59,12 +72,17 @@
     transition: border-color 0.3s;
 }
 
+/* Efecto al enfocar el input */
 .login-box__input:focus {
     border-color: #99f243;
     outline: none;
 }
 
-/* Error de login */
+/* ============================== */
+/* MENSAJE DE ERROR */
+/* ============================== */
+
+/* Contenedor del mensaje de error */
 .login-box__error {
     background-color: #ffe0e0;
     color: #d10000;
@@ -74,7 +92,11 @@
     font-weight: bold;
 }
 
-/* Botón de envío */
+/* ============================== */
+/* BOTÓN DE ENVÍO */
+/* ============================== */
+
+/* Estilos del botón de enviar formulario */
 .login-box__button {
     width: 100%;
     background-color: #99f243;
@@ -88,18 +110,27 @@
     transition: background-color 0.3s;
 }
 
+/* Efecto hover en el botón */
 .login-box__button:hover {
     background-color: #6cd806;
 }
 
-/* Pie de página */
+/* ============================== */
+/* PIE DE PÁGINA DEL LOGIN */
+/* ============================== */
+
+/* Texto de pie de página */
 .login-box__footer {
     margin-top: 1rem;
     font-size: 0.9rem;
     color: #0f172a;
 }
 
-/* Link de registro */
+/* ============================== */
+/* LINK DE REGISTRO */
+/* ============================== */
+
+/* Estilos del enlace hacia registro */
 .login-box__link {
     color: #1877f2;
     font-weight: bold;
@@ -107,16 +138,18 @@
     margin-left: 0.5rem;
 }
 
+/* Efecto hover en el link de registro */
 .login-box__link:hover {
     text-decoration: underline;
 }
 
 /* ============================== */
-/* RESPONSIVE DESIGN              */
+/* RESPONSIVE DESIGN */
 /* ============================== */
 
-/* Para mobile */
 @media (max-width: 640px) {
+
+    /* Ajuste del contenedor en dispositivos móviles */
     .login-container {
         justify-content: left;
         align-items: start;

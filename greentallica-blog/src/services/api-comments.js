@@ -2,10 +2,11 @@ import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de comentarios
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/comments';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'comments';
 
 /**
  * Obtiene todos los comentarios.
+ *
  * @returns {Promise<Array>} - Lista de comentarios.
  */
 export async function getAllComments() {
@@ -13,13 +14,13 @@ export async function getAllComments() {
         const response = await fetch(`${API_BASE_URL}/`);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
 /**
  * Obtiene los comentarios de un artículo específico.
+ *
  * @param {string} articleId - ID del artículo.
  * @returns {Promise<Array>} - Comentarios del artículo.
  */
@@ -28,13 +29,13 @@ export async function getCommentsByArticle(articleId) {
         const response = await fetch(`${API_BASE_URL}/${articleId}`);
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
 /**
  * Crea un nuevo comentario en un artículo.
+ *
  * @param {string} articleId - ID del artículo.
  * @param {string} content - Contenido del comentario.
  * @param {string} token - Token de autenticación.
@@ -52,13 +53,13 @@ export async function createComment(articleId, content, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
 /**
  * Actualiza un comentario existente.
+ *
  * @param {string} commentId - ID del comentario.
  * @param {string} content - Nuevo contenido.
  * @param {string} token - Token de autenticación.
@@ -76,13 +77,13 @@ export async function updateComment(commentId, content, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }
 
 /**
  * Elimina un comentario.
+ *
  * @param {string} commentId - ID del comentario.
  * @param {string} token - Token de autenticación.
  * @returns {Promise<Object>} - Resultado de la eliminación.
@@ -97,7 +98,6 @@ export async function deleteComment(commentId, token) {
         });
         return await handleResponse(response);
     } catch (error) {
-        console.error(handleApiError(error));
-        throw error;
+        throw handleApiError(error);
     }
 }

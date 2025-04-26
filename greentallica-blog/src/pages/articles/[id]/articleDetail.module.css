@@ -1,7 +1,12 @@
-/* ==========================
-   CONTENEDOR PRINCIPAL
-========================== */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE DETALLE DE ARTÍCULO */
+/* ========================================================================= */
 
+/* ============================== */
+/* CONTENEDOR PRINCIPAL */
+/* ============================== */
+
+/* Contenedor general de la página */
 .article-detail {
     max-width: 100vw;
     padding: 1.5rem;
@@ -11,9 +16,9 @@
     min-height: 100vh;
 }
 
-/* ==========================
-   HEADER DEL ARTÍCULO
-========================== */
+/* ============================== */
+/* HEADER DEL ARTÍCULO */
+/* ============================== */
 
 /* Contenedor del título y acciones */
 .article-detail__header {
@@ -31,15 +36,15 @@
     margin: 0;
 }
 
-/* Contenedor para los botones de editar/eliminar */
+/* Contenedor de los botones de edición/eliminación */
 .article-detail__actions {
     display: flex;
     gap: 0.75rem;
 }
 
-/* ==========================
-   BOTONES REUTILIZABLES
-========================== */
+/* ============================== */
+/* BOTONES REUTILIZABLES */
+/* ============================== */
 
 /* Estilos base para todos los botones */
 .article-detail__button--edit,
@@ -57,7 +62,7 @@
     transition: all 0.3s ease;
 }
 
-/* Botones principales (agregar, editar, enviar) */
+/* Botones principales: editar, eliminar, agregar, enviar */
 .article-detail__button--edit,
 .article-detail__button--delete,
 .article-detail__button--add-comment,
@@ -67,6 +72,7 @@
     border: none;
 }
 
+/* Hover en botones principales */
 .article-detail__button--edit:hover,
 .article-detail__button--delete:hover,
 .article-detail__button--add-comment:hover,
@@ -74,7 +80,7 @@
     background-color: #87e035;
 }
 
-/* Botones secundarios (comentarios) */
+/* Botones secundarios: editar comentario, eliminar comentario, cancelar */
 .article-detail__button--edit-comment,
 .article-detail__button--delete-comment,
 .article-detail__modal-button--cancel {
@@ -85,6 +91,7 @@
     font-size: 0.9rem;
 }
 
+/* Hover en botones secundarios */
 .article-detail__button--edit-comment:hover,
 .article-detail__button--delete-comment:hover,
 .article-detail__modal-button--cancel:hover {
@@ -92,9 +99,9 @@
     color: #0f172a;
 }
 
-/* ==========================
-   CUERPO DEL ARTÍCULO
-========================== */
+/* ============================== */
+/* CUERPO DEL ARTÍCULO */
+/* ============================== */
 
 /* Contenedor general del cuerpo */
 .article-detail__body {
@@ -104,7 +111,7 @@
     margin-bottom: 2rem;
 }
 
-/* Imagen destacada */
+/* Contenedor de la imagen del artículo */
 .article-detail__image-container {
     flex: 1;
     max-width: 100vw;
@@ -113,6 +120,7 @@
     border-radius: 8px;
 }
 
+/* Imagen destacada */
 .article-detail__image {
     width: 100%;
     height: 100%;
@@ -120,53 +128,55 @@
     border-radius: inherit;
 }
 
-/* Contenido textual del artículo */
+/* Contenedor del contenido textual */
 .article-detail__content {
     flex: 1;
 }
 
+/* Meta información del artículo */
 .article-detail__meta {
     font-size: 0.9rem;
     color: white;
     margin-bottom: 1rem;
 }
 
+/* Texto principal del artículo */
 .article-detail__text {
     font-size: 1rem;
     line-height: 1.6;
     color: white;
 }
 
-/* ==========================
-   SEPARADOR
-========================== */
+/* ============================== */
+/* SEPARADOR */
+/* ============================== */
 
+/* Línea divisoria */
 .article-detail__divider {
     margin: 2rem 0;
     border: none;
     border-top: 1px solid #ddd;
 }
 
-/* ==========================
-   SECCIÓN DE COMENTARIOS
-========================== */
+/* ============================== */
+/* SECCIÓN DE COMENTARIOS */
+/* ============================== */
 
-/* Contenedor de la sección de comentarios */
+/* Contenedor general de los comentarios */
 .article-detail__comments {
     margin-top: 2rem;
 }
 
-/* Header de la sección comentarios */
+/* Header de la sección de comentarios */
 .article-detail__comments-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* flex-wrap: wrap; */
     margin-bottom: 1rem;
     text-align: center;
 }
 
-/* Título de la sección comentarios */
+/* Título de la sección de comentarios */
 .article-detail__comments-title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -187,7 +197,7 @@
     transition: background-color 0.3s ease;
 }
 
-/* Hover para el botón de agregar comentario */
+/* Hover sobre botón agregar comentario */
 .article-detail__button--add-comment:hover {
     background-color: #87e035;
 }
@@ -211,11 +221,12 @@
     transition: background-color 0.3s ease;
 }
 
+/* Hover sobre comentario */
 .article-detail__comment-item:hover {
     background-color: #333;
 }
 
-/* Acciones de cada comentario (editar / eliminar) */
+/* Acciones disponibles en cada comentario */
 .article-detail__comment-actions {
     display: flex;
     gap: 0.75rem;
@@ -230,9 +241,9 @@
     color: #99f243;
 }
 
-/* ==========================
-   MODALES
-========================== */
+/* ============================== */
+/* MODALES */
+/* ============================== */
 
 /* Overlay del modal */
 .article-detail__modal {
@@ -256,6 +267,7 @@
     text-align: center;
 }
 
+/* Título del modal */
 .article-detail__modal-title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -263,6 +275,7 @@
     margin-bottom: 1rem;
 }
 
+/* Textarea dentro del modal */
 .article-detail__modal-textarea {
     width: 100%;
     padding: 0.75rem;
@@ -275,6 +288,7 @@
     color: #333;
 }
 
+/* Contenedor de acciones del modal */
 .article-detail__modal-actions {
     display: flex;
     justify-content: center;
@@ -282,10 +296,11 @@
     padding-top: 1rem;
 }
 
-/* ==========================
-   MENSAJES DE ERROR
-========================== */
+/* ============================== */
+/* MENSAJES DE ERROR */
+/* ============================== */
 
+/* Mensajes de error generales */
 .article-detail__error {
     color: #d8000c;
     padding: 0.8rem 1rem;
@@ -295,25 +310,30 @@
     text-align: center;
 }
 
-/* ==========================
-   RESPONSIVE
-========================== */
+/* ============================== */
+/* RESPONSIVE */
+/* ============================== */
 
 @media (max-width: 768px) {
+
+    /* Adaptación del header en móvil */
     .article-detail__header {
         flex-direction: column;
         align-items: center;
         text-align: center;
     }
 
+    /* Adaptación del cuerpo en móvil */
     .article-detail__body {
         flex-direction: column;
     }
 
+    /* Ajuste de acciones */
     .article-detail__actions {
         margin-top: 1rem;
     }
 
+    /* Adaptación del header de comentarios */
     .article-detail__comments-header {
         flex-direction: column;
         align-items: center;
@@ -324,6 +344,7 @@
         margin-bottom: 1rem;
     }
 
+    /* Botón de agregar comentario en móvil */
     .article-detail__button--add-comment {
         background-color: transparent;
         color: white;

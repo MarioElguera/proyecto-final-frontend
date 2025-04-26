@@ -1,3 +1,4 @@
+// Page Events
 export const PAGE_TITLE = "Eventos";
 export const BUTTON_ADD_EVENT = "Agregar evento";
 export const ERROR_LOADING_EVENTS = "Error al cargar los eventos.";

@@ -1,7 +1,9 @@
-/* Estilos para la página de Inicio (Home) */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE INICIO (HOME) */
+/* ========================================================================= */
 
 /* ============================== */
-/* SECCIÓN HERO                          */
+/* SECCIÓN HERO */
 /* ============================== */
 
 .hero {
@@ -15,11 +17,13 @@
     padding: 5% 10%;
 }
 
+/* Contenedor de contenido textual dentro del Hero */
 .hero__content {
     flex: 1;
     max-width: 600px;
 }
 
+/* Título principal del Hero */
 .hero__title {
     font-size: 2.5rem;
     font-weight: bold;
@@ -27,6 +31,7 @@
     color: #99f243;
 }
 
+/* Descripción secundaria del Hero */
 .hero__description {
     font-size: 1rem;
     color: #f1f1f1;
@@ -34,6 +39,7 @@
     line-height: 1.6;
 }
 
+/* Contenedor de la imagen del Hero */
 .hero__image {
     flex: 1;
     display: flex;
@@ -43,30 +49,38 @@
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
 }
 
-/* Responsive */
+/* ============================== */
+/* RESPONSIVE HERO */
+/* ============================== */
+
 @media (max-width: 900px) {
+
+    /* Adaptación del Hero en pantallas pequeñas */
     .hero {
         flex-direction: column;
         text-align: center;
     }
 
+    /* Ajuste visual de la imagen en pantallas pequeñas */
     .hero__image {
         border: none;
     }
 }
 
 /* ============================== */
-/* SECCIÓN ARTÍCULOS Y COMENTARIOS */
+/* SECCIÓN DE ARTÍCULOS Y COMENTARIOS */
 /* ============================== */
 
+/* Contenedor general de sección para Artículos y Comentarios */
 .home__section {
     padding: 1rem 0rem;
 }
 
 /* ============================== */
-/* ERRORES Y MENSAJES VACÍOS     */
+/* ESTILOS PARA ERRORES Y MENSAJES VACÍOS */
 /* ============================== */
 
+/* Estilos para mostrar mensajes de error */
 .home__error {
     color: red;
     text-align: center;
@@ -74,6 +88,7 @@
     font-weight: bold;
 }
 
+/* Contenedor de mensajes cuando no hay datos */
 .home__no-data-container {
     display: flex;
     justify-content: center;
@@ -82,6 +97,7 @@
     min-height: 10vh;
 }
 
+/* Mensaje de no disponibilidad de datos */
 .home__no-data {
     text-align: center;
     color: #99f243;

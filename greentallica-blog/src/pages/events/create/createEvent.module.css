@@ -1,6 +1,12 @@
-/* ============================= */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE CREACIÓN/EDICIÓN DE EVENTOS */
+/* ========================================================================= */
+
+/* ============================== */
 /* CONTENEDOR PRINCIPAL */
-/* ============================= */
+/* ============================== */
+
+/* Contenedor principal del formulario de eventos */
 .create-event {
     background-color: #0f172a;
     min-height: 100vh;
@@ -11,9 +17,11 @@
     font-family: sans-serif;
 }
 
-/* ============================= */
+/* ============================== */
 /* TÍTULO PRINCIPAL */
-/* ============================= */
+/* ============================== */
+
+/* Estilos del título principal */
 .create-event__title {
     font-size: 2rem;
     font-weight: bold;
@@ -22,9 +30,11 @@
     margin-bottom: 2rem;
 }
 
-/* ============================= */
+/* ============================== */
 /* MENSAJES DE ERROR Y ÉXITO */
-/* ============================= */
+/* ============================== */
+
+/* Mensaje de error */
 .create-event__error {
     color: #d8000c;
     padding: 0.8rem 1.2rem;
@@ -36,6 +46,7 @@
     text-align: center;
 }
 
+/* Mensaje de éxito */
 .create-event__success {
     background-color: #d4edda;
     color: #155724;
@@ -48,9 +59,11 @@
     text-align: center;
 }
 
-/* ============================= */
+/* ============================== */
 /* FORMULARIO */
-/* ============================= */
+/* ============================== */
+
+/* Contenedor general del formulario */
 .create-event__form {
     display: flex;
     flex-wrap: wrap;
@@ -59,8 +72,13 @@
     max-width: 900px;
 }
 
+/* ============================== */
 /* COLUMNAS DEL FORMULARIO */
+/* ============================== */
+
+/* Columna izquierda del formulario */
 .create-event__left,
+/* Columna derecha del formulario */
 .create-event__right {
     flex: 1 1 300px;
     display: flex;
@@ -68,15 +86,24 @@
     gap: 1.2rem;
 }
 
+/* ============================== */
 /* LABELS */
+/* ============================== */
+
+/* Estilos para etiquetas de campos */
 .create-event__left label,
 .create-event__right label {
     font-weight: bold;
     color: #99f243;
 }
 
+/* ============================== */
 /* INPUTS Y TEXTAREA */
+/* ============================== */
+
+/* Estilos para inputs */
 .create-event__left input,
+/* Estilos para textarea */
 .create-event__right textarea {
     background-color: #ffffff;
     border: 1px solid #ccc;
@@ -86,21 +113,24 @@
     transition: border-color 0.3s;
 }
 
+/* Enfoque sobre inputs y textarea */
 .create-event__left input:focus,
 .create-event__right textarea:focus {
     border-color: #99f243;
     outline: none;
 }
 
-/* TEXTAREA ESPECÍFICO */
+/* Textarea específico */
 .create-event__right textarea {
     resize: vertical;
     min-height: 200px;
 }
 
-/* ============================= */
+/* ============================== */
 /* BOTÓN DE ENVIAR */
-/* ============================= */
+/* ============================== */
+
+/* Contenedor del botón de envío */
 .create-event__actions {
     width: 100%;
     margin-top: 1rem;
@@ -108,6 +138,7 @@
     justify-content: center;
 }
 
+/* Botón de acción */
 .create-event__actions button {
     background-color: #99f243;
     color: #000;
@@ -120,15 +151,19 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Efecto hover en botón de acción */
 .create-event__actions button:hover {
     background-color: #87e035;
     transform: scale(1.05);
 }
 
-/* ============================= */
+/* ============================== */
 /* RESPONSIVO */
-/* ============================= */
+/* ============================== */
+
 @media (max-width: 768px) {
+
+    /* Adaptación del formulario en pantallas pequeñas */
     .create-event__form {
         flex-direction: column;
     }

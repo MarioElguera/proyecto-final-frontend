@@ -1,17 +1,23 @@
-/* =================== */
-/* Estilos Globales    */
-/* =================== */
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE EVENTOS */
+/* ========================================================================= */
 
+/* ============================== */
+/* SECCIÓN GLOBAL */
+/* ============================== */
+
+/* Contenedor principal de la sección de eventos */
 .event-section {
     background-color: black;
     text-align: center;
     min-height: 100vh;
 }
 
-/* =================== */
-/* Header de la sección */
-/* =================== */
+/* ============================== */
+/* HEADER DE LA SECCIÓN */
+/* ============================== */
 
+/* Contenedor del encabezado de eventos */
 .event-section__header {
     display: flex;
     align-items: center;
@@ -21,6 +27,7 @@
     padding: 1rem;
 }
 
+/* Título principal del encabezado */
 .event-section__title {
     font-size: 2rem;
     font-weight: bold;
@@ -30,6 +37,7 @@
     gap: 0.5rem;
 }
 
+/* Ícono de información junto al título */
 .event-section__info-icon {
     font-size: 1.2rem;
     cursor: pointer;
@@ -37,14 +45,16 @@
     transition: color 0.3s ease;
 }
 
+/* Efecto hover sobre el ícono de información */
 .event-section__info-icon:hover {
     color: #7ccf2b;
 }
 
-/* =================== */
-/* Botón crear evento */
-/* =================== */
+/* ============================== */
+/* BOTÓN CREAR EVENTO */
+/* ============================== */
 
+/* Estilos del botón para crear nuevos eventos */
 .create-event__button {
     margin: 0rem auto;
     padding: 0.75rem;
@@ -57,20 +67,23 @@
     transition: background-color 0.3s ease;
 }
 
+/* Efecto hover del botón de creación */
 .create-event__button:hover {
     background-color: #87e035;
 }
 
-/* =================== */
-/* Estados             */
-/* =================== */
+/* ============================== */
+/* ESTADOS Y MENSAJES */
+/* ============================== */
 
+/* Estilo para mensajes de error */
 .event-section__error {
     color: red;
     font-weight: bold;
     margin-top: 2rem;
 }
 
+/* Estilo para mensajes cuando no hay eventos */
 .event-section__empty {
     color: #99f243;
     font-weight: bold;

@@ -1,7 +1,12 @@
+/* ========================================================================= */
+/* ESTILOS GENERALES PARA LA PÁGINA DE CREACIÓN/EDICIÓN DE ARTÍCULOS */
+/* ========================================================================= */
+
 /* ============================== */
 /* CONTENEDOR PRINCIPAL */
 /* ============================== */
 
+/* Contenedor principal de la página */
 .create-article {
     background-color: #0f172a;
     padding: 2rem;
@@ -19,6 +24,7 @@
 /* HEADER */
 /* ============================== */
 
+/* Título principal de la página */
 .create-article__title {
     text-align: center;
     font-size: 2rem;
@@ -30,12 +36,14 @@
 /* MENSAJES DE ERROR Y ÉXITO */
 /* ============================== */
 
+/* Mensaje de error */
 .create-article__error {
     color: red;
     text-align: center;
     margin-bottom: 1rem;
 }
 
+/* Mensaje de éxito */
 .create-article__success {
     color: #99f243;
     text-align: center;
@@ -46,6 +54,7 @@
 /* FORMULARIO */
 /* ============================== */
 
+/* Contenedor principal del formulario */
 .create-article__form {
     width: 100%;
     max-width: 900px;
@@ -55,8 +64,13 @@
     padding: 1rem;
 }
 
-/* Columnas izquierda y derecha */
+/* ============================== */
+/* COLUMNAS DEL FORMULARIO */
+/* ============================== */
+
+/* Columna izquierda del formulario */
 .create-article__left,
+/* Columna derecha del formulario */
 .create-article__right {
     flex: 1;
     display: flex;
@@ -64,16 +78,25 @@
     gap: 1rem;
 }
 
-/* Labels */
+/* ============================== */
+/* LABELS */
+/* ============================== */
+
+/* Estilos para etiquetas de campos */
 .create-article__left label,
 .create-article__right label {
     font-weight: bold;
     color: #99f243;
 }
 
-/* Inputs y selects */
+/* ============================== */
+/* INPUTS, SELECTS Y TEXTAREA */
+/* ============================== */
+
+/* Estilos para inputs y selects */
 .create-article__left input,
 .create-article__left select,
+/* Estilos para textarea */
 .create-article__right textarea {
     background-color: #1e293b;
     border: 1px solid #334155;
@@ -85,12 +108,16 @@
     font-size: 1rem;
 }
 
-/* Textarea */
+/* Estilos específicos para textarea */
 .create-article__right textarea {
     height: 35vh;
 }
 
-/* Texto de ayuda */
+/* ============================== */
+/* TEXTO DE AYUDA */
+/* ============================== */
+
+/* Texto de ayuda debajo de inputs */
 .create-article__help-text {
     font-size: 0.8rem;
     color: #cbd5e1;
@@ -101,6 +128,7 @@
 /* BOTÓN DE ENVÍO */
 /* ============================== */
 
+/* Contenedor del botón de acción */
 .create-article__actions {
     width: 100%;
     display: flex;
@@ -108,6 +136,7 @@
     margin-top: 2rem;
 }
 
+/* Botón para enviar formulario */
 .create-article__actions button {
     background-color: #99f243;
     color: #0f172a;
@@ -120,6 +149,7 @@
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Efecto hover sobre el botón */
 .create-article__actions button:hover {
     background-color: #7dc924;
     transform: scale(1.05);
@@ -129,7 +159,7 @@
 /* RESPONSIVE */
 /* ============================== */
 
-/* Pantallas medianas (Tablet) */
+/* Adaptación para pantallas medianas (tablets) */
 @media (max-width: 1024px) {
     .create-article__form {
         flex-direction: column;
@@ -137,7 +167,7 @@
     }
 }
 
-/* Móviles */
+/* Adaptación para pantallas móviles */
 @media (max-width: 640px) {
     .create-article__form {
         padding: 1rem;
