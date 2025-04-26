@@ -2,7 +2,7 @@ import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de comentarios
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'comments';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/comments';
 
 /**
  * Obtiene todos los comentarios.

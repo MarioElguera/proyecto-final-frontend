@@ -2,7 +2,7 @@ import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de eventos
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'events';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/events';
 
 /**
  * Obtiene todos los eventos.

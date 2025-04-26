@@ -2,7 +2,7 @@ import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de autenticación
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'auth';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/auth';
 
 /**
  * Registra un nuevo usuario.

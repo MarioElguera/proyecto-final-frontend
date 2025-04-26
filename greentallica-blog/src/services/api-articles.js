@@ -2,7 +2,7 @@ import { handleApiError } from '@/utils/handleErrors';
 import { handleResponse } from '@/utils/handleResponse';
 
 // URL base de artículos
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + 'articles';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL + '/articles';
 
 /**
  * Obtiene todos los artículos, opcionalmente filtrados por categoría.
