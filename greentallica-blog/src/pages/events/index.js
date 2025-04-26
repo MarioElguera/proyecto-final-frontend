@@ -1,3 +1,7 @@
+/**
+ * Página de eventos - Muestra todos los eventos disponibles con opción de crear, editar y eliminar.
+ */
+
 import { useEffect, useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
@@ -29,28 +33,29 @@ export default function EventPage() {
     const router = useRouter();
     const { token, userId, userRole } = useContext(AuthContext);
 
-    // Estados principales
+    // Estados principales de la página
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [deleting, setDeleting] = useState(false);
     const [error, setError] = useState('');
 
-    // Modal de confirmación
+    // Estado para el modal de confirmación
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [eventToDelete, setEventToDelete] = useState(null);
 
     const isLoading = loading || deleting;
 
-    // Cargar y ordenar eventos
+    /**
+     * Función para obtener todos los eventos de la API.
+     */
     const fetchEvents = async () => {
         try {
             const data = await getAllEvents();
-
-            const events = data.map((event) => ({
+            const formattedEvents = data.map((event) => ({
                 ...event,
                 eventDate: formatDate(event.eventDate),
             }));
-            setEvents(events);
+            setEvents(formattedEvents);
             setError('');
         } catch (err) {
             setError(handleApiError(err));
@@ -59,11 +64,16 @@ export default function EventPage() {
         }
     };
 
+    /**
+     * Carga inicial de eventos al montar el componente.
+     */
     useEffect(() => {
         fetchEvents();
     }, []);
 
-    // Eliminar evento y recargar lista
+    /**
+     * Función que confirma y elimina un evento seleccionado.
+     */
     const handleConfirmDelete = async () => {
         if (!eventToDelete) return;
         setShowConfirmModal(false);
@@ -81,9 +91,9 @@ export default function EventPage() {
     };
 
     return (
-        <div className={styles['event-section']}>
+        <section className={styles['event-section']}>
 
-            {/* Botón agregar evento */}
+            {/* Botón para agregar nuevo evento */}
             {!isLoading && token && (
                 <button
                     className={styles['create-event__button']}
@@ -94,7 +104,7 @@ export default function EventPage() {
                 </button>
             )}
 
-            {/* Encabezado */}
+            {/* Encabezado de sección */}
             <div className={styles['event-section__header']}>
                 <h2 className={styles['event-section__title']}>
                     {PAGE_TITLE}
@@ -113,7 +123,7 @@ export default function EventPage() {
             {isLoading ? (
                 <Loading />
             ) : error ? (
-                <p className={styles['event-section__error']}>{error}</p>
+                <p className={styles['event-section__error']}>{error || ERROR_LOADING_EVENTS}</p>
             ) : events.length === 0 ? (
                 <p className={styles['event-section__empty']}>{EMPTY_EVENTS_MESSAGE}</p>
             ) : (
@@ -137,7 +147,7 @@ export default function EventPage() {
                 </EventsTimelineContainer>
             )}
 
-            {/* Modal de confirmación */}
+            {/* Modal para confirmar eliminación */}
             <ConfirmModal
                 show={showConfirmModal}
                 title={CONFIRM_DELETE_TITLE}
@@ -148,6 +158,6 @@ export default function EventPage() {
                 }}
                 onConfirm={handleConfirmDelete}
             />
-        </div>
+        </section>
     );
 }

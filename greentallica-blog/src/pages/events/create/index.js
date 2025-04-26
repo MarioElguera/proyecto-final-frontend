@@ -1,3 +1,7 @@
+/**
+ * Página de creación y edición de eventos - Permite crear un nuevo evento o editar uno existente.
+ */
+
 import { useState, useEffect, useContext } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
@@ -22,7 +26,7 @@ import {
     IMAGE_INVALID_FORMAT_ERROR
 } from '@/constants/events';
 
-// Límites de validación
+// Límites de validación de campos
 const TITLE_MIN_LENGTH = 5;
 const TITLE_MAX_LENGTH = 100;
 const TEXT_MIN_LENGTH = 10;
@@ -41,33 +45,37 @@ export default function CreateEventPage() {
     const [eventDate, setEventDate] = useState('');
     const [imageBase64, setImageBase64] = useState('');
 
-    // Estados UI
+    // Estados de control de UI
     const [error, setError] = useState('');
     const [fatalError, setFatalError] = useState(false);
     const [loadingPage, setLoadingPage] = useState(true);
     const [loadingAction, setLoadingAction] = useState(false);
 
-    // Redirige si no hay token después de cargar contexto
+    /**
+     * Redireccionar si no hay token tras cargar el contexto.
+     */
     useEffect(() => {
         if (!isLoadingContextInfo && !token) {
             router.push('/events');
         }
     }, [isLoadingContextInfo, token]);
 
-    // Cargar evento si estamos editando
+    /**
+     * Cargar datos del evento si estamos en modo edición.
+     */
     useEffect(() => {
         const fetchEventById = async () => {
             setLoadingPage(true);
             try {
                 const event = await getEventById(id);
 
-                // Validar permisos
+                // Validar permisos de edición
                 if (userRole !== 'admin' && event.author !== userId) {
                     router.push('/events');
                     return;
                 }
 
-                // rellenar datos
+                // Cargar datos en el formulario
                 setTitle(event.title);
                 setText(event.text);
                 setLink(event.link);
@@ -88,7 +96,11 @@ export default function CreateEventPage() {
         }
     }, [isEditing, id]);
 
-    // Validación y conversión de imagen
+    /**
+     * Maneja la carga de imagen y convierte el archivo a base64.
+     *
+     * @param {Event} e - Evento de cambio del input de imagen.
+     */
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -114,7 +126,11 @@ export default function CreateEventPage() {
         reader.readAsDataURL(file);
     };
 
-    // Validar campos del formulario
+    /**
+     * Valida los campos del formulario antes del envío.
+     *
+     * @returns {string|null} - Mensaje de error o null si es válido.
+     */
     const validateFields = () => {
         if (!title.trim() || !text.trim() || !link.trim() || !eventDate) {
             return FIELD_REQUIRED_ERROR;
@@ -131,7 +147,11 @@ export default function CreateEventPage() {
         return null;
     };
 
-    // Maneja el envío del formulario
+    /**
+     * Maneja el envío del formulario de creación o edición.
+     *
+     * @param {Event} e - Evento de submit del formulario.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -161,10 +181,10 @@ export default function CreateEventPage() {
         }
     };
 
-    // Mostrar loading
+    // Mostrar pantalla de carga
     if (loadingPage || loadingAction) return <Loading />;
 
-    // Error fatal: no cargar formulario
+    // Mostrar mensaje de error fatal
     if (fatalError) {
         return (
             <section className={styles['create-event']}>
@@ -178,15 +198,16 @@ export default function CreateEventPage() {
 
     return (
         <section className={styles['create-event']}>
-            {/* Título */}
+
+            {/* Título de la página */}
             <h1 className={styles['create-event__title']}>
                 {isEditing ? PAGE_TITLE_EDIT : PAGE_TITLE_CREATE}
             </h1>
 
-            {/* Mensaje de error */}
+            {/* Mostrar mensaje de error */}
             {error && <p className={styles['create-event__error']}>{error}</p>}
 
-            {/* Formulario de creación / edición */}
+            {/* Formulario para crear o editar evento */}
             <form onSubmit={handleSubmit} className={styles['create-event__form']}>
                 <div className={styles['create-event__left']}>
                     <label htmlFor="title">Título</label>
@@ -239,6 +260,7 @@ export default function CreateEventPage() {
                     />
                 </div>
 
+                {/* Botón de envío */}
                 <div className={styles['create-event__actions']}>
                     <button type="submit">
                         {isEditing ? SUBMIT_UPDATE_TEXT : SUBMIT_CREATE_TEXT}
