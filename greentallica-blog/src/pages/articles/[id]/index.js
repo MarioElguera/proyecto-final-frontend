@@ -1,3 +1,7 @@
+/**
+ * Página de detalle de artículo - Muestra el contenido del artículo y permite gestionar comentarios.
+ */
+
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { useEffect, useState, useContext } from 'react';
@@ -36,7 +40,7 @@ import {
     DELETE_ARTICLE_BUTTON
 } from '@/constants/articles';
 
-// Límites del contenido del comentario
+// Límites del contenido de los comentarios
 const COMMENT_MIN_LENGTH = 5;
 const COMMENT_MAX_LENGTH = 500;
 
@@ -45,29 +49,31 @@ export default function ArticleDetailPage() {
     const { id } = router.query;
     const { token, userId, userRole } = useContext(AuthContext);
 
-    // Estados principales
+    // Estados principales del artículo y comentarios
     const [article, setArticle] = useState(null);
     const [comments, setComments] = useState([]);
     const [loadingArticle, setLoadingArticle] = useState(true);
     const [loadingComments, setLoadingComments] = useState(true);
 
-    // Estados para errores diferenciados
+    // Estados para manejo de errores
     const [articleError, setArticleError] = useState('');
     const [commentsError, setCommentsError] = useState('');
     const [modalCommentError, setModalCommentError] = useState('');
 
-    // Estados para modal de comentario
+    // Estados del modal de comentarios
     const [showModal, setShowModal] = useState(false);
     const [newComment, setNewComment] = useState('');
     const [submitting, setSubmitting] = useState(false);
     const [editingComment, setEditingComment] = useState(null);
 
-    // Estados para confirmación de eliminación
+    // Estados de confirmación de eliminación
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [itemToDelete, setItemToDelete] = useState(null);
     const [deleteType, setDeleteType] = useState('');
 
-    // Cargar artículo
+    /**
+     * Carga los datos del artículo según el ID.
+     */
     useEffect(() => {
         const fetchArticle = async () => {
             try {
@@ -84,7 +90,9 @@ export default function ArticleDetailPage() {
         if (id) fetchArticle();
     }, [id]);
 
-    // Cargar comentarios
+    /**
+     * Carga los comentarios asociados al artículo.
+     */
     useEffect(() => {
         const fetchComments = async () => {
             try {
@@ -101,7 +109,12 @@ export default function ArticleDetailPage() {
         if (id) fetchComments();
     }, [id]);
 
-    // Validar contenido del comentario
+    /**
+     * Valida el contenido del comentario antes de enviarlo.
+     *
+     * @param {string} text - Contenido del comentario a validar.
+     * @returns {string|null} - Mensaje de error o null si es válido.
+     */
     const validateComment = (text) => {
         if (!text.trim()) return 'El comentario no puede estar vacío.';
         if (text.length < COMMENT_MIN_LENGTH) return `Debe tener al menos ${COMMENT_MIN_LENGTH} caracteres.`;
@@ -109,7 +122,9 @@ export default function ArticleDetailPage() {
         return null;
     };
 
-    // Crear o actualizar comentario
+    /**
+     * Envía un nuevo comentario o actualiza uno existente.
+     */
     const handleSubmitComment = async () => {
         const validationError = validateComment(newComment);
         if (validationError) return setModalCommentError(validationError);
@@ -139,7 +154,11 @@ export default function ArticleDetailPage() {
         }
     };
 
-    // Eliminar comentario
+    /**
+     * Elimina un comentario dado su ID.
+     *
+     * @param {string} commentId - ID del comentario a eliminar.
+     */
     const handleDeleteComment = async (commentId) => {
         try {
             setLoadingComments(true);
@@ -153,7 +172,9 @@ export default function ArticleDetailPage() {
         }
     };
 
-    // Eliminar artículo
+    /**
+     * Elimina el artículo actual.
+     */
     const handleDeleteArticle = async () => {
         try {
             await deleteArticle(id, token);
@@ -163,6 +184,9 @@ export default function ArticleDetailPage() {
         }
     };
 
+    /**
+     * Ejecuta la acción confirmada (eliminar artículo o comentario).
+     */
     const handleConfirmDelete = () => {
         setShowConfirmModal(false);
         if (deleteType === 'comment') handleDeleteComment(itemToDelete);
@@ -180,7 +204,7 @@ export default function ArticleDetailPage() {
     return (
         <div className={styles['article-detail']}>
 
-            {/* Header */}
+            {/* Header del artículo */}
             <header className={styles['article-detail__header']}>
                 <h1 className={styles['article-detail__title']}>{article.title}</h1>
                 {canManageArticle && (
@@ -205,7 +229,7 @@ export default function ArticleDetailPage() {
                 )}
             </header>
 
-            {/* Cuerpo */}
+            {/* Cuerpo del artículo */}
             <section className={styles['article-detail__body']}>
                 {article.image && (
                     <div className={styles['article-detail__image-container']}>
@@ -227,9 +251,10 @@ export default function ArticleDetailPage() {
                 </div>
             </section>
 
-            {/* Comentarios */}
+            {/* Sección de comentarios */}
             <hr className={styles['article-detail__divider']} />
             <section className={styles['article-detail__comments']}>
+
                 <div className={styles['article-detail__comments-header']}>
                     <h2 className={styles['article-detail__comments-title']}>{PAGE_TITLE_COMMENTS}</h2>
                     {token && (
@@ -247,7 +272,7 @@ export default function ArticleDetailPage() {
                     )}
                 </div>
 
-                {/* Mensaje de error de comentarios */}
+                {/* Error de carga de comentarios */}
                 {commentsError && <p className={styles['article-detail__error']}>{commentsError}</p>}
 
                 {loadingComments ? (
@@ -283,7 +308,7 @@ export default function ArticleDetailPage() {
                 )}
             </section>
 
-            {/* Modal de Confirmación */}
+            {/* Modal de confirmación */}
             <ConfirmModal
                 show={showConfirmModal}
                 message={deleteType === 'comment' ? DELETE_COMMENT_CONFIRM : DELETE_ARTICLE_CONFIRM}
@@ -291,7 +316,7 @@ export default function ArticleDetailPage() {
                 onConfirm={handleConfirmDelete}
             />
 
-            {/* Modal Agregar/Editar Comentario */}
+            {/* Modal para agregar o editar comentario */}
             {showModal && (
                 <div className={styles['article-detail__modal']}>
                     <div className={styles['article-detail__modal-content']}>

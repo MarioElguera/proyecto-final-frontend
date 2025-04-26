@@ -1,3 +1,7 @@
+/**
+ * Página de artículos - Permite seleccionar una categoría y ver artículos relacionados.
+ */
+
 import { useState, useContext, useRef } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/context/AuthContext";
@@ -27,16 +31,20 @@ export default function ArticlesPage() {
     const { token } = useContext(AuthContext);
     const router = useRouter();
 
-    // Refs
-    const articlesSectionRef = useRef(null)
+    // Referencia a la sección de artículos
+    const articlesSectionRef = useRef(null);
 
-    // Estados para artículos, error, carga y categoría seleccionada
+    // Estados principales
     const [articles, setArticles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [selectedCategory, setSelectedCategory] = useState(null);
 
-    // Carga artículos desde la API (opcionalmente filtrando por categoría)
+    /**
+     * Función que obtiene todos los artículos de la API (puede filtrar por categoría).
+     *
+     * @param {string|null} category - Categoría seleccionada, o null para obtener todos.
+     */
     const fetchArticles = async (category = null) => {
         setLoading(true);
         try {
@@ -52,17 +60,20 @@ export default function ArticlesPage() {
         }
     };
 
-    // Actualiza artículos cuando se selecciona una categoría
+    /**
+     * Maneja la selección de una categoría y actualiza los artículos mostrados.
+     *
+     * @param {string} slug - Slug de la categoría seleccionada.
+     */
     const handleCategorySelect = async (slug) => {
         setSelectedCategory(slug);
         await fetchArticles(slug);
-        // Scroll suave a la sección de artículos
-        articlesSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+        articlesSectionRef.current?.scrollIntoView({ behavior: "smooth" });
     };
 
     return (
         <>
-            {/* Botón para crear nuevo artículo */}
+            {/* Botón para crear un nuevo artículo */}
             {token && (
                 <button
                     className={styles['create-event__button']}
@@ -96,7 +107,11 @@ export default function ArticlesPage() {
             </section>
 
             {/* Sección donde se muestran los artículos */}
-            <section id="articulos-categoria" ref={articlesSectionRef} className={styles['articlesPage__list-section']}>
+            <section
+                id="articulos-categoria"
+                ref={articlesSectionRef}
+                className={styles['articlesPage__list-section']}
+            >
                 <hr className={styles['articlesPage__hr']} />
 
                 {loading ? (

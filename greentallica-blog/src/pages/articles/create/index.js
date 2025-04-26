@@ -1,3 +1,7 @@
+/**
+ * Página de creación y edición de artículos - Permite crear o editar un artículo seleccionando título, contenido, categoría e imagen.
+ */
+
 import { useState, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { AuthContext } from '@/context/AuthContext';
@@ -47,33 +51,37 @@ export default function CreateArticlePage() {
     const [category, setCategory] = useState('');
     const [imageBase64, setImageBase64] = useState('');
 
-    // Estados para control de errores y carga
+    // Estados de control de errores y carga
     const [error, setError] = useState('');
     const [fatalError, setFatalError] = useState(false);
     const [loadingPage, setLoadingPage] = useState(true);
     const [loadingAction, setLoadingAction] = useState(false);
 
-    // Redirige si no hay token cargado (cuando termina el loading inicial del contexto)
+    /**
+     * Redirige a artículos si no hay token tras cargar el contexto.
+     */
     useEffect(() => {
         if (!isLoadingContextInfo && !token) {
             router.push('/articles');
         }
     }, [isLoadingContextInfo, token]);
 
-    // Cargar datos si es edición
+    /**
+     * Carga los datos del artículo si estamos en modo edición.
+     */
     useEffect(() => {
         const fetchArticleById = async () => {
             setLoadingPage(true);
             try {
                 const article = await getArticleById(id);
 
-                // Validar permisos del autor o admin
+                // Validar permisos (solo autor o admin puede editar)
                 if (userRole !== 'admin' && article.author._id !== userId) {
                     router.push(`/articles/${article._id}`);
                     return;
                 }
 
-                // Prellenar campos
+                // Prellenar datos en el formulario
                 setTitle(article.title);
                 setContent(article.content);
                 setCategory(article.category);
@@ -93,7 +101,11 @@ export default function CreateArticlePage() {
         }
     }, [isEditing, id, userId, userRole]);
 
-    // Maneja la validación de imagen
+    /**
+     * Maneja la carga de una imagen y la convierte a base64.
+     *
+     * @param {Event} e - Evento de cambio del input de imagen.
+     */
     const handleImageChange = (e) => {
         const file = e.target.files[0];
         if (!file) return;
@@ -124,7 +136,11 @@ export default function CreateArticlePage() {
         reader.readAsDataURL(file);
     };
 
-    // Validación del formulario
+    /**
+     * Valida los campos del formulario antes de enviarlo.
+     *
+     * @returns {string|null} - Mensaje de error si no es válido, o null si es válido.
+     */
     const validateFields = () => {
         if (!title || !content || !category) return FIELD_REQUIRED_ERROR;
         if (title.length < TITLE_MIN_LENGTH || title.length > TITLE_MAX_LENGTH)
@@ -134,7 +150,11 @@ export default function CreateArticlePage() {
         return null;
     };
 
-    // Envía el formulario (crear o editar artículo)
+    /**
+     * Maneja el envío del formulario para crear o editar un artículo.
+     *
+     * @param {Event} e - Evento de envío del formulario.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
@@ -177,10 +197,10 @@ export default function CreateArticlePage() {
         }
     };
 
-    // Mientras carga
+    // Mostrar loading mientras carga la página o acción
     if (loadingPage || loadingAction) return <Loading />;
 
-    // Error crítico: no se puede editar o cargar
+    // Mostrar error fatal si no se puede editar o cargar
     if (fatalError) {
         return (
             <section className={styles['create-article']}>
@@ -194,15 +214,16 @@ export default function CreateArticlePage() {
 
     return (
         <section className={styles['create-article']}>
+
             {/* Título de la página */}
             <h1 className={styles['create-article__title']}>
                 {isEditing ? PAGE_TITLE_EDIT : PAGE_TITLE_CREATE}
             </h1>
 
-            {/* Error de validación */}
+            {/* Mostrar errores de validación */}
             {error && <p className={styles['create-article__error']}>{error}</p>}
 
-            {/* Formulario de creación/edición */}
+            {/* Formulario de creación/edición de artículo */}
             <form onSubmit={handleSubmit} className={styles['create-article__form']}>
                 <div className={styles['create-article__left']}>
                     <label htmlFor="title">Título</label>
@@ -251,6 +272,7 @@ export default function CreateArticlePage() {
                     />
                 </div>
 
+                {/* Botón de enviar */}
                 <div className={styles['create-article__actions']}>
                     <button type="submit" aria-label={isEditing ? SUBMIT_UPDATE_TEXT : SUBMIT_CREATE_TEXT}>
                         {isEditing ? SUBMIT_UPDATE_TEXT : SUBMIT_CREATE_TEXT}
