@@ -92,7 +92,7 @@ export default function Home() {
                         columnsTablet={2}
                         columnsMobile={1}
                         padding={2}
-                        backgroundColor="grey"
+                        backgroundColor="black"
                         title={ARTICLES_SECTION_TITLE}
                     >
                         {articles.map((article) => (
