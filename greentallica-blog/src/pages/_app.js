@@ -44,9 +44,9 @@ function AppContent({ Component, pageProps }) {
                 onLogin={() => router.push('/auth/login')}
             />
 
-            <div className="wrapper">
+            <main className="wrapper">
                 <Component {...pageProps} />
-            </div>
+            </main>
 
             <Footer />
         </>
