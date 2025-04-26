@@ -1,3 +1,7 @@
+/**
+ * Página de login - Permite a los usuarios iniciar sesión en la aplicación.
+ */
+
 import { useState, useContext } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
@@ -5,6 +9,8 @@ import styles from './auth.module.css';
 import { AuthContext } from '@/context/AuthContext';
 import { loginUser } from '@/services/api-auth';
 import { handleApiError } from '@/utils/handleErrors';
+
+// Componentes reutilizables
 import Loading from '@/components/Loading/Loading';
 
 // Constantes de texto
@@ -27,7 +33,11 @@ export default function LoginPage() {
     const router = useRouter();
     const { login } = useContext(AuthContext);
 
-    // Manejar envío del formulario
+    /**
+     * Maneja el envío del formulario de login.
+     *
+     * @param {Event} e - Evento de submit del formulario.
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -44,7 +54,7 @@ export default function LoginPage() {
         }
     };
 
-    // Mostrar loading mientras procesa
+    // Mostrar componente de carga mientras se procesa el login
     if (loading) {
         return <Loading />;
     }
@@ -52,12 +62,14 @@ export default function LoginPage() {
     return (
         <div className={styles['login-container']}>
             <div className={styles['login-box']}>
-                {/* Título */}
+
+                {/* Título de la página */}
                 <h2 className={styles['login-box__title']}>{LOGIN_TITLE}</h2>
 
                 {/* Formulario de login */}
                 <form onSubmit={handleSubmit}>
-                    {/* Grupo: Username */}
+
+                    {/* Campo de nombre de usuario */}
                     <div className={styles['login-box__group']}>
                         <label htmlFor="username" className={styles['login-box__label']}>
                             {USERNAME_LABEL}
@@ -73,7 +85,7 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    {/* Grupo: Password */}
+                    {/* Campo de contraseña */}
                     <div className={styles['login-box__group']}>
                         <label htmlFor="password" className={styles['login-box__label']}>
                             {PASSWORD_LABEL}
@@ -89,14 +101,14 @@ export default function LoginPage() {
                         />
                     </div>
 
-                    {/* Error */}
+                    {/* Mensaje de error */}
                     {errorMessage && (
                         <div className={styles['login-box__error']}>
                             {errorMessage}
                         </div>
                     )}
 
-                    {/* Botón enviar */}
+                    {/* Botón de envío */}
                     <button
                         type="submit"
                         className={styles['login-box__button']}
@@ -105,6 +117,7 @@ export default function LoginPage() {
                         {SUBMIT_BUTTON_TEXT}
                     </button>
                 </form>
+
             </div>
         </div>
     );
